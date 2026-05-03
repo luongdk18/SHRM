@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1117">
+<title>SHRM Exam Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0f0f5;
+  --text2: #9096b0;
+  --text3: #565c78;
+  --accent: #7b6ef6;
+  --accent-dim: rgba(123,110,246,0.15);
+  --accent-border: rgba(123,110,246,0.4);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --green-border: rgba(52,211,153,0.35);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --red-border: rgba(248,113,113,0.35);
+  --amber: #fbbf24;
+  --cluster-c: #a78bfa;
+  --cluster-p: #34d399;
+  --cluster-o: #60a5fa;
+  --cluster-w: #fb923c;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── SCREENS ── */
+.screen { 
+  display: none; 
+  flex-direction: column; 
+  height: 100%; 
+  overflow: hidden;
+}
+.screen.active { display: flex; }
+
+/* ── HEADER ── */
+.header {
+  padding: 52px 20px 16px;
+  flex-shrink: 0;
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.header-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+.header-sub {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+.back-btn {
+  width: 36px; height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: var(--text2);
+  font-size: 18px;
+  transition: background 0.15s;
+}
+.back-btn:active { background: var(--surface2); }
+
+/* ── FILTER CHIP (study screen) ── */
+.filter-chip {
+  margin: 0 20px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.filter-chip:active { background: var(--surface2); }
+.filter-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.filter-chip-label { font-size: 13px; color: var(--text2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.filter-chip-arrow { font-size: 11px; color: var(--text3); flex-shrink: 0; }
+
+/* ── PILLS ── */
+.pills-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px 16px;
+  flex-shrink: 0;
+}
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  gap: 4px;
+}
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+.pill-rem { background: rgba(96,165,250,0.12); color: #60a5fa; }
+.pill-done { background: var(--green-dim); color: var(--green); }
+.pill-total { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+/* ── STUDY CARD ── */
+.card-wrap {
+  flex: 1;
+  padding: 0 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+.card-prompt {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+.card-def {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  font-weight: 300;
+  flex: 1;
+}
+.card-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0;
+}
+.card-term {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+.card-domain-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap {
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.progress-bar-track {
+  height: 3px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  padding: 14px 20px calc(20px + var(--safe-bottom));
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.ctrl-btn {
+  flex: 1;
+  padding: 15px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: -0.1px;
+}
+.ctrl-btn:active { transform: scale(0.97); }
+.ctrl-btn.reveal {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+  color: #c4b5fd;
+}
+.ctrl-btn.got-it {
+  background: var(--green-dim);
+  border-color: var(--green-border);
+  color: var(--green);
+}
+.ctrl-btn.learning {
+  background: var(--red-dim);
+  border-color: var(--red-border);
+  color: var(--red);
+}
+.ctrl-btn.primary {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+  color: #c4b5fd;
+}
+
+/* ── DONE STATE ── */
+.done-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  gap: 12px;
+}
+.done-icon {
+  width: 64px; height: 64px;
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.done-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--text);
+}
+.done-sub { font-size: 15px; color: var(--text2); line-height: 1.5; }
+
+/* ── DOMAIN PICKER ── */
+.picker-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 20px;
+  min-height: 0;
+}
+.cluster-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 16px 0 6px;
+}
+.domain-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 4px;
+  transition: background 0.12s;
+  gap: 12px;
+}
+.domain-item:active { background: var(--surface2); }
+.domain-item.selected {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+}
+.domain-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.domain-item-name {
+  font-size: 14px;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.3;
+}
+.domain-item.selected .domain-item-name { color: #c4b5fd; }
+.domain-count {
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.domain-item.selected .domain-count { color: var(--accent); }
+.domain-item.all-item {
+  background: var(--surface);
+  border-color: var(--border);
+}
+.domain-item.all-item.selected {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+}
+.domain-item.all-item .domain-item-name { font-weight: 500; }
+
+/* ── RESHUFFLE BTN ── */
+.reshuffle-btn {
+  width: 36px; height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text2);
+  transition: background 0.15s;
+}
+.reshuffle-btn:active { background: var(--surface2); }
+.reshuffle-btn svg { width: 16px; height: 16px; }
+
+/* ── HELP SCREEN ── */
+.help-section {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.help-section:last-child { border-bottom: none; }
+.help-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.help-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.help-body {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.help-body em { color: var(--text); font-style: normal; }
+.tag-wrong { color: var(--red); }
+.tag-right { color: var(--green); }
+.cc { color: var(--cluster-c); }
+.cp { color: var(--cluster-p); }
+.co { color: var(--cluster-o); }
+.cw { color: var(--cluster-w); }
+.bc { background: rgba(167,139,250,0.12); border-color: rgba(167,139,250,0.3); }
+.bp { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); }
+.bo { background: rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.3); }
+.bw { background: rgba(251,146,60,0.12); border-color: rgba(251,146,60,0.3); }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- STUDY SCREEN -->
+  <div class="screen active" id="screen-study">
+    <div class="header">
+      <div class="header-row">
+        <div>
+          <div class="header-title">SHRM Exam Flashcards</div>
+          <div class="header-sub" id="study-sub">Loading…</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="reshuffle-btn" onclick="reshuffle()" title="Reshuffle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+              <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+            </svg>
+          </div>
+          <div class="reshuffle-btn" onclick="showHelp()" title="Help" style="font-size:15px;font-weight:500;color:var(--text2)">?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-chip" id="filter-chip" onclick="showPicker()">
+      <div class="filter-chip-dot" id="filter-chip-dot"></div>
+      <span class="filter-chip-label" id="filter-chip-label">All domains</span>
+      <span class="filter-chip-arrow">&#9660;</span>
+    </div>
+
+    <div class="pills-row">
+      <span class="pill pill-rem"><span class="pill-dot" style="background:#60a5fa"></span><span id="p-rem">—</span> left</span>
+      <span class="pill pill-done"><span class="pill-dot" style="background:var(--green)"></span><span id="p-done">0</span> done</span>
+      <span class="pill pill-total"><span id="p-total">—</span> total</span>
+    </div>
+
+    <div class="progress-bar-wrap" style="margin-bottom:14px">
+      <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <!-- Card area -->
+    <div class="card-wrap" id="card-wrap">
+      <div class="card" id="study-card">
+        <div class="card-prompt">What is this term?</div>
+        <div class="card-def" id="card-def"></div>
+        <div id="answer-reveal" style="display:none">
+          <div class="card-divider"></div>
+          <div class="card-term" id="card-term"></div>
+          <div class="card-domain-tag" id="card-tag"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" id="study-controls"></div>
+  </div>
+
+  <!-- PICKER SCREEN -->
+  <div class="screen" id="screen-picker">
+    <div class="header">
+      <div class="header-row">
+        <div>
+          <div class="header-title">Select filter</div>
+          <div class="header-sub">All, cluster, or specific domain</div>
+        </div>
+        <div class="back-btn" onclick="closePicker()">&#x2715;</div>
+      </div>
+    </div>
+
+    <div class="picker-scroll" id="picker-scroll"></div>
+
+    <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
+      <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closePicker()">Study this selection</button>
+    </div>
+  </div>
+
+  <!-- HELP SCREEN -->
+  <div class="screen" id="screen-help">
+    <div class="header">
+      <div class="header-row">
+        <div>
+          <div class="header-title">How to use</div>
+          <div class="header-sub">Quick reference</div>
+        </div>
+        <div class="back-btn" onclick="closeHelp()">&#x2715;</div>
+      </div>
+    </div>
+    <div class="picker-scroll" style="padding:0 20px 20px">
+
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(123,110,246,0.15);color:#c4b5fd">&#9654;</div>
+        <div>
+          <div class="help-title">Studying</div>
+          <div class="help-body">Each card shows a definition. Try to recall the term, then tap <em>Reveal term</em> to check yourself. Mark <span class="tag-wrong">Still learning</span> to see the card again later, or <span class="tag-right">Got it</span> to move it to completed.</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(96,165,250,0.12);color:#60a5fa">&#9660;</div>
+        <div>
+          <div class="help-title">Filter</div>
+          <div class="help-body">Tap the filter bar below the title to choose what to study — all 391 cards, one of the four clusters (Competencies, People, Organization, Workplace), or a single domain. Cards are always shuffled when you switch.</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(251,146,60,0.12);color:#fb923c">&#8635;</div>
+        <div>
+          <div class="help-title">Reshuffle</div>
+          <div class="help-body">Tap the shuffle icon (top right) to re-randomize the current deck at any time without changing your filter or resetting your progress.</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-icon" style="background:var(--green-dim);color:var(--green)">&#10003;</div>
+        <div>
+          <div class="help-title">Progress</div>
+          <div class="help-body">The pills at the top show cards remaining, completed, and the total in your current filter. The progress bar fills as you work through the deck. When you finish, tap <em>Study again</em> to restart.</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(248,113,113,0.12);color:#f87171">&#8617;</div>
+        <div>
+          <div class="help-title">Still learning</div>
+          <div class="help-body">Cards marked <em>Still learning</em> are shuffled back into the remaining deck at a random position — not sent to the end — so they come back around naturally.</div>
+        </div>
+      </div>
+
+    </div>
+    <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
+      <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const STRUCTURE = {
+  Competencies: ["Leadership & Navigation Competency","Ethical Practice Competency","Inclusive Mindset Competency","Relationship Management Competency","Communication Competency","Business Acumen Competency","Consultation Competency","Analytical Aptitude Competency"],
+  People: ["HR Strategy","Talent Acquisition","Employee Engagement & Retention","Learning & Development","Total Rewards"],
+  Organization: ["Structure of the HR Function","Organizational Effectiveness & Development","Workforce Management","Employee & Labor Relations","Technology Management"],
+  Workplace: ["Managing a Global Workforce","Risk Management","Corporate Social Responsibility","U.S. Employment Law & Regulations"]
+};
+
+const CLUSTER_COLOR = { Competencies:'c', People:'p', Organization:'o', Workplace:'w' };
+const CLUSTER_DOT = { Competencies:'#a78bfa', People:'#34d399', Organization:'#60a5fa', Workplace:'#fb923c' };
+
+const ALL_CARDS = [{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Democratic leadership approach","def":"Leadership approach in which the leader invites followers to collaborate and commits to acting by consensus."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Equity theory","def":"Theory that states that motivation is based on an employee's sense of fairness; the individual compares their perceived value with that of others in similar roles and makes a calculation based on their inputs and outputs."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Goal-setting theory","def":"Theory that states that motivation can be increased by providing employees with goals against which they can assess their achievement."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Expectancy theory","def":"Motivation theory that states that effort increases in relation to one's confidence that the behavior will result in a positive outcome and reward; includes Vroom's theory."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Authoritative leadership approach","def":"Leadership approach in which the leader proposes a bold vision or solution and invites the team to join this challenge."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Trait theory","def":"Leadership theory that states that leaders possess certain innate characteristics that followers do not possess (and probably cannot acquire), such as physical characteristics and personality traits."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Attribution theory","def":"Motivation theory that states that the way a person interprets the causes for past success or failure is related to the present level of motivation; includes theories of Heider and Weiner."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Legitimate power","def":"Power that is created formally, through a title or position in the hierarchy that is associated with the rights of leadership."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Affiliative leadership approach","def":"Leadership approach in which the leader creates strong relationships with and inside the team; team members are motivated by loyalty."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Coercive leadership approach","def":"Leadership approach in which the leader imposes a vision or solution on the team and demands that the team follow this directive."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Servant leadership","def":"Leadership theory in which the leaders' goal is to serve the needs of their employees; emphasizes the sharing of power."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Motivation","def":"Factors that initiate, direct, and sustain human behavior over time."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Coaching leadership approach","def":"Leadership approach in which the leader focuses on developing team members' skills, believing that success comes from aligning the organization's goals with employees' personal and professional goals."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Referent power","def":"Power that is created by the force of the leader's personality."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Pacesetting leadership approach","def":"Leadership approach in which the leader sets a model for high performance standards and challenges followers to meet these expectations."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Theory X/Theory Y","def":"Motivation theories dealing with the amount of control in the workplace; motivation is seen as either absolutely irrelevant or absolutely critical."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Expert power","def":"Power that is created when a leader is recognized as possessing great intelligence, insight, or experience."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Behavioral theories","def":"Category of leadership theories that states that leaders influence group members through certain behaviors; includes Blake-Mouton theory."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Transactional leadership","def":"Leadership theory that emphasizes a leader's preference for order and structure; focuses on control and short-term planning."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Emergent theory","def":"Leadership theory that states that leaders are not appointed but emerge from the group, which chooses the leader based on interactions."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Needs theory","def":"Motivation theory that states that individuals are motivated by a desire to satisfy certain needs and that understanding these needs allows leaders to offer the right incentives and create the most motivational external environments; includes self-determination and theories of Maslow, Herzberg, and McClelland."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Transformational leadership","def":"Leadership theory that emphasizes a leader's ability to inspire employees to embrace change; leaders encourage and motivate employees to innovate and seek out changes that can add value and growth to the organization."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Coercive power","def":"Power that is created when the leader can punish those who do not follow."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Reward power","def":"Power that is created when the leader can offer followers something they value in exchange for their commitment."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Situational theories","def":"Category of leadership theories that states that leaders can flex their behaviors to meet the needs of unique situations, employing both task or directive behaviors and relationship or supportive behaviors; includes Hersey-Blanchard situational leadership, Fiedler's contingency theory, and path-goal theory."},{"cluster":"Competencies","domain":"Leadership & Navigation Competency","term":"Leader-member exchange theory","def":"Leadership theory that focuses on a two-way relationship between leaders and chosen employees; the leader mentors selected team members and gives them access to more information and resources in order to strengthen levels of trust and support."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Authenticity","def":"Ability to stay true to values and maintain integrity in both personal and professional lives and, from an organizational perspective, approach to forming and maintaining relationships with colleagues and others in the organization."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Code of conduct","def":"Principles that guide decision making and behavior in an organization."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Transparency","def":"Extent to which an organization's agreements, dealings, information, practices, and transactions are open to disclosure and review by relevant persons."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Confidentiality","def":"Treatment of personal information that has been disclosed to another person or organization."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Integrity","def":"Maintaining consistency between one's values and one's actions."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Bribery","def":"Exchange of anything of value to gain greater influence or preference."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Conflict of interest","def":"Situation in which a person or organization may benefit from undue influence due to involvement in outside activities, relationships, or investments that conflict with or have an impact on the employment relationship or its outcomes."},{"cluster":"Competencies","domain":"Ethical Practice Competency","term":"Privacy","def":"An individual's right to freedom from intrusion (by viewing, monitoring, reading, etc.) into matters, actions, or information that is personal."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Cultural taxation","def":"Additional workload that is generated for members of an underrepresented group due to their requested participation in I&D efforts."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Covering","def":"Defensive behavior that occurs when an organization recruits a diverse workforce but, consciously or otherwise, promotes assimilation rather than inclusion."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Employee resource group (ERG)","def":"Voluntary group for employees who share a particular diversity dimension (race, religion, ethnicity, sexual orientation, etc.); also known as affinity group or network group."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Due process","def":"Concept that laws are enforced only through accepted, codified procedures."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Civil law","def":"Legal system based on written codes (laws, rules, or regulations)."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Cultural intelligence","def":"Capacity to recognize, interpret, and behaviorally adapt to multicultural situations and contexts."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Common law","def":"Legal system in which each case is considered in terms of how it relates to legal decisions that have already been made; evolves through judicial decisions over time."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Global mindset","def":"Ability to take an international perspective, inclusive of other cultures' views."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Impostor syndrome","def":"A feeling that one's success is due to luck, not hard work or skill; can lead individuals to feeling unfit for their current role."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Rule of law","def":"Concept that stipulates that no individual is beyond the reach of the law and that authority is exercised only in accordance with written and publicly disclosed laws."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Diversity","def":"The differences between individuals on any attribute that may lead to the perception that another person is different from the self."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Neurodiversity","def":"Refers to a workforce that approaches problems using different conceptual thought approaches that may stem from atypical brain structure, for example, attention deficit disorder (ADD), attention-deficit/hyperactivity disorder (ADHD), and anything categorized as existing on the autism spectrum (autism spectrum disorder, or ASD)."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Culture","def":"Basic beliefs, attitudes, values, behaviors, and customs shared and followed by members of a group, which give rise to the group's sense of identity."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Low-context cultures","def":"Societies in which relationships have less history; individuals know each other less well and don't share a common database of experience, so communication must be very explicit."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Equity","def":"1) A relative form of equality that takes into consideration the needs and characteristics of the individuals, the context of the situation, and circumstances that result in disparate outcomes. 2) Amount of owners' or shareholders' portion of a business."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Jurisdiction","def":"Right of a legal body to exert authority over a given geographical territory, subject matter, or persons or institutions."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"High-context cultures","def":"Societies or groups characterized by complex, usually long-standing networks of relationships; members share a rich history of common experience, so the way they interact and interpret events is often not apparent to outsiders."},{"cluster":"Competencies","domain":"Inclusive Mindset Competency","term":"Inclusion","def":"Extent to which each person in an organization is welcomed, respected, supported, and valued as a team member."},{"cluster":"Competencies","domain":"Relationship Management Competency","term":"Emotional intelligence (EI)","def":"Ability to be sensitive to and understand one's own and others' emotions and impulses."},{"cluster":"Competencies","domain":"Relationship Management Competency","term":"Stakeholder concept","def":"Concept that proposes that any organization operates within a complex environment in which it affects and is affected by a variety of forces or stakeholders who all share in the value of the organization and its activities."},{"cluster":"Competencies","domain":"Relationship Management Competency","term":"Negotiation","def":"Process by which two or more parties work together to reach agreement on a matter."},{"cluster":"Competencies","domain":"Relationship Management Competency","term":"Principled negotiation","def":"Process in which negotiators aim for mutual gain, emphasizing the need to focus on the problem instead of personal differences and on mutually beneficial outcomes."},{"cluster":"Competencies","domain":"Relationship Management Competency","term":"Networking","def":"Process of developing mutually beneficial contacts through the exchange of information."},{"cluster":"Competencies","domain":"Communication Competency","term":"Framing","def":"Process of constructing a message so that an audience sees communicated facts in a certain way and is persuaded to take a certain action."},{"cluster":"Competencies","domain":"Communication Competency","term":"Active listening","def":"Communication technique to increase the engagement between communicators and their audiences. It involves two-way communication and attention to nonverbal signs that indicate interest and reactions to the message and speaker."},{"cluster":"Competencies","domain":"Communication Competency","term":"Nonverbals","def":"Components of a message apart from its words. This could include physical gestures and posture and vocal tones, volume, and speed."},{"cluster":"Competencies","domain":"Communication Competency","term":"Noise","def":"In communication, any factor that can disrupt the sending and receipt of a message—for example, physical factors such as loud environments, cultural factors such as a distinctive accent, or cognitive factors such as the use of unfamiliar jargon."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Business intelligence","def":"Ability to use information to gain a deeper understanding of an organization and make sound business decisions."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Business case","def":"Presentation to management that establishes that a specific problem exists and argues for a proposed solution."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Assets","def":"Financial, physical, and sometimes intangible properties an organization owns."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Analytical processing","def":"Applications that can analyze data faster and in more ways than traditional relational databases, offering a multidimensional analysis of business data."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Accounts payable","def":"Money an organization owes its vendors and suppliers."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Gross profit margin","def":"Ratio of gross profit to net sales."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Income statement","def":"Statement that reports revenues, expenses, and profits for a specified period of time, for example, quarterly or annually."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Liabilities","def":"Organization's debts and other financial obligations."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Enterprise resource planning (ERP)","def":"Business management software, usually a suite of integrated applications, that a company can use to collect, store, manage, and interpret data from many business activities."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Equity","def":"1) A relative form of equality that takes into consideration the needs and characteristics of the individuals, the context of the situation, and circumstances that result in disparate outcomes. 2) Amount of owners' or shareholders' portion of a business."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Value chain","def":"The process by which an organization creates the product or service it offers to the customer."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Balance sheet","def":"Statement of an organization's financial position at a specific point in time, showing assets, liabilities, and shareholder equity."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Cash flow statement","def":"Statement of an organization's ability to meet its current and short-term obligations, showing incoming and outgoing cash and cash reserves in operations, investments, and financing."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Accounts receivable","def":"Money an organization's customers owe the organization."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Balanced scorecard","def":"Performance management tool that depicts an organization's overall performance, as measured against goals, lagging indicators, and leading indicators."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Service-level agreement","def":"Document that defines the output customers can expect."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Value","def":"The benefit created when an organization meets its strategic goals; measure of usefulness, worth, or importance."},{"cluster":"Competencies","domain":"Business Acumen Competency","term":"Net profit margin","def":"Ratio of net income (gross sales minus expenses and taxes) to net sales."},{"cluster":"Competencies","domain":"Consultation Competency","term":"Multi-criteria decision analysis (MCDA)","def":"Type of analysis in which a team determines critical characteristics of a successful decision and then uses a matrix to score each alternative and compare results."},{"cluster":"Competencies","domain":"Consultation Competency","term":"Force-field analysis","def":"Tool designed to analyze the forces favoring and opposing a particular change; a group identifies and weights factors that could influence an outcome in either a negative or positive manner according to their possible impact and then uses these factors to score different opportunities."},{"cluster":"Competencies","domain":"Consultation Competency","term":"J curve","def":"Visualization of the impact of change on productivity. When change is introduced, there is typically a decrease in productivity and then a gradual return to or, ideally, a surpassing of previous levels of productivity."},{"cluster":"Competencies","domain":"Consultation Competency","term":"Consultation","def":"Providing guidance to organizational stakeholders; involves diagnosing problems or identifying opportunities, developing effective solutions, winning support for solutions, and implementing them effectively."},{"cluster":"Competencies","domain":"Consultation Competency","term":"SOAR analysis","def":"Type of analysis in which a group identifies strengths, opportunities, aspirations, and results; a framework that combines fact finding with an organization's goals and desires, presenting an analysis of the organization's actual state and how it will measure achievement."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Regression analysis","def":"Statistical method used to determine whether a relationship exists between variables and the strength of the relationship."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Unweighted mean","def":"Raw average of data that gives equal weight to all values, with no regard for other factors."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Median","def":"Middle value in a range of values."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Ratio analysis","def":"Comparing the sizes of two variables to produce an index or percentage; commonly used to analyze financial statements."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Qualitative data","def":"Subjective evaluation of actions, feelings, or behaviors."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Mind mapping","def":"Data-sorting technique in which group members add related ideas and indicate logical connections, eventually grouping similar ideas."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Validity","def":"Extent to which a measurement instrument measures what it is intended to measure."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Focus group","def":"Small group of invited persons (typically six to twelve) who actively participate in a structured discussion, led by a facilitator, for the purpose of eliciting their input."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Root-cause analysis","def":"Type of analysis that starts with a result and then works backward to identify fundamental cause."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Affinity diagramming","def":"Data-sorting technique in which a group categorizes and subcategorizes data until relationships are clearly drawn."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Variance analysis","def":"Statistical method for identifying the degree of difference between planned and actual performance or outcomes."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Weighted mean","def":"Average of data that adds factors to reflect the importance of different values."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Trend analysis","def":"Statistical method that examines data from different points in time to determine if a variance is an isolated event or if it is part of a longer trend."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Nominal group technique (NGT)","def":"Technique in which participants each suggest ideas through a series of rounds and then discuss the items, eliminate redundancies and irrelevancies, and agree on the importance of the remaining items."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Scenario/what-if analysis","def":"Statistical method used to test the possible effects of altering the details of a strategy to see if the likely outcome can be improved."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Quantitative data","def":"Objective measurements that can be verified and used in statistical analysis."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Standard deviation","def":"Distance of any data point from the center of a distribution when data is distributed in a normal or expected pattern."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Delphi technique","def":"Technique that progressively collects information from a group of anonymous respondents."},{"cluster":"Competencies","domain":"Analytical Aptitude Competency","term":"Reliability","def":"Extent to which a measurement instrument provides consistent results."},{"cluster":"People","domain":"HR Strategy","term":"Value drivers","def":"Actions, processes, or results that are needed to deliver a desired value."},{"cluster":"People","domain":"HR Strategy","term":"Balanced scorecard","def":"Performance management tool that depicts an organization's overall performance, as measured against goals, lagging indicators, and leading indicators."},{"cluster":"People","domain":"HR Strategy","term":"SWOT analysis","def":"Method for assessment of an organization's strategic capabilities through use of the environmental scanning process, by which internal and external factors affecting achievement of organizational goals are identified and considered."},{"cluster":"People","domain":"HR Strategy","term":"PESTLE analysis","def":"Scanning process that searches for environmental forces in political, economic, social, technological, legal, and environmental categories."},{"cluster":"People","domain":"HR Strategy","term":"Organizational values","def":"Beliefs and principles defined by an organization to direct and govern its employees' behavior."},{"cluster":"People","domain":"HR Strategy","term":"Key performance indicators (KPIs)","def":"Quantifiable measures of performance used to gauge progress toward strategic objectives or agreed standards of performance."},{"cluster":"People","domain":"HR Strategy","term":"Systems thinking","def":"Process for understanding how seemingly independent units within a larger entity interact with and influence one another."},{"cluster":"People","domain":"HR Strategy","term":"Mission statement","def":"Concise outline of an organization's strategy, specifying the activities the organization intends to pursue and the course its management has charted for the future."},{"cluster":"People","domain":"HR Strategy","term":"Strategic management","def":"System of actions that leaders take to drive an organization toward its goals and objectives."},{"cluster":"People","domain":"HR Strategy","term":"Vision statement","def":"Description of what an organization hopes to attain and accomplish in the future, which guides it toward that defined direction."},{"cluster":"People","domain":"HR Strategy","term":"Environmental scanning","def":"Process that involves a systematic survey and interpretation of relevant data to identify external opportunities and threats and to assess how these factors affect the organization currently and how they are likely to affect the organization in the future."},{"cluster":"People","domain":"HR Strategy","term":"Lagging indicator","def":"Type of metric describing an activity or change in performance that has already occurred."},{"cluster":"People","domain":"HR Strategy","term":"Leading indicator","def":"Type of metric describing an activity that can change future performance and predict success in the achievement of strategic goals."},{"cluster":"People","domain":"HR Strategy","term":"Strategic fit","def":"State in which an organization's strategy is consistent with its external opportunities and circumstances and its internal structure, resources, and capabilities."},{"cluster":"People","domain":"HR Strategy","term":"Benchmarking","def":"Process by which an organization identifies performance gaps and sets goals for performance improvement by comparing its data, performance levels, and/or processes against those of other organizations."},{"cluster":"People","domain":"HR Strategy","term":"Strategy","def":"Plan of action for accomplishing an organization's overall and long-range goals."},{"cluster":"People","domain":"Talent Acquisition","term":"Staffing","def":"HR function that acts on the organizational human capital needs identified through workforce planning and attempts to provide an adequate supply of qualified individuals to complete the body of work necessary for the organization's financial success."},{"cluster":"People","domain":"Talent Acquisition","term":"Employment branding","def":"Process of positioning an organization as an employer of choice in the labor market."},{"cluster":"People","domain":"Talent Acquisition","term":"Onboarding","def":"Process of assimilating new employees into an organization through orientation programs and their experiences in their first months of employment."},{"cluster":"People","domain":"Talent Acquisition","term":"Job description","def":"Document that describes a job and its essential functions and requirements (including tasks, knowledge, skills, abilities, responsibilities, and reporting structure)."},{"cluster":"People","domain":"Talent Acquisition","term":"Selection interviews","def":"Interviews designed to probe areas of interest to the interviewer in order to determine how well a job candidate meets the needs of the organization."},{"cluster":"People","domain":"Talent Acquisition","term":"Reasonable accommodation","def":"Modifying a job application process, a work environment, or the circumstances under which a job is performed to enable a qualified individual with a disability to be considered for the job and perform its essential functions."},{"cluster":"People","domain":"Talent Acquisition","term":"Head count","def":"Number of people on an organization's payroll at a particular moment in time."},{"cluster":"People","domain":"Talent Acquisition","term":"Recruitment","def":"Process by which an organization seeks out candidates and encourages them to apply for job openings."},{"cluster":"People","domain":"Talent Acquisition","term":"Applicant tracking system (ATS)","def":"Software application that automates organizations' management of the recruiting process (such as accepting application materials, screening applicants, etc.)."},{"cluster":"People","domain":"Talent Acquisition","term":"Job specifications","def":"Written statements of the minimum qualifications for the job incumbent."},{"cluster":"People","domain":"Talent Acquisition","term":"Employee value proposition (EVP)","def":"Employees' perceived value of the total rewards and tangible and intangible benefits they receive from the organization as part of employment, which drives unique and compelling organizational strategies for talent acquisition, retention, and engagement."},{"cluster":"People","domain":"Talent Acquisition","term":"Orientation","def":"Process by which new employees become familiar with the organization and with their specific department, coworkers, and job."},{"cluster":"People","domain":"Talent Acquisition","term":"Selection screening","def":"Analyzing candidates' application forms, curricula vitae, and résumés to locate the most-qualified candidates for an open job."},{"cluster":"People","domain":"Talent Acquisition","term":"Job analysis","def":"Process of systematically studying a job in order to identify the activities/tasks and responsibilities it includes, the personal qualifications necessary to perform it, and the conditions under which it is performed."},{"cluster":"People","domain":"Talent Acquisition","term":"Competencies","def":"Clusters of highly interrelated attributes, including knowledge, skills, and abilities (KSAs), that give rise to the behaviors needed to perform a given job effectively."},{"cluster":"People","domain":"Talent Acquisition","term":"Essential functions","def":"Primary job duties that a qualified individual must be able to perform, either with or without accommodation."},{"cluster":"People","domain":"Talent Acquisition","term":"Selection","def":"Process of evaluating the most suitable candidates for a position."},{"cluster":"People","domain":"Talent Acquisition","term":"Sourcing","def":"Process by which an organization generates a pool of qualified job applicants."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Stay interviews","def":"Structured conversations with employees for the purpose of determining which aspects of a job encourage employee retention or may be improved to do so."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Retention","def":"Ability of an organization to keep its employees."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Well-being","def":"Physical, psychological, and social aspects of employee health."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Employee life cycle (ELC)","def":"Activities associated with an employee's tenure in an organization."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Performance management","def":"Tools, activities, and processes that an organization uses to manage, maintain, and/or improve the job performance of employees."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Performance appraisal","def":"Process of measuring and evaluating an employee's adherence to performance standards and providing feedback to the employee."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Employee surveys","def":"Instruments that collect and assess information on employee engagement, satisfaction, and perceptions surrounding the work environment."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Performance standards","def":"Behaviors and results as defined by an organization to communicate the expectations of management."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Employee engagement","def":"Employees' emotional commitment to an organization, demonstrated by their willingness to put in discretionary effort to promote the organization's effective functioning."},{"cluster":"People","domain":"Employee Engagement & Retention","term":"Realistic job preview (RJP)","def":"Tool used to provide a job applicant with honest, complete information about a job and the work environment."},{"cluster":"People","domain":"Learning & Development","term":"Auditory learners","def":"People who learn best by relying on their sense of hearing."},{"cluster":"People","domain":"Learning & Development","term":"Webconferencing","def":"Using the Internet to conduct meetings and give presentations to an audience who has joined the meeting remotely."},{"cluster":"People","domain":"Learning & Development","term":"Job enrichment","def":"Process of increasing a job's depth by adding responsibilities to the job."},{"cluster":"People","domain":"Learning & Development","term":"Assessment centers","def":"Process by which job candidates or employees are evaluated to determine suitability and/or readiness for employment, training, promotion or an assignment."},{"cluster":"People","domain":"Learning & Development","term":"Job enlargement","def":"Process of broadening a job's scope by adding different tasks to the job."},{"cluster":"People","domain":"Learning & Development","term":"Individual development plan (IDP)","def":"Document that guides employees toward their goals for professional development and growth."},{"cluster":"People","domain":"Learning & Development","term":"Job rotation","def":"Movement between different jobs."},{"cluster":"People","domain":"Learning & Development","term":"Leader development","def":"Training and professional development programs targeted at assisting management- and executive-level employees in developing the skills, abilities, and flexibility required to deal with a variety of situations."},{"cluster":"People","domain":"Learning & Development","term":"Leadership","def":"Ability to influence, guide, inspire, or motivate a group or person to achieve their goals."},{"cluster":"People","domain":"Learning & Development","term":"Kinesthetic learners","def":"People who learn best through a hands-on approach; also called tactile learners."},{"cluster":"People","domain":"Learning & Development","term":"ADDIE model","def":"Instructional systems design framework consisting of five steps that guide the design and development of learning programs."},{"cluster":"People","domain":"Learning & Development","term":"Coaching","def":"Focused, interactive communication and guidance intended to develop and enhance on-the-job performance, knowledge, or behavior."},{"cluster":"People","domain":"Learning & Development","term":"Situation judgment tests (SJTs)","def":"Assessment tools that present prospective leaders with sample situations and problems they might encounter in a work environment."},{"cluster":"People","domain":"Learning & Development","term":"Training","def":"Process by which employees are provided with the knowledge, skills and abilities (KSAs) specific to a task or job."},{"cluster":"People","domain":"Learning & Development","term":"Successive approximation model (SAM)","def":"Instructional design model that works to gain feedback and build models early in the process; generally has three phases: preparation, iterative design, and iterative development."},{"cluster":"People","domain":"Learning & Development","term":"Learning organization","def":"Organization characterized by a capability to adapt to changes in environment."},{"cluster":"People","domain":"Learning & Development","term":"Dual career ladders","def":"Career development programs that identify meaningful career paths for professional and technical people outside traditional management roles."},{"cluster":"People","domain":"Learning & Development","term":"Apprenticeship","def":"Related to technical skills training; often a partnership between employers and unions."},{"cluster":"People","domain":"Learning & Development","term":"Career planning","def":"Actions and activities that individuals perform in order to give direction to their work lives."},{"cluster":"People","domain":"Learning & Development","term":"Action mapping","def":"Instructional design model based on concept that training should be tightly focused on specific performance measures that the organization has determined are important."},{"cluster":"People","domain":"Learning & Development","term":"Distance learning","def":"Process of delivering educational or instructional programs to locations away from a classroom or central site."},{"cluster":"People","domain":"Learning & Development","term":"Mentoring","def":"Relationship in which one person helps guide another's development."},{"cluster":"People","domain":"Learning & Development","term":"Career management","def":"Preparing, implementing, and monitoring employees' career paths, with a primary focus on the goals and needs of the organization."},{"cluster":"People","domain":"Learning & Development","term":"E-learning","def":"Electronic media delivery of educational and training materials, processes, and programs."},{"cluster":"People","domain":"Learning & Development","term":"Blended learning","def":"Planned approach to learning that includes a combination of instructor-led training, self-directed study, and/or on-the-job training."},{"cluster":"People","domain":"Learning & Development","term":"Developmental activities","def":"Activities that focus on preparing employees for future responsibilities while increasing their capacity to perform their current jobs."},{"cluster":"People","domain":"Learning & Development","term":"Organizational learning","def":"Acquisition and/or transfer of knowledge within an organization through activities or processes that may occur at several organizational levels; ability of an organization to learn from its mistakes and adjust its strategy accordingly."},{"cluster":"People","domain":"Learning & Development","term":"Visual learners","def":"People who learn best by relying on their sense of sight."},{"cluster":"People","domain":"Learning & Development","term":"Career development","def":"Progression through a series of employment stages characterized by relatively unique issues, themes, and tasks."},{"cluster":"People","domain":"Learning & Development","term":"Webinar","def":"Form of webconferencing where a presenter facilitates communication of material or information to an audience in real time."},{"cluster":"People","domain":"Learning & Development","term":"Pilot programs","def":"Learning/development programs offered initially in a controlled environment with a segment of the target audience."},{"cluster":"People","domain":"Learning & Development","term":"Learning management system (LMS)","def":"System that holds course content information and has the capability of tracking and managing employee course registrations, career development, and other employee development activities."},{"cluster":"People","domain":"Total Rewards","term":"Pay compression","def":"Occurs when there is only a small difference in pay between employees regardless of their experience, skills, level, or seniority; also known as salary compression."},{"cluster":"People","domain":"Total Rewards","term":"Time-based step-rate pay","def":"System in which pay is based on longevity in the job and pay increases occur on a pre-determined schedule."},{"cluster":"People","domain":"Total Rewards","term":"Compensation","def":"All financial returns (beyond any tangible benefits payments or services), including salary and allowances."},{"cluster":"People","domain":"Total Rewards","term":"Performance-based pay","def":"Situation where an individual's performance on the job is the basis for the amount and timing of pay increases; also called merit pay or pay for performance."},{"cluster":"People","domain":"Total Rewards","term":"Incentive pay","def":"Form of direct compensation where employers pay for performance beyond normal expectations to motivate higher performance."},{"cluster":"People","domain":"Total Rewards","term":"Premiums","def":"Payments in return for the achievement of specific, time-limited, targeted objectives."},{"cluster":"People","domain":"Total Rewards","term":"Lump-sum increase (LSI)","def":"One-time payment made to an employee."},{"cluster":"People","domain":"Total Rewards","term":"Remuneration surveys","def":"Instruments that collect information on prevailing market compensation and benefits practices (including starting wage rates, base pay, pay ranges, statutory and market cash payments, variable compensation, and paid time off)."},{"cluster":"People","domain":"Total Rewards","term":"Market-based job evaluation","def":"Job evaluation method in which the relative worth and pay structure of different jobs are based on their market value or the going rate in the marketplace."},{"cluster":"People","domain":"Total Rewards","term":"Job ranking","def":"Job evaluation method that involves establishing a hierarchy of jobs from lowest to highest based on each job's overall value to the organization."},{"cluster":"People","domain":"Total Rewards","term":"General pay increase","def":"Pay increase given to employees based on local competitive market requirements; awarded regardless of employee performance."},{"cluster":"People","domain":"Total Rewards","term":"Total rewards","def":"Direct and indirect remuneration approaches that employers use to attract, recognize, and retain workers."},{"cluster":"People","domain":"Total Rewards","term":"Job evaluation","def":"Process of determining a job's value and price for the purpose of attracting and retaining employees by comparing the job against other jobs within the organization or against similar jobs in competing organizations."},{"cluster":"People","domain":"Total Rewards","term":"Perquisites","def":"Compensation provided on an individual basis in the form of goods or services."},{"cluster":"People","domain":"Total Rewards","term":"Compa-ratio","def":"Pay rate divided by the midpoint of the pay range."},{"cluster":"People","domain":"Total Rewards","term":"Broadbanding","def":"Combining several salary grades or job classifications with narrow pay ranges into one band with a wider salary spread."},{"cluster":"People","domain":"Total Rewards","term":"Pay for performance (P4P, PfP)","def":"Situation where an individual's performance on the job is the basis for the amount and timing of pay increases; also called merit pay or performance-based pay."},{"cluster":"People","domain":"Total Rewards","term":"Job-content-based job evaluation","def":"Job evaluation method in which the relative worth and pay structure of different jobs are based on an assessment of their content and their relationship to other jobs within the organization."},{"cluster":"People","domain":"Total Rewards","term":"Productivity-based pay","def":"Pay based on the quantity of work and outputs that can be accurately measured."},{"cluster":"People","domain":"Total Rewards","term":"Job classification","def":"Job evaluation method in which descriptions are written for each class of jobs; individual jobs are then put into the grade that best matches their class description."},{"cluster":"People","domain":"Total Rewards","term":"Merit pay","def":"Situation where an individual's performance on the job is the basis for the amount and timing of pay increases; also called performance-based pay or pay for performance."},{"cluster":"People","domain":"Total Rewards","term":"Flat-rate pay","def":"Provides each incumbent of a job with the same rate of pay, regardless of performance or seniority; also known as single-rate pay."},{"cluster":"People","domain":"Total Rewards","term":"Person-based pay","def":"Pay systems in which employee characteristics, rather than the job, determine pay."},{"cluster":"People","domain":"Total Rewards","term":"Total rewards strategy","def":"Plan or method implemented by an organization that provides monetary, benefits-in-kind, and developmental rewards to employees who achieve specific business goals."},{"cluster":"People","domain":"Total Rewards","term":"Compensation philosophy","def":"Short but broad statement documenting an organization's guiding principles and core values about employee compensation."},{"cluster":"People","domain":"Total Rewards","term":"Benefits","def":"Mandatory or voluntary payments or services provided to employees, typically covering retirement, health care, sick pay/disability, life insurance, and paid time off."},{"cluster":"People","domain":"Total Rewards","term":"Point-factor system","def":"Job evaluation method that looks at compensable factors (such as skills and working conditions) that reflect how much a job adds value to the organization; points are assigned to each factor and then added to come up with an overall point value for the job."},{"cluster":"People","domain":"Total Rewards","term":"External equity","def":"Situation in which an organization's compensation levels and benefits are similar to those of other organizations that are in the same labor market and compete for the same employees."},{"cluster":"People","domain":"Total Rewards","term":"Single-rate pay","def":"Provides each incumbent of a job with the same rate of pay, regardless of performance or seniority; also known as flat-rate pay."},{"cluster":"People","domain":"Total Rewards","term":"Cost-of-living adjustment (COLA)","def":"Pay adjustment given to eligible employees regardless of performance or organizational profitability; usually linked to inflation."},{"cluster":"People","domain":"Total Rewards","term":"Paired-comparison method","def":"Job evaluation method in which each job is compared with every other job being evaluated; the job with the largest number of greater than rankings is the highest-ranked job, etc."},{"cluster":"People","domain":"Total Rewards","term":"Red-circle rates","def":"Situations in which employees' pay is above the range maximum."},{"cluster":"People","domain":"Total Rewards","term":"Green-circle rates","def":"Situations in which an employee's pay is below the minimum of the range."},{"cluster":"People","domain":"Total Rewards","term":"Pay grades","def":"Used to group jobs that have approximately the same relative internal or external worth and are paid at the same rate or within the same pay range."},{"cluster":"People","domain":"Total Rewards","term":"Internal equity","def":"Extent to which employees perceive that monetary and other rewards are distributed equitably, based on effort, skill and/or relevant outcomes."},{"cluster":"People","domain":"Total Rewards","term":"Domestic partners","def":"Unmarried couples, of the same or opposite sex, who live together and seek economic and noneconomic benefits comparable to those granted to their married counterparts."},{"cluster":"People","domain":"Total Rewards","term":"Pay ranges","def":"Set the upper and lower bounds of possible compensation for individuals whose jobs fall within a pay grade."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Shared services HR model","def":"HR structural alternative in which centers with specific areas of expertise develop HR policies in those areas; each unit can then select what it needs from a menu of these services."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Outsourcing","def":"Process by which an organization contracts with third-party vendors to provide selected services/activities instead of hiring new employees."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Dedicated HR","def":"HR structural alternative that allows organizations with different strategies in multiple units to apply HR expertise to each unit's specific strategic needs."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Center of excellence (COE)","def":"An organizational structure that leverages staff expertise in certain areas to improve the entire organization's strategic performance."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"HR audit","def":"Systematic and comprehensive evaluation of an organization's HR policies, practices, procedures, and strategies."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Functional HR","def":"HR structural alternative in which headquarters HR specialists craft policies and HR generalists located within divisions or other locales implement the policies, adapt them as needed, and interact with employees."},{"cluster":"Organization","domain":"Structure of the HR Function","term":"Cosourcing","def":"Arrangement in which an enterprise and a vendor share different tasks within a larger complex, often strategic responsibility."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Departmentalization","def":"Way an organization groups jobs to coordinate work."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Organizational development","def":"Process of enhancing the effectiveness and efficiency of an organization and the well-being of its members through planned interventions."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Chain of command","def":"Line of authority within an organization."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Line units","def":"Work groups that conduct the major business of an organization."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Product structure","def":"Organizational structure in which functional departments are grouped under major product divisions."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Functional structure","def":"Organizational structure in which departments are defined by the services they contribute to the organization's overall mission, such as marketing and sales, operations, and HR."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Staff units","def":"Work groups that assist line units by providing specialized services, such as HR."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Formalization","def":"Refers to the extent to which rules, policies, and procedures govern the behavior of employees in an organization."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Span of control","def":"Refers to the number of individuals who report to a supervisor."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Matrix structure","def":"Organizational structure that combines departmentalization by division and function to gain the benefits of both; results in some employees reporting to two managers rather than one, with neither manager assuming a superior role."},{"cluster":"Organization","domain":"Organizational Effectiveness & Development","term":"Geographic structure","def":"Organizational structure in which geographic regions define the organizational chart."},{"cluster":"Organization","domain":"Workforce Management","term":"Workforce profile","def":"Part of workforce analysis that identifies the current make-up of employees in terms of their demographics, skills, competencies, performance levels, expected retirement dates, pay grades, and other factors that help explain the workforce's composition."},{"cluster":"Organization","domain":"Workforce Management","term":"Turnover","def":"Act of replacing employees leaving an organization; attrition or loss of employees."},{"cluster":"Organization","domain":"Workforce Management","term":"Workforce planning","def":"Activities needed to ensure that workforce size and competencies meet current and future organizational and individual needs."},{"cluster":"Organization","domain":"Workforce Management","term":"Succession planning","def":"Process of implementing a talent management strategy for identifying and fostering the development of high-potential employees or other job candidates who, over time, may move into leadership positions of increased responsibility."},{"cluster":"Organization","domain":"Workforce Management","term":"Workforce management","def":"All activities needed to ensure that workforce size and competencies meet the organization's strategic needs."},{"cluster":"Organization","domain":"Workforce Management","term":"Judgmental forecasts","def":"Use of information from past and present to predict future conditions."},{"cluster":"Organization","domain":"Workforce Management","term":"Independent contractors","def":"Self-employed individuals hired on a contract basis for specialized services."},{"cluster":"Organization","domain":"Workforce Management","term":"Regression analysis","def":"Statistical method used to determine whether a relationship exists between variables and the strength of the relationship."},{"cluster":"Organization","domain":"Workforce Management","term":"Simulations","def":"Representations of real situations; give organizations the opportunity to speculate as to what would happen if certain courses of action were pursued."},{"cluster":"Organization","domain":"Workforce Management","term":"Joint employment","def":"Situation in which an organization shares responsibility and liability for its alternative workers with an alternative staffing supplier; also known as co-employment."},{"cluster":"Organization","domain":"Workforce Management","term":"Downsizing","def":"Termination of employment of individual employees or groups of employees for reasons other than performance, for example, economic necessity or restructuring; also known as reduction in force (RIF)."},{"cluster":"Organization","domain":"Workforce Management","term":"Co-employment","def":"Situation in which an organization shares responsibility and liability for its alternative workers with an alternative staffing supplier; also known as joint employment."},{"cluster":"Organization","domain":"Workforce Management","term":"Workforce analysis","def":"Systematic approach to anticipate human capital needs and data HR professionals can use to ensure that appropriate knowledge, skills, or abilities will be available when needed to accomplish organizational goals and objectives."},{"cluster":"Organization","domain":"Workforce Management","term":"Reduction in force (RIF)","def":"Termination of employment of individual employees or groups of employees for reasons other than performance, for example, economic necessity or restructuring; also known as downsizing."},{"cluster":"Organization","domain":"Workforce Management","term":"Turnover rate","def":"Annualized formula that tracks number of separations and total number of workforce employees per month."},{"cluster":"Organization","domain":"Workforce Management","term":"Knowledge management (KM)","def":"Process of creating, acquiring, sharing, and managing knowledge to augment individual and organizational performance."},{"cluster":"Organization","domain":"Workforce Management","term":"Talent management","def":"Development and integration of HR processes that retain the knowledge, skills, and abilities of employees that will meet current and future organizational needs."},{"cluster":"Organization","domain":"Workforce Management","term":"Due diligence","def":"Process of investigating a decision thoroughly before finalizing it to identify all potential factors that could affect the positive and negative impacts of the decision."},{"cluster":"Organization","domain":"Workforce Management","term":"Replacement planning","def":"Snapshot assessment of the availability of qualified backup for key positions."},{"cluster":"Organization","domain":"Workforce Management","term":"Restructuring","def":"Act of reorganizing the legal, ownership, operational, or other structures of an organization."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Lockout","def":"Action of an employer to shut down operations to prevent employees from working."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Mediation","def":"Method of nonbinding dispute resolution by which a neutral third party tries to help disputing parties reach a mutually agreeable decision; also called conciliation."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Arbitration","def":"Method of dispute resolution by which disputing parties agree to be bound by the decision of one or more impartial persons to whom they submit their dispute for final determination."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Trade union","def":"Group of workers who coordinate their activities to achieve common goals in their relationship with an employer or group of employers; also called labor union."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Sit-down strike","def":"Refusal by workers to work; also refusal by workers to leave their workstations, making it impossible for the employer to use replacement workers."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Project labor agreement (PLA)","def":"Agreement that requires specific contractors to accept certain conditions in project contracts, such as paying a fair wage and contributing to health insurance, pension, and training funds."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Picketing","def":"Positioning of employees at a place of work targeted for the action for the purpose of protest."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Grievance procedure","def":"Orderly way to resolve differences of opinion."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Unfair labor practice (ULP)","def":"Violation of employee rights; act prohibited under labor relations statutes."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Labor union","def":"Group of workers who coordinate their activities to achieve common goals in their relationship with an employer or group of employers; also called trade union."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Alternative dispute resolution (ADR)","def":"Umbrella term for the various approaches and techniques, other than litigation, that can be used to resolve a dispute."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Industrial actions","def":"Various forms of collective employee actions taken to protest work conditions or employer actions."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Constructive discipline","def":"Form of corrective discipline that implements increasingly severe penalties for employees."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Policy","def":"Broad statement that reflects an organization's philosophy, objectives, or standards concerning a particular set of management or employee activities."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Secondary action","def":"Attempt by a union to influence an employer by putting pressure on another employer, for example, a supplier."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Work-to-rule","def":"Situation in which workers slow processes by performing tasks exactly to specifications or according to job or task descriptions."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Sympathy strike","def":"Action taken in support of another union that is striking the employer."},{"cluster":"Organization","domain":"Employee & Labor Relations","term":"Wildcat strike","def":"Work stoppages at union contract operations that have not been sanctioned by the union."},{"cluster":"Organization","domain":"Technology Management","term":"Encryption","def":"Conversion of data into a format that protects or hides its natural presentation or intended meaning."},{"cluster":"Organization","domain":"Technology Management","term":"Artificial intelligence (AI)","def":"Computer systems that can perform tasks that typically require human intelligence. Examples include digital assistants, self-driving cars, fraud detection, chatbots, image generation, and conversational AI."},{"cluster":"Organization","domain":"Technology Management","term":"Information system (IS)","def":"Way to collect, organize, store, analyze, and share data."},{"cluster":"Organization","domain":"Technology Management","term":"Cloud computing","def":"Style of computing in which scalable IT-enabled capabilities are delivered as a service using Internet technologies."},{"cluster":"Organization","domain":"Technology Management","term":"Hacking","def":"Act of deliberately accessing computer data without permission."},{"cluster":"Organization","domain":"Technology Management","term":"Social engineering","def":"In a computer context, tricking a user into sharing information that can then be used to access systems."},{"cluster":"Organization","domain":"Technology Management","term":"Software as a service (SaaS)","def":"Software that is owned, delivered, and managed remotely and delivered over the Internet to contracted customers on a pay-for-use basis or as a subscription based on use metrics."},{"cluster":"Organization","domain":"Technology Management","term":"Social networks","def":"Online clustering of individuals in groups with common or shared interests."},{"cluster":"Organization","domain":"Technology Management","term":"Enterprise resource planning (ERP)","def":"Business management software, usually a suite of integrated applications, that a company can use to collect, store, manage, and interpret data from many business activities."},{"cluster":"Organization","domain":"Technology Management","term":"Human resource information system (HRIS)","def":"Information technology framework and tools for gathering, storing, maintaining, retrieving, revising, and reporting HR data."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Offshoring","def":"Method by which an organization relocates its processes or production to an international location through subsidiaries or third-party affiliates."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Outsourcing","def":"Process by which an organization contracts with third-party vendors to provide selected services/activities instead of hiring new employees."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Globalization","def":"Status of growing interconnectedness and interdependency among countries, people, markets, and organizations worldwide."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Process alignment","def":"Extent to which underlying operations such as IT, finance, or HR integrate across locations."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Local responsiveness (LR)","def":"Globalization strategy that emphasizes adapting to the needs of local markets and allows subsidiaries to develop unique products, structures, and systems."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Repatriation","def":"Process by which employees returning from international assignments reintegrate into their home country's culture, conditions, and employment."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Near-shoring","def":"Practice of contracting a part of business processes or production to an external company in a country that is relatively close (for example, within the same own region)."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Global integration (GI)","def":"Globalization strategy that emphasizes consistency of approach, standardization of processes, and a common corporate culture across global operations."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Multinational enterprises (MNEs)","def":"Organizations that own or control production or service facilities in one or more countries other than the home country."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Redeployment","def":"Process by which an organization moves an employee out of an international assignment; can involve moving back to the home country, moving to a different global location, or moving to a new location or position in the current host country."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Identity alignment","def":"Extent to which diversity is embraced in management of people, products/services, and branding."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Assignees","def":"Employees who work outside their home countries."},{"cluster":"Workplace","domain":"Managing a Global Workforce","term":"Onshoring","def":"Relocation of business processes or production to a lower-cost location inside the same country as the business."},{"cluster":"Workplace","domain":"Risk Management","term":"Key risk indicators (KRIs)","def":"Metrics that provide an early signal of increasing risk exposures for an enterprise."},{"cluster":"Workplace","domain":"Risk Management","term":"Conflict of interest","def":"Situation in which a person or organization may benefit from undue influence due to involvement in outside activities, relationships, or investments that conflict with or have an impact on the employment relationship or its outcomes."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk scorecard","def":"Tool used to gather individual assessments of various characteristics of risk (for example, frequency of occurrence; degree of impact, loss, or gain for the organization; degree of efficacy of current controls)."},{"cluster":"Workplace","domain":"Risk Management","term":"Principal-agent problem","def":"Situation in which an agent (for example, an employee) makes decisions for a principal (for example, an employer) potentially on the basis of personal incentives that may not be aligned with the principal's incentives."},{"cluster":"Workplace","domain":"Risk Management","term":"Hazard","def":"Potential for harm, often associated with a condition or activity that, if left uncontrolled, can result in injury or illness."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk appetite","def":"A high-level characterization of the amount of uncertainty (acceptable risk) an organization is willing to pursue or to accept to attain its risk management goals."},{"cluster":"Workplace","domain":"Risk Management","term":"Contingency plan","def":"Protocol that an organization implements when an identified risk event occurs."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk tolerance","def":"A characterization of the amount of uncertainty (acceptable risk) an organization is willing to pursue or to accept to attain its risk management goals, defined in a range above and below a target."},{"cluster":"Workplace","domain":"Risk Management","term":"Moral hazard","def":"Situation in which one party engages in risky behavior knowing that it is protected against the risk because another party will incur any resulting loss."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk management","def":"System for identifying, evaluating, and controlling actual and potential risks to an organization."},{"cluster":"Workplace","domain":"Risk Management","term":"Residual risk","def":"Amount of uncertainty that remains after all risk management efforts have been exhausted."},{"cluster":"Workplace","domain":"Risk Management","term":"Single loss expectancy (SLE)","def":"Expected monetary loss every time a risk occurs; calculated by multiplying asset value by exposure factor."},{"cluster":"Workplace","domain":"Risk Management","term":"Whistleblowing","def":"Reporting of an organization's violations of policies and processes by employees."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk position","def":"Organization's desired gain or acceptable loss in value."},{"cluster":"Workplace","domain":"Risk Management","term":"Duty of care","def":"Principle that organizations should take all steps that are reasonably possible to ensure the health, safety, and well-being of employees and protect them from foreseeable injury."},{"cluster":"Workplace","domain":"Risk Management","term":"Annualized loss expectancy (ALE)","def":"Expected monetary loss for an asset due to a risk over a one-year period; calculated by multiplying single loss expectancy by annualized rate of occurrence."},{"cluster":"Workplace","domain":"Risk Management","term":"Risk control","def":"Action taken to manage a risk."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Sustainability","def":"Practice of purchasing and using resources wisely by balancing economic, social, and environmental concerns, with the goal of securing the interests of present and future generations."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Corporate social responsibility (CSR)","def":"Varying ways an organization can create value, looking beyond traditional profit measures of revenue and expenses; includes such areas as philanthropy, volunteerism, corporate-sponsored community programs, social change, sustainability, corporate governance, employee rights, and workplace safety."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Ethics","def":"Set of behavioral guidelines that an organization expects all of its directors, managers, and employees to follow to ensure appropriate moral and ethical business standards."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Governance","def":"System of rules and processes set up by an organization to ensure its compliance with local and international laws, accounting rules, ethical norms, internal codes of conduct, and other standards."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Triple bottom line","def":"Economic, social, and environmental impact metrics used to determine an organization's success."},{"cluster":"Workplace","domain":"Corporate Social Responsibility","term":"Compliance","def":"State of being in accordance with all national, federal, regional, and/or local laws, regulations, and/or other government authority requirements applicable to the places in which an organization operates."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Family and Medical Leave Act (FMLA)","def":"U.S. act that provides employees with up to 12 weeks of unpaid leave to care for family members or because of a serious health condition of the employee."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Fair Credit Reporting Act (FCRA)","def":"U.S act that protects privacy of background information and ensures that information supplied is accurate."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Patient Protection and Affordable Care Act (PPACA)","def":"2010 U.S. law that requires virtually all citizens and legal residents to have minimum health coverage and requires employers with more than 50 full-time employees to provide health coverage that meets minimum benefit specifications or pay a penalty."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Fair Labor Standards Act (FLSA)","def":"U.S act that establishes minimum wage, overtime pay, youth employment, and record-keeping standards affecting full- and part-time workers in the private sector and in federal, state, and local governments."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Consolidated Omnibus Budget Reconciliation Act (COBRA)","def":"U.S. act that provides individuals and dependents who may lose health-care coverage with opportunity to pay to continue coverage."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Adverse impact","def":"Type of discrimination that results when a policy that appears to be neutral has a discriminatory effect; also known as disparate impact."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Employment at-will","def":"Principle of employment in the U.S. that employers have the right to hire, fire, demote, and promote whomever they choose for any reason unless there is a law or contract to the contrary and that employees have the right to quit a job at any time."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Employment practices liability insurance (EPLI)","def":"Type of liability insurance covering an organization against claims by employees, former employees, and employment candidates alleging that their legal rights in the employment relationship have been violated."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Disparate impact","def":"Type of discrimination that results when a policy that appears to be neutral has a discriminatory effect; also known as adverse impact."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Equal Pay Act (EPA)","def":"U.S. act that prohibits wage discrimination by requiring equal pay for equal or substantially equal work performed by men and women."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Phillips v. Martin Marietta Corporation","def":"1971 U.S. case that stated that an employer may not, in the absence of business necessity, refuse to hire women with preschool-aged children while hiring men with such children."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Worker Adjustment and Retraining Notification (WARN) Act","def":"U.S. act that requires some employers to give a minimum of 60 days' notice if a plant is to close or if mass layoffs will occur."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Age Discrimination in Employment Act (ADEA)","def":"U.S. act that prohibits discrimination in the workplace on the basis of age."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Occupational Safety and Health (OSH) Act","def":"U.S. act that established the first national policy for workplace safety and health and continues to deliver standards that employers must meet to guarantee the health and safety of their employees."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Sexual orientation","def":"Sexual, romantic, or emotional/spiritual attraction that one feels for persons of the opposite sex or gender, the same sex or gender, or both sexes and more than one gender."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Workweek","def":"Any fixed, recurring period of 168 consecutive hours (7 days times 24 hours = 168 hours)."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Civil Rights Act of 1964","def":"First comprehensive U.S. law making it unlawful to discriminate on the basis of race, color, religion, sex, or national origin."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Davis-Bacon Act","def":"U.S. act that requires certain contractors and subcontractors to pay laborers and mechanics no less than the locally prevailing wages and fringe benefits for corresponding work on federal contracts."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Vicarious liability","def":"Legal doctrine under which a party can be held liable for the wrongful actions of another party."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Electronic Communications Privacy Act","def":"U.S. act that made it unlawful to intercept messages in transmission, access stored information on electronic communication services, or disclose any of this information."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Lilly Ledbetter Fair Pay Act","def":"U.S. act that creates a rolling time frame for filing wage discrimination claims and expands plaintiff field beyond employee who was discriminated against."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Fair and Accurate Credit Transactions Act (FACT Act)","def":"U.S act that frees employers who use third parties to conduct workplace investigations from the consent and disclosure requirements of the Fair Credit Reporting Act in certain cases."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Griggs v. Duke Power","def":"U.S. case that set the standard for determining whether discrimination based on disparate impact exists."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"General Duty Clause","def":"Statement in U.S. Occupational Safety and Health Act that requires employers subject to the act to provide employees with a safe and healthy work environment."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"National Labor Relations Act (NLRA)","def":"U.S. act that protected and encouraged the growth of the union movement; established workers' rights to organize and bargain collectively with employers."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"NLRB v. Weingarten","def":"Landmark 1975 U.S. labor relations case that dealt with the right of a unionized employee to have another person present during certain investigatory interviews."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"National origin","def":"Refers to the country (including those that no longer exist) of one's birth or of one's ancestors' birth."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Americans with Disabilities Act (ADA)","def":"U.S. act that prohibits discrimination against a qualified individual with a disability because of his/her disability."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Drug-Free Workplace Act","def":"U.S. law that requires federal contractors with contracts of $100,000 or more as well as recipients of grants from federal government to certify that they are maintaining a drug-free workplace."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"National Federation of Independent Business v. Sebelius","def":"U.S. Supreme Court ruling that Patient Protection and Affordable Care Act requirement that individuals purchase health insurance was constitutional but requirement that states expand Medicaid was not."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Uniformed Services Employment and Reemployment Rights Act (USERRA)","def":"U.S. act that protects the employment, reemployment, and retention rights of persons who serve or have served in the uniformed services."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Exempt employees","def":"Employees who are excluded from U.S. Fair Labor Standards Act minimum wage and overtime pay requirements."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Occupational injury","def":"Injury that results from a work-related accident or exposure involving a single incident in the work environment."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Vesting","def":"Process by which a retirement benefit becomes nonforfeitable."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Faragher v. City of Boca Raton","def":"U.S. court ruling that distinguished between supervisor harassment that results in tangible employment action and supervisor harassment that does not."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Hostile environment harassment","def":"Occurs when sexual or other discriminatory conduct is so severe and pervasive that it interferes with an individual's performance; creates an intimidating, threatening, or humiliating work environment; or perpetuates a situation that affects the employee's psychological well-being."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Vietnam Era Veterans' Readjustment Assistance Act (VEVRAA)","def":"U.S. act that prohibits discrimination against specified categories of veterans; applies to federal government contractors and subcontractors."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Employees","def":"Individuals who exchange work for wages or salary; in the U.S., workers who are covered by Fair Labor Standards Act regulations as determined by the IRS."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Overtime pay","def":"Required for nonexempt workers under U.S. Fair Labor Standards Act at 1.5 times the regular rate of pay for hours over 40 in a workweek."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Occupational illness","def":"Medical condition or disorder, other than one resulting from an occupational injury, caused by exposure to environmental factors associated with employment."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Sarbanes-Oxley Act (SOX)","def":"U.S. act that requires that all publicly held companies establish internal controls and procedures for financial reporting to reduce the possibility of corporate fraud."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"McNamara-O'Hara Service Contract Act","def":"U.S. act that requires contractors and subcontractors on certain contracts to pay service employees in various classes no less than the wage rates and fringe benefits found in the locality or the rates found in the previous contractor's collective bargaining agreement."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Quid pro quo harassment","def":"Type of sexual harassment that occurs when an employee is forced to choose between giving in to a superior's sexual demands and forfeiting an economic benefit such as a pay increase, a promotion, or continued employment."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Older Workers Benefit Protection Act (OWBPA)","def":"U.S. act that amended the Age Discrimination in Employment Act to include all employee benefits; also provided standards that an employee's waiver of the right to sue for age discrimination must meet in order to be upheld by a court."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Essential functions","def":"Primary job duties that a qualified individual must be able to perform, either with or without accommodation."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Disability","def":"Physical or mental impairment that substantially limits one's major life activities."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"ADA Amendments Act (ADAAA)","def":"Amendments to U.S. Americans with Disabilities Act covering the definition of individuals regarded as having a disability, mitigating measures, and other rules to guide the analysis of what constitutes a disability."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Employee Polygraph Protection Act (EPPA)","def":"U.S. act that prevents private employers from requiring applicants or employees to take a polygraph test for preemployment screening or during the course of employment, with certain exceptions."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Reasonable accommodation","def":"Modifying a job application process, a work environment, or the circumstances under which a job is performed to enable a qualified individual with a disability to be considered for the job and perform its essential functions."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Weingarten rights","def":"Union employees' right in U.S. to have a union representative or coworker present during an investigatory interview."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Protected class","def":"People who are covered under a particular federal or state antidiscrimination law."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Defense of Marriage Act (DOMA)","def":"U.S. act that defined marriage as the union of one man and one woman and permitted states to not recognize same-sex marriages recognized by other states; ruled unconstitutional by the United States Supreme Court."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"National Defense Authorization Acts (NDAA)","def":"U.S. acts that expanded FMLA leave for employees with family members who are covered members of the military."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Bona fide occupational qualification (BFOQ)","def":"Factor (such as religion, gender, national origin, etc.) that is reasonably necessary, in the normal operations of an organization, to carry out a particular job function."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Walsh-Healey Public Contracts Act","def":"U.S. act that establishes a minimum wage, maximum hours, and health and safety standards for contracts to manufacture or furnish materials, articles, or equipment to the U.S. government or the District of Columbia."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Uniform Guidelines on Employee Selection Procedures","def":"Procedural document designed to assist employers in complying with federal regulations prohibiting discrimination."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Portal-to-Portal Act","def":"U.S. act that defines what is included as hours worked and is therefore compensable and a factor in calculating overtime."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Lechmere, Inc. v. NLRB","def":"1992 case in which the U.S. Supreme Court ruled that an employer cannot be compelled to allow nonemployee organizers onto the business property."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Prudent person rule","def":"States that a fiduciary of a plan covered by the U.S. Employee Retirement Income Security Act has legal and financial obligations not to take more risks when investing employee benefit program funds than a reasonably knowledgeable, prudent investor would under similar circumstances."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Independent contractors","def":"Self-employed individuals hired on a contract basis for specialized services."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Equal Employment Opportunity Act","def":"U.S act that amended Title VII and gave the Equal Employment Opportunity Commission authority to back up its administrative findings and conduct its own enforcement litigation."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Disparate treatment","def":"Type of discrimination that occurs when an applicant or employee is treated differently because of his or her membership in a protected class."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"McDonnell Douglas Corp. v. Green","def":"Case that established criteria for disparate treatment."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Nonexempt employees","def":"Employees covered under U.S. Fair Labor Standards Act regulations, including minimum wage and overtime pay requirements."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Labor Management Reporting and Disclosure Act (LMRDA)","def":"U.S. act that imposed regulations on internal union affairs and the relationship between union officials and union members."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Pregnancy Discrimination Act","def":"U.S. act that prohibits discrimination on the basis of pregnancy, childbirth, or related medical conditions."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Comparable worth","def":"Concept that jobs filled primarily by women that require skills, effort, responsibility, and working conditions comparable to similar jobs filled primarily by men should have the same classifications and salaries."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Genetic Information Nondiscrimination Act (GINA)","def":"U.S act that prohibits discrimination against individuals on the basis of their genetic information in both employment and health insurance."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Labor-Management Relations Act (LMRA)","def":"U.S. act that imposed several restrictions and requirements on unions."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Burlington Industries, Inc. v. Ellerth","def":"U.S. court ruling that distinguished between supervisor harassment that results in tangible employment action and supervisor harassment that does not."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Civil Rights Act of 1991","def":"U.S. act that expands the possible damage awards available to victims of intentional discrimination to include compensatory and punitive damages; gives plaintiffs in cases of alleged discrimination the right to a jury trial."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Employee Retirement Income Security Act (ERISA)","def":"U.S. act that established uniform minimum standards to ensure that employee benefit and pension plans are set up and maintained in a fair and financially sound manner."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Immigration Reform and Control Act (IRCA)","def":"U.S. act that prohibits discrimination against job applicants on the basis of national origin or citizenship and establishes penalties for hiring undocumented workers."},{"cluster":"Workplace","domain":"U.S. Employment Law & Regulations","term":"Ledbetter v. Goodyear Tire and Rubber Company","def":"2007 case in which the U.S. Supreme Court ruled that claims of sex discrimination in pay under Title VII were not timely because discrimination charges were not filed with the EEOC within the required 180-day time frame."}];
+
+// ── STATE ──
+// filter: { type: 'all' } | { type: 'cluster', cluster: 'People' } | { type: 'domain', domain: 'HR Strategy' }
+let deck = [], done = [], flipped = false;
+let filter = { type: 'all' };
+
+function shuffle(a) {
+  const b = [...a];
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+}
+
+function getPool() {
+  if (filter.type === 'all') return ALL_CARDS;
+  if (filter.type === 'cluster') return ALL_CARDS.filter(c => c.cluster === filter.cluster);
+  return ALL_CARDS.filter(c => c.domain === filter.domain);
+}
+
+function startDeck() {
+  deck = shuffle(getPool());
+  done = [];
+  flipped = false;
+}
+
+function clusterOf(domain) {
+  for (const [c, domains] of Object.entries(STRUCTURE)) {
+    if (domains.includes(domain)) return c;
+  }
+  return 'Competencies';
+}
+
+function tagClass(cluster) {
+  return { Competencies: 'bc cc', People: 'bp cp', Organization: 'bo co', Workplace: 'bw cw' }[cluster] || 'bc cc';
+}
+
+function filterLabel() {
+  if (filter.type === 'all') return 'All 391 cards';
+  if (filter.type === 'cluster') return filter.cluster + ' (all)';
+  return filter.domain;
+}
+
+function filterDotColor() {
+  if (filter.type === 'all') return '#565c78';
+  const cl = filter.type === 'cluster' ? filter.cluster : clusterOf(filter.domain);
+  return CLUSTER_DOT[cl] || '#565c78';
+}
+
+function filterSubtitle() {
+  if (filter.type === 'all') return 'All domains — shuffled';
+  if (filter.type === 'cluster') {
+    const n = ALL_CARDS.filter(c => c.cluster === filter.cluster).length;
+    return filter.cluster + ' · ' + n + ' cards';
+  }
+  return filter.domain;
+}
+
+// ── RENDER STUDY ──
+function renderStudy() {
+  const pool = getPool();
+  const total = deck.length + done.length;
+  const pct = total > 0 ? Math.round((done.length / total) * 100) : 0;
+
+  document.getElementById('p-rem').textContent = deck.length;
+  document.getElementById('p-done').textContent = done.length;
+  document.getElementById('p-total').textContent = pool.length;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('study-sub').textContent = filterSubtitle();
+
+  // Update filter chip
+  document.getElementById('filter-chip-dot').style.background = filterDotColor();
+  document.getElementById('filter-chip-label').textContent = filterLabel();
+
+  const cardWrap = document.getElementById('card-wrap');
+  const controls = document.getElementById('study-controls');
+
+  if (deck.length === 0 && done.length > 0) {
+    cardWrap.innerHTML = `<div class="done-card">
+      <div class="done-icon">&#10003;</div>
+      <div class="done-title">All done!</div>
+      <div class="done-sub">You completed all ${done.length} cards in this set.</div>
+    </div>`;
+    controls.innerHTML = `<button class="ctrl-btn primary" onclick="reshuffle()">Study again</button>`;
+    return;
+  }
+
+  if (deck.length === 0) {
+    cardWrap.innerHTML = `<div class="done-card"><div class="done-sub">No cards in this selection.</div></div>`;
+    controls.innerHTML = '';
+    return;
+  }
+
+  const card = deck[0];
+  const cluster = clusterOf(card.domain);
+  const tc = tagClass(cluster);
+
+  // Rebuild card if needed (after done state)
+  if (!document.getElementById('study-card')) {
+    cardWrap.innerHTML = `<div class="card" id="study-card">
+      <div class="card-prompt">What is this term?</div>
+      <div class="card-def" id="card-def"></div>
+      <div id="answer-reveal" style="display:none">
+        <div class="card-divider"></div>
+        <div class="card-term" id="card-term"></div>
+        <div class="card-domain-tag" id="card-tag"></div>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('card-def').textContent = card.def;
+  document.getElementById('card-term').textContent = card.term;
+  const tag = document.getElementById('card-tag');
+  tag.className = 'card-domain-tag ' + tc;
+  tag.textContent = card.domain;
+  document.getElementById('answer-reveal').style.display = flipped ? 'block' : 'none';
+
+  if (!flipped) {
+    controls.innerHTML = `<button class="ctrl-btn reveal" onclick="doFlip()">Reveal term</button>`;
+  } else {
+    controls.innerHTML = `
+      <button class="ctrl-btn learning" onclick="doWrong()">Still learning</button>
+      <button class="ctrl-btn got-it" onclick="doCorrect()">Got it</button>`;
+  }
+}
+
+// ── ACTIONS ──
+function doFlip() { flipped = true; renderStudy(); }
+function doCorrect() { done.push(deck.shift()); flipped = false; renderStudy(); }
+function doWrong() {
+  const c = deck.shift();
+  const pos = deck.length > 1 ? Math.floor(Math.random() * (deck.length - 1)) + 1 : deck.length;
+  deck.splice(pos, 0, c);
+  flipped = false;
+  renderStudy();
+}
+function reshuffle() { startDeck(); renderStudy(); }
+
+// ── PICKER ──
+function showPicker() {
+  document.getElementById('screen-study').classList.remove('active');
+  document.getElementById('screen-picker').classList.add('active');
+  renderPicker();
+}
+
+function closePicker() {
+  document.getElementById('screen-picker').classList.remove('active');
+  document.getElementById('screen-study').classList.add('active');
+  renderStudy();
+}
+
+function isSelected(type, key) {
+  if (type === 'all') return filter.type === 'all';
+  if (type === 'cluster') return filter.type === 'cluster' && filter.cluster === key;
+  return filter.type === 'domain' && filter.domain === key;
+}
+
+function renderPicker() {
+  const scroll = document.getElementById('picker-scroll');
+  const allCount = ALL_CARDS.length;
+  let html = '';
+
+  // All option
+  const allSel = isSelected('all');
+  html += `<div class="domain-item all-item ${allSel ? 'selected' : ''}" onclick="selectFilter('all','')">
+    <div class="domain-dot" style="background:#565c78"></div>
+    <div class="domain-item-name" style="font-weight:500">All domains</div>
+    <div class="domain-count">${allCount}</div>
+  </div>`;
+
+  for (const [cluster, domains] of Object.entries(STRUCTURE)) {
+    const dot = CLUSTER_DOT[cluster];
+    const colorClass = { Competencies:'cc', People:'cp', Organization:'co', Workplace:'cw' }[cluster];
+    const clCount = ALL_CARDS.filter(c => c.cluster === cluster).length;
+    const clSel = isSelected('cluster', cluster);
+
+    // Cluster row
+    html += `<div class="cluster-label ${colorClass}" style="margin-top:14px">${cluster}</div>`;
+    html += `<div class="domain-item ${clSel ? 'selected' : ''}" onclick="selectFilter('cluster','${cluster}')" style="margin-bottom:2px">
+      <div class="domain-dot" style="background:${dot}"></div>
+      <div class="domain-item-name" style="font-weight:500">All ${cluster}</div>
+      <div class="domain-count">${clCount}</div>
+    </div>`;
+
+    // Domain rows (indented)
+    for (const d of domains) {
+      const n = ALL_CARDS.filter(c => c.domain === d).length;
+      const dSel = isSelected('domain', d);
+      const safeD = d.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      html += `<div class="domain-item ${dSel ? 'selected' : ''}" onclick="selectFilter('domain','${safeD}')" style="padding-left:22px;margin-bottom:2px">
+        <div class="domain-dot" style="background:${dot};width:6px;height:6px"></div>
+        <div class="domain-item-name">${d}</div>
+        <div class="domain-count">${n}</div>
+      </div>`;
+    }
+  }
+
+  scroll.innerHTML = html;
+}
+
+function selectFilter(type, key) {
+  if (type === 'all') filter = { type: 'all' };
+  else if (type === 'cluster') filter = { type: 'cluster', cluster: key };
+  else filter = { type: 'domain', domain: key };
+  startDeck();
+  renderPicker();
+}
+
+function showHelp() {
+  document.getElementById('screen-study').classList.remove('active');
+  document.getElementById('screen-help').classList.add('active');
+}
+
+function closeHelp() {
+  document.getElementById('screen-help').classList.remove('active');
+  document.getElementById('screen-study').classList.add('active');
+}
+
+// ── INIT ──
+startDeck();
+renderStudy();
+</script>
+</body>
+</html>
