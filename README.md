@@ -25,6 +25,7 @@ The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https
 | **Filters** | All cards, by cluster, or by domain |
 | **Progress save** | Resume where you left off (browser `localStorage`) |
 | **Light / Dark theme** | Default **light**; preference is remembered |
+| **Hide U.S. Employment Law** | Compact **US** button (top-right; default hidden) for non-US learners |
 | **Mobile-friendly** | Designed for phone-width study sessions |
 
 ### Clusters
@@ -81,6 +82,7 @@ Saved in the browser via `localStorage`:
 |-----|---------|
 | `shrm-flashcards-progress-v1` | Deck order, completed cards, last filter (per filter session) |
 | `shrm-flashcards-theme` | `light` or `dark` |
+| `shrm-flashcards-hide-us-law` | `1` (hide, default) or `0` (show US law domain) |
 
 - Progress is **per browser / device** (not synced to the cloud).
 - Clearing site data resets progress and theme preference.
@@ -119,6 +121,7 @@ Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://githu
 | **Bộ lọc** | Tất cả / theo cluster / theo domain |
 | **Lưu tiến độ** | Học dở, mở lại tiếp tục (`localStorage`) |
 | **Theme sáng / tối** | Mặc định **sáng**; nhớ lựa chọn |
+| **Ẩn U.S. Employment Law** | Nút **US** gọn góc trên (mặc định ẩn) cho non-US |
 | **Mobile-friendly** | Tối ưu màn hình điện thoại |
 
 ### Cluster
@@ -173,6 +176,7 @@ Lưu trên trình duyệt (`localStorage`):
 |-----|----------|
 | `shrm-flashcards-progress-v1` | Thứ tự deck, card đã xong, filter (tách theo từng filter) |
 | `shrm-flashcards-theme` | `light` hoặc `dark` |
+| `shrm-flashcards-hide-us-law` | `1` (ẩn, mặc định) hoặc `0` (hiện domain luật Mỹ) |
 
 - Tiến độ gắn với **máy + trình duyệt** (không đồng bộ cloud).
 - Xóa dữ liệu site → mất tiến độ và theme đã chọn.

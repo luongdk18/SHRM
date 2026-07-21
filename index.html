@@ -550,6 +550,35 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
 }
 .mode-tab:active { transform: scale(0.98); }
 
+/* ── US LAW TOGGLE (compact header btn) ── */
+.us-law-btn {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-width: 36px;
+  padding: 0 6px;
+}
+.us-law-btn span {
+  display: block;
+  text-align: center;
+}
+.us-law-btn .us-law-sub {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-top: 2px;
+  opacity: 0.75;
+}
+.us-law-btn.active {
+  background: var(--accent-dim);
+  border-color: var(--accent-border);
+  color: var(--accent-text);
+}
+.us-law-btn:not(.active) {
+  opacity: 0.75;
+}
+
 /* ── QUIZ ── */
 .quiz-score-pill {
   background: var(--accent-dim);
@@ -639,6 +668,10 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
           <div class="header-sub" id="study-sub">Loading…</div>
         </div>
         <div style="display:flex;gap:6px;align-items:center">
+          <div class="reshuffle-btn us-law-btn active" id="hide-us-law-btn" onclick="toggleHideUsLaw()" title="Hide U.S. Employment Law (default on for non-US)" role="button" aria-pressed="true">
+            <span>US</span>
+            <span class="us-law-sub" id="hide-us-law-sub">off</span>
+          </div>
           <div class="reshuffle-btn theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark theme" aria-label="Toggle theme">
             <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
@@ -805,6 +838,14 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         </div>
       </div>
 
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(96,165,250,0.12);color:var(--pill-rem-text)">&#9745;</div>
+        <div>
+          <div class="help-title">Hide U.S. Employment Law</div>
+          <div class="help-body">Top-right <em>US</em> button (default <em>off</em> = hidden). Hides all <em>U.S. Employment Law &amp; Regulations</em> cards from Flashcards and Quiz for non-US learners. Tap to show/hide. Preference is saved in this browser.</div>
+        </div>
+      </div>
+
     </div>
     <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
       <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
@@ -837,6 +878,11 @@ let filter = { type: 'all' };
 /** @type {Record<string, { deck: string[], done: string[] }>} */
 let sessions = {};
 
+/** Hide U.S. Employment Law & Regulations (default on for non-US learners). */
+const US_LAW_DOMAIN = 'U.S. Employment Law & Regulations';
+const HIDE_US_KEY = 'shrm-flashcards-hide-us-law';
+let hideUsLaw = true;
+
 /** @type {'study' | 'quiz'} */
 let appMode = 'study';
 
@@ -863,10 +909,74 @@ function shuffle(a) {
   return b;
 }
 
+function isUsLawCard(c) {
+  return c.domain === US_LAW_DOMAIN;
+}
+
+function applyUsLawFilter(cards) {
+  if (!hideUsLaw) return cards;
+  return cards.filter(c => !isUsLawCard(c));
+}
+
 function getPool() {
-  if (filter.type === 'all') return ALL_CARDS;
-  if (filter.type === 'cluster') return ALL_CARDS.filter(c => c.cluster === filter.cluster);
-  return ALL_CARDS.filter(c => c.domain === filter.domain);
+  let pool;
+  if (filter.type === 'all') pool = ALL_CARDS;
+  else if (filter.type === 'cluster') pool = ALL_CARDS.filter(c => c.cluster === filter.cluster);
+  else pool = ALL_CARDS.filter(c => c.domain === filter.domain);
+  return applyUsLawFilter(pool);
+}
+
+function loadHideUsLaw() {
+  try {
+    const v = localStorage.getItem(HIDE_US_KEY);
+    if (v === null || v === undefined) return true; // default: hide
+    return v === '1' || v === 'true';
+  } catch (_) {
+    return true;
+  }
+}
+
+function saveHideUsLaw() {
+  try {
+    localStorage.setItem(HIDE_US_KEY, hideUsLaw ? '1' : '0');
+  } catch (_) { /* ignore */ }
+}
+
+function syncHideUsLawBtn() {
+  const btn = document.getElementById('hide-us-law-btn');
+  const sub = document.getElementById('hide-us-law-sub');
+  if (!btn) return;
+  btn.classList.toggle('active', hideUsLaw);
+  btn.setAttribute('aria-pressed', hideUsLaw ? 'true' : 'false');
+  // active = US law content is hidden ("US off")
+  if (sub) sub.textContent = hideUsLaw ? 'off' : 'on';
+  btn.title = hideUsLaw
+    ? 'U.S. Employment Law is hidden (tap to show) — mặc định cho non-US'
+    : 'U.S. Employment Law is shown (tap to hide)';
+}
+
+function applyHideUsLawChange() {
+  saveHideUsLaw();
+  syncHideUsLawBtn();
+
+  // If the active filter is only US law and it's now hidden, fall back to all
+  if (hideUsLaw && filter.type === 'domain' && filter.domain === US_LAW_DOMAIN) {
+    filter = { type: 'all' };
+  }
+
+  if (appMode === 'quiz') {
+    startQuiz();
+  } else {
+    if (!restoreSession()) startDeck();
+    flipped = false;
+    saveProgress();
+    renderStudy();
+  }
+}
+
+function toggleHideUsLaw() {
+  hideUsLaw = !hideUsLaw;
+  applyHideUsLawChange();
 }
 
 function filterKey(f = filter) {
@@ -974,8 +1084,11 @@ function tagClass(cluster) {
 }
 
 function filterLabel() {
-  if (filter.type === 'all') return 'All ' + ALL_CARDS.length + ' cards';
-  if (filter.type === 'cluster') return filter.cluster + ' (all)';
+  if (filter.type === 'all') return 'All ' + getPool().length + ' cards';
+  if (filter.type === 'cluster') {
+    const n = getPool().length;
+    return filter.cluster + ' (all' + (hideUsLaw && filter.cluster === 'Workplace' ? ', US law hidden' : '') + ') · ' + n;
+  }
   return filter.domain;
 }
 
@@ -986,9 +1099,11 @@ function filterDotColor() {
 }
 
 function filterSubtitle() {
-  if (filter.type === 'all') return 'All domains — shuffled';
+  if (filter.type === 'all') {
+    return (hideUsLaw ? 'All domains · US law hidden' : 'All domains') + ' — shuffled';
+  }
   if (filter.type === 'cluster') {
-    const n = ALL_CARDS.filter(c => c.cluster === filter.cluster).length;
+    const n = getPool().length;
     return filter.cluster + ' · ' + n + ' cards';
   }
   return filter.domain;
@@ -1362,23 +1477,27 @@ function isSelected(type, key) {
   return filter.type === 'domain' && filter.domain === key;
 }
 
+function countInPool(predicate) {
+  return applyUsLawFilter(ALL_CARDS.filter(predicate)).length;
+}
+
 function renderPicker() {
   const scroll = document.getElementById('picker-scroll');
-  const allCount = ALL_CARDS.length;
+  const allCount = applyUsLawFilter(ALL_CARDS).length;
   let html = '';
 
   // All option
   const allSel = isSelected('all');
   html += `<div class="domain-item all-item ${allSel ? 'selected' : ''}" onclick="selectFilter('all','')">
     <div class="domain-dot" style="background:#565c78"></div>
-    <div class="domain-item-name" style="font-weight:500">All domains</div>
+    <div class="domain-item-name" style="font-weight:500">All domains${hideUsLaw ? ' · US law hidden' : ''}</div>
     <div class="domain-count">${allCount}</div>
   </div>`;
 
   for (const [cluster, domains] of Object.entries(STRUCTURE)) {
     const dot = CLUSTER_DOT[cluster];
     const colorClass = { Competencies:'cc', People:'cp', Organization:'co', Workplace:'cw' }[cluster];
-    const clCount = ALL_CARDS.filter(c => c.cluster === cluster).length;
+    const clCount = countInPool(c => c.cluster === cluster);
     const clSel = isSelected('cluster', cluster);
 
     // Cluster row
@@ -1391,7 +1510,15 @@ function renderPicker() {
 
     // Domain rows (indented)
     for (const d of domains) {
-      const n = ALL_CARDS.filter(c => c.domain === d).length;
+      if (hideUsLaw && d === US_LAW_DOMAIN) {
+        html += `<div class="domain-item" style="padding-left:22px;margin-bottom:2px;opacity:0.45;pointer-events:none">
+          <div class="domain-dot" style="background:${dot};width:6px;height:6px"></div>
+          <div class="domain-item-name">${d} <span style="font-size:11px;color:var(--text3)">(hidden)</span></div>
+          <div class="domain-count">—</div>
+        </div>`;
+        continue;
+      }
+      const n = countInPool(c => c.domain === d);
       const dSel = isSelected('domain', d);
       const safeD = d.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       html += `<div class="domain-item ${dSel ? 'selected' : ''}" onclick="selectFilter('domain','${safeD}')" style="padding-left:22px;margin-bottom:2px">
@@ -1410,7 +1537,13 @@ function selectFilter(type, key) {
   saveProgress();
   if (type === 'all') filter = { type: 'all' };
   else if (type === 'cluster') filter = { type: 'cluster', cluster: key };
-  else filter = { type: 'domain', domain: key };
+  else {
+    if (hideUsLaw && key === US_LAW_DOMAIN) {
+      renderPicker();
+      return;
+    }
+    filter = { type: 'domain', domain: key };
+  }
   if (!restoreSession()) startDeck();
   else saveProgress();
   if (appMode === 'quiz') startQuiz();
@@ -1465,8 +1598,14 @@ function toggleTheme() {
 // ── INIT ──
 (function init() {
   applyTheme(getTheme());
+  hideUsLaw = loadHideUsLaw();
+  syncHideUsLawBtn();
   document.documentElement.setAttribute('data-mode', 'study');
+
   const hadStorage = loadFromStorage();
+  if (hideUsLaw && filter.type === 'domain' && filter.domain === US_LAW_DOMAIN) {
+    filter = { type: 'all' };
+  }
   if (hadStorage && restoreSession()) {
     // resumed
   } else {
