@@ -520,6 +520,113 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
 .bp { background: rgba(52,211,153,0.12); border-color: rgba(52,211,153,0.3); }
 .bo { background: rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.3); }
 .bw { background: rgba(251,146,60,0.12); border-color: rgba(251,146,60,0.3); }
+
+/* ── MODE TABS ── */
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 20px 12px;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+.mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-tab.active {
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--accent-border);
+}
+.mode-tab:active { transform: scale(0.98); }
+
+/* ── QUIZ ── */
+.quiz-score-pill {
+  background: var(--accent-dim);
+  color: var(--accent-text);
+}
+.quiz-qnum {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+.quiz-opt {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.quiz-opt:active:not(:disabled) { transform: scale(0.99); }
+.quiz-opt:disabled { cursor: default; }
+.quiz-opt.correct {
+  background: var(--green-dim);
+  border-color: var(--green-border);
+  color: var(--green);
+  font-weight: 500;
+}
+.quiz-opt.wrong {
+  background: var(--red-dim);
+  border-color: var(--red-border);
+  color: var(--red);
+}
+.quiz-opt.dim { opacity: 0.55; }
+.quiz-feedback {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.quiz-feedback.ok {
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+}
+.quiz-feedback.bad {
+  background: var(--red-dim);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+}
+.quiz-feedback .fb-term {
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+.study-only-btn { display: flex; }
+html[data-mode="quiz"] .study-only-btn { display: none; }
 </style>
 </head>
 <body>
@@ -542,12 +649,12 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
               <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/>
             </svg>
           </div>
-          <div class="reshuffle-btn" onclick="resetProgress()" title="Reset progress">
+          <div class="reshuffle-btn study-only-btn" onclick="resetProgress()" title="Reset progress">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
             </svg>
           </div>
-          <div class="reshuffle-btn" onclick="reshuffle()" title="Reshuffle remaining">
+          <div class="reshuffle-btn study-only-btn" onclick="reshuffle()" title="Reshuffle remaining">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
               <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
@@ -558,23 +665,28 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
       </div>
     </div>
 
+    <div class="mode-tabs" role="tablist" aria-label="Study mode">
+      <button type="button" class="mode-tab active" id="tab-study" role="tab" aria-selected="true" onclick="setAppMode('study')">Flashcards</button>
+      <button type="button" class="mode-tab" id="tab-quiz" role="tab" aria-selected="false" onclick="setAppMode('quiz')">Quiz</button>
+    </div>
+
     <div class="filter-chip" id="filter-chip" onclick="showPicker()">
       <div class="filter-chip-dot" id="filter-chip-dot"></div>
       <span class="filter-chip-label" id="filter-chip-label">All domains</span>
       <span class="filter-chip-arrow">&#9660;</span>
     </div>
 
-    <div class="pills-row">
-      <span class="pill pill-rem"><span class="pill-dot" style="background:#60a5fa"></span><span id="p-rem">—</span> left</span>
-      <span class="pill pill-done"><span class="pill-dot" style="background:var(--green)"></span><span id="p-done">0</span> done</span>
-      <span class="pill pill-total"><span id="p-total">—</span> total</span>
+    <div class="pills-row" id="pills-row">
+      <span class="pill pill-rem"><span class="pill-dot" style="background:var(--pill-rem-text)"></span><span id="p-rem">—</span> <span id="p-rem-label">left</span></span>
+      <span class="pill pill-done" id="pill-done"><span class="pill-dot" style="background:var(--green)"></span><span id="p-done">0</span> <span id="p-done-label">done</span></span>
+      <span class="pill pill-total"><span id="p-total">—</span> <span id="p-total-label">total</span></span>
     </div>
 
     <div class="progress-bar-wrap" style="margin-bottom:14px">
       <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
 
-    <!-- Card area -->
+    <!-- Card area (Flashcards or Quiz) -->
     <div class="card-wrap" id="card-wrap">
       <div class="card" id="study-card">
         <div class="card-prompt">What is this term?</div>
@@ -614,7 +726,7 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
     <div class="picker-scroll" id="picker-scroll"></div>
 
     <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
-      <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closePicker()">Study this selection</button>
+      <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closePicker()">Use this selection</button>
     </div>
   </div>
 
@@ -687,6 +799,14 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
         </div>
       </div>
 
+      <div class="help-section">
+        <div class="help-icon" style="background:var(--accent-dim);color:var(--accent-text)">&#10070;</div>
+        <div>
+          <div class="help-title">Quiz</div>
+          <div class="help-body">Switch to <em>Quiz</em> to practice SHRM-style multiple choice: read the definition, then pick the correct term from <em>4 options</em>. Wrong choices are preferably drawn from the same domain. Needs at least 4 cards in the current filter. Score is for the current session only.</div>
+        </div>
+      </div>
+
     </div>
     <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
       <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
@@ -718,6 +838,23 @@ let deck = [], done = [], flipped = false;
 let filter = { type: 'all' };
 /** @type {Record<string, { deck: string[], done: string[] }>} */
 let sessions = {};
+
+/** @type {'study' | 'quiz'} */
+let appMode = 'study';
+
+/** Quiz session state (not persisted). */
+let quiz = {
+  queue: [],
+  pool: [],
+  index: 0,
+  total: 0,
+  correct: 0,
+  answered: 0,
+  current: null,
+  options: [],
+  selectedId: null,
+  locked: false
+};
 
 function shuffle(a) {
   const b = [...a];
@@ -859,15 +996,206 @@ function filterSubtitle() {
   return filter.domain;
 }
 
+// ── MODE ──
+function setAppMode(mode) {
+  appMode = mode === 'quiz' ? 'quiz' : 'study';
+  document.documentElement.setAttribute('data-mode', appMode);
+  const tabStudy = document.getElementById('tab-study');
+  const tabQuiz = document.getElementById('tab-quiz');
+  if (tabStudy && tabQuiz) {
+    tabStudy.classList.toggle('active', appMode === 'study');
+    tabQuiz.classList.toggle('active', appMode === 'quiz');
+    tabStudy.setAttribute('aria-selected', appMode === 'study' ? 'true' : 'false');
+    tabQuiz.setAttribute('aria-selected', appMode === 'quiz' ? 'true' : 'false');
+  }
+  if (appMode === 'quiz') startQuiz();
+  else renderStudy();
+}
+
+function renderMain() {
+  if (appMode === 'quiz') renderQuiz();
+  else renderStudy();
+}
+
+// ── QUIZ ──
+function startQuiz() {
+  const pool = getPool();
+  quiz.pool = pool.slice();
+  quiz.queue = shuffle(pool.slice());
+  quiz.total = quiz.queue.length;
+  quiz.index = 0;
+  quiz.correct = 0;
+  quiz.answered = 0;
+  quiz.current = null;
+  quiz.options = [];
+  quiz.selectedId = null;
+  quiz.locked = false;
+  nextQuizQuestion();
+}
+
+function nextQuizQuestion() {
+  quiz.selectedId = null;
+  quiz.locked = false;
+  if (quiz.queue.length === 0) {
+    quiz.current = null;
+    quiz.options = [];
+    renderQuiz();
+    scrollCardToTop();
+    return;
+  }
+  quiz.current = quiz.queue.shift();
+  quiz.index = quiz.answered + 1;
+  quiz.options = buildQuizOptions(quiz.current, quiz.pool);
+  renderQuiz();
+  scrollCardToTop();
+}
+
+function buildQuizOptions(correct, pool) {
+  const cid = cardId(correct);
+  const others = pool.filter(c => cardId(c) !== cid);
+  const sameDomain = shuffle(others.filter(c => c.domain === correct.domain));
+  const sameCluster = shuffle(others.filter(c => c.cluster === correct.cluster && c.domain !== correct.domain));
+  const rest = shuffle(others.filter(c => c.cluster !== correct.cluster));
+  const distractors = [];
+  const used = new Set();
+  function take(list, n) {
+    for (const c of list) {
+      if (distractors.length >= n) break;
+      const id = cardId(c);
+      if (used.has(id)) continue;
+      used.add(id);
+      distractors.push(c);
+    }
+  }
+  take(sameDomain, 3);
+  take(sameCluster, 3);
+  take(rest, 3);
+  if (distractors.length < 3) {
+    // Fallback if filter has few cards — allow any remaining
+    take(shuffle(others), 3);
+  }
+  return shuffle([correct, ...distractors.slice(0, 3)]);
+}
+
+function answerQuiz(optionIndex) {
+  if (quiz.locked || !quiz.current) return;
+  const opt = quiz.options[optionIndex];
+  if (!opt) return;
+  quiz.locked = true;
+  quiz.selectedId = cardId(opt);
+  quiz.answered += 1;
+  if (quiz.selectedId === cardId(quiz.current)) quiz.correct += 1;
+  renderQuiz();
+  scrollCardToBottom();
+}
+
+function renderQuiz() {
+  const pool = getPool();
+  document.getElementById('study-sub').textContent = 'Quiz · ' + filterSubtitle();
+  document.getElementById('filter-chip-dot').style.background = filterDotColor();
+  document.getElementById('filter-chip-label').textContent = filterLabel();
+
+  document.getElementById('p-rem').textContent = quiz.queue.length + (quiz.current && !quiz.locked ? 1 : 0);
+  document.getElementById('p-rem-label').textContent = 'left';
+  document.getElementById('p-done').textContent = quiz.correct + '/' + quiz.answered;
+  document.getElementById('p-done-label').textContent = 'score';
+  document.getElementById('pill-done').className = 'pill quiz-score-pill';
+  document.getElementById('p-total').textContent = quiz.total || pool.length;
+  document.getElementById('p-total-label').textContent = 'total';
+
+  const pct = quiz.total > 0 ? Math.round((quiz.answered / quiz.total) * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const cardWrap = document.getElementById('card-wrap');
+  const controls = document.getElementById('study-controls');
+
+  if (pool.length < 4) {
+    cardWrap.innerHTML = `<div class="done-card">
+      <div class="done-title">Quiz needs 4+ cards</div>
+      <div class="done-sub">Bộ lọc hiện tại chỉ có ${pool.length} card. Chọn domain/cluster rộng hơn hoặc All domains.</div>
+    </div>`;
+    controls.innerHTML = `<button class="ctrl-btn primary" onclick="showPicker()">Change filter</button>`;
+    return;
+  }
+
+  if (!quiz.current) {
+    const scorePct = quiz.answered > 0 ? Math.round((quiz.correct / quiz.answered) * 100) : 0;
+    cardWrap.innerHTML = `<div class="done-card">
+      <div class="done-icon">&#10003;</div>
+      <div class="done-title">Quiz complete!</div>
+      <div class="done-sub">Score: <strong>${quiz.correct}/${quiz.answered}</strong> (${scorePct}%).<br>Tap below to practice again with a new shuffle.</div>
+    </div>`;
+    controls.innerHTML = `
+      <button class="ctrl-btn learning" onclick="setAppMode('study')">Flashcards</button>
+      <button class="ctrl-btn primary" onclick="startQuiz()">Quiz again</button>`;
+    return;
+  }
+
+  const card = quiz.current;
+  const correctId = cardId(card);
+  const labels = ['A', 'B', 'C', 'D'];
+  let optionsHtml = '';
+  quiz.options.forEach((opt, i) => {
+    const id = cardId(opt);
+    let cls = 'quiz-opt';
+    if (quiz.locked) {
+      if (id === correctId) cls += ' correct';
+      else if (id === quiz.selectedId) cls += ' wrong';
+      else cls += ' dim';
+    }
+    optionsHtml += `<button type="button" class="${cls}" ${quiz.locked ? 'disabled' : ''} onclick="answerQuiz(${i})">
+      <strong style="opacity:0.7;margin-right:6px">${labels[i]}.</strong>${escapeHtml(opt.term)}
+    </button>`;
+  });
+
+  let feedback = '';
+  if (quiz.locked) {
+    const ok = quiz.selectedId === correctId;
+    feedback = `<div class="quiz-feedback ${ok ? 'ok' : 'bad'}">
+      ${ok ? 'Correct!' : 'Not quite.'}
+      <span class="fb-term">${escapeHtml(card.term)}</span>
+      ${card.tip ? escapeHtml(card.tip) : ''}
+    </div>`;
+  }
+
+  cardWrap.innerHTML = `<div class="card" id="quiz-card">
+    <div class="quiz-qnum">Question ${quiz.index} / ${quiz.total}</div>
+    <div class="card-prompt">Which term matches this definition?</div>
+    <div class="card-def">${escapeHtml(card.def)}</div>
+    ${card.defVi ? `<div class="card-def-vi">${escapeHtml(card.defVi)}</div>` : ''}
+    <div class="quiz-options">${optionsHtml}</div>
+    ${feedback}
+  </div>`;
+
+  if (quiz.locked) {
+    controls.innerHTML = `<button class="ctrl-btn primary" onclick="nextQuizQuestion()">${quiz.queue.length ? 'Next question' : 'See results'}</button>`;
+  } else {
+    controls.innerHTML = `<button class="ctrl-btn" style="opacity:0.5;cursor:default" disabled>Select an answer</button>`;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 // ── RENDER STUDY ──
 function renderStudy() {
+  document.documentElement.setAttribute('data-mode', 'study');
   const pool = getPool();
   const total = deck.length + done.length;
   const pct = total > 0 ? Math.round((done.length / total) * 100) : 0;
 
   document.getElementById('p-rem').textContent = deck.length;
+  document.getElementById('p-rem-label').textContent = 'left';
   document.getElementById('p-done').textContent = done.length;
+  document.getElementById('p-done-label').textContent = 'done';
+  document.getElementById('pill-done').className = 'pill pill-done';
   document.getElementById('p-total').textContent = pool.length;
+  document.getElementById('p-total-label').textContent = 'total';
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('study-sub').textContent = filterSubtitle();
 
@@ -967,12 +1295,42 @@ function renderStudy() {
 }
 
 // ── ACTIONS ──
-function doFlip() { flipped = true; renderStudy(); }
+function getCardScrollEl() {
+  return document.getElementById('study-card') || document.getElementById('quiz-card');
+}
+
+/** Scroll the study/quiz card panel to the bottom after reveal/answer. */
+function scrollCardToBottom() {
+  const run = () => {
+    const el = getCardScrollEl();
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+  };
+  // Double rAF so layout includes newly revealed content first
+  requestAnimationFrame(() => requestAnimationFrame(run));
+}
+
+/** Scroll card panel to top when moving to a new question. */
+function scrollCardToTop() {
+  const run = () => {
+    const el = getCardScrollEl();
+    if (!el) return;
+    el.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  requestAnimationFrame(() => requestAnimationFrame(run));
+}
+
+function doFlip() {
+  flipped = true;
+  renderStudy();
+  scrollCardToBottom();
+}
 function doCorrect() {
   done.push(deck.shift());
   flipped = false;
   saveProgress();
   renderStudy();
+  scrollCardToTop();
 }
 function doWrong() {
   const c = deck.shift();
@@ -981,6 +1339,7 @@ function doWrong() {
   flipped = false;
   saveProgress();
   renderStudy();
+  scrollCardToTop();
 }
 /** Re-randomize remaining cards only; keep completed. */
 function reshuffle() {
@@ -1000,12 +1359,6 @@ function showPicker() {
   document.getElementById('screen-study').classList.remove('active');
   document.getElementById('screen-picker').classList.add('active');
   renderPicker();
-}
-
-function closePicker() {
-  document.getElementById('screen-picker').classList.remove('active');
-  document.getElementById('screen-study').classList.add('active');
-  renderStudy();
 }
 
 function isSelected(type, key) {
@@ -1065,6 +1418,7 @@ function selectFilter(type, key) {
   else filter = { type: 'domain', domain: key };
   if (!restoreSession()) startDeck();
   else saveProgress();
+  if (appMode === 'quiz') startQuiz();
   renderPicker();
 }
 
@@ -1076,6 +1430,13 @@ function showHelp() {
 function closeHelp() {
   document.getElementById('screen-help').classList.remove('active');
   document.getElementById('screen-study').classList.add('active');
+  renderMain();
+}
+
+function closePicker() {
+  document.getElementById('screen-picker').classList.remove('active');
+  document.getElementById('screen-study').classList.add('active');
+  renderMain();
 }
 
 // ── THEME ──
@@ -1109,13 +1470,14 @@ function toggleTheme() {
 // ── INIT ──
 (function init() {
   applyTheme(getTheme());
+  document.documentElement.setAttribute('data-mode', 'study');
   const hadStorage = loadFromStorage();
   if (hadStorage && restoreSession()) {
     // resumed
   } else {
     startDeck();
   }
-  renderStudy();
+  renderMain();
 })();
 </script>
 </body>
