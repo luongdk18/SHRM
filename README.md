@@ -4,6 +4,10 @@ A lightweight, offline-friendly web app for studying **SHRM** (Society for Human
 
 Single static page (`index.html`). Ready for **GitHub Pages** or any static host. No build step, no backend.
 
+### Credits
+
+The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). This fork/local project extends that foundation with Vietnamese translations, scenarios, exam tips, quiz mode, progress persistence, themes, and related UX.
+
 ---
 
 ## English
@@ -98,6 +102,10 @@ Everything runs locally in your browser. No analytics, no accounts, no server-si
 
 ## Tiếng Việt
 
+### Credit / Nguồn gốc
+
+Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). Repo này phát triển thêm: dịch tiếng Việt, tình huống, tip thi, quiz, lưu tiến độ, theme, và các cải tiến UX khác.
+
 ### Tính năng
 
 | Tính năng | Mô tả |
@@ -185,5 +193,7 @@ Chạy hoàn toàn trên trình duyệt. Không analytics, không tài khoản, 
 ---
 
 ## License / Ghi chú
+
+**Upstream / initial source:** [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM) — original flashcard app that this project was copied from and extended.
 
 Nội dung flashcard phục vụ ôn thi cá nhân. Thuật ngữ và định nghĩa bám khung kiến thức SHRM; không thay thế tài liệu chính thức của SHRM.
