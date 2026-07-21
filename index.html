@@ -745,7 +745,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="help-icon" style="background:rgba(123,110,246,0.15);color:#c4b5fd">&#9654;</div>
         <div>
           <div class="help-title">Studying</div>
-          <div class="help-body">Each card shows the definition (EN + VI) and a <em>Tình huống</em> workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the <em>Tip thi</em> for exam keywords. Mark <span class="tag-wrong">Still learning</span> to see it again, or <span class="tag-right">Got it</span> when done.</div>
+          <div class="help-body">Each card shows the definition (EN + VI) and a <em>Tình huống</em> workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the <em>Tip thi</em> for exam keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.</div>
         </div>
       </div>
 
@@ -777,7 +777,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="help-icon" style="background:rgba(248,113,113,0.12);color:#f87171">&#8617;</div>
         <div>
           <div class="help-title">Still learning</div>
-          <div class="help-body">Cards marked <em>Still learning</em> are shuffled back into the remaining deck at a random position — not sent to the end — so they come back around naturally.</div>
+          <div class="help-body">Hides the term and tip, scrolls back to the top, and keeps you on the <em>same card</em> so you can try again. Does not skip to the next card — only <em>Got it</em> advances.</div>
         </div>
       </div>
 
@@ -1331,11 +1331,8 @@ function doCorrect() {
   scrollCardToTop();
 }
 function doWrong() {
-  const c = deck.shift();
-  const pos = deck.length > 1 ? Math.floor(Math.random() * (deck.length - 1)) + 1 : deck.length;
-  deck.splice(pos, 0, c);
+  // Stay on the same card: hide the answer and re-read from the top
   flipped = false;
-  saveProgress();
   renderStudy();
   scrollCardToTop();
 }
