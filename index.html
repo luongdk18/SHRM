@@ -4,70 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0f1117" id="meta-theme-color">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f0f2f7" id="meta-theme-color">
 <title>SHRM Exam Flashcards</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <script>
-/* Apply theme before paint to avoid flash */
+/* Apply theme before paint to avoid flash — default is light */
 (function () {
   try {
     var t = localStorage.getItem('shrm-flashcards-theme');
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
+    if (t !== 'light' && t !== 'dark') t = 'light';
     document.documentElement.setAttribute('data-theme', t);
   } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'light');
   }
 })();
 </script>
 <style>
 :root,
-html[data-theme="dark"] {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface2: #22263a;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --text: #f0f0f5;
-  --text2: #9096b0;
-  --text3: #565c78;
-  --accent: #7b6ef6;
-  --accent-dim: rgba(123,110,246,0.15);
-  --accent-border: rgba(123,110,246,0.4);
-  --accent-text: #c4b5fd;
-  --green: #34d399;
-  --green-dim: rgba(52,211,153,0.12);
-  --green-border: rgba(52,211,153,0.35);
-  --red: #f87171;
-  --red-dim: rgba(248,113,113,0.12);
-  --red-border: rgba(248,113,113,0.35);
-  --amber: #fbbf24;
-  --cluster-c: #a78bfa;
-  --cluster-p: #34d399;
-  --cluster-o: #60a5fa;
-  --cluster-w: #fb923c;
-  --def-vi: #e8eaf2;
-  --scenario-bg: rgba(96, 165, 250, 0.12);
-  --scenario-border: rgba(96, 165, 250, 0.32);
-  --scenario-text: #e8f0ff;
-  --scenario-label: #93c5fd;
-  --tip-bg: rgba(251, 191, 36, 0.12);
-  --tip-border: rgba(251, 191, 36, 0.35);
-  --tip-text: #fff6d6;
-  --tip-label: #fcd34d;
-  --pill-rem-bg: rgba(96,165,250,0.12);
-  --pill-rem-text: #60a5fa;
-  --pill-total-bg: rgba(255,255,255,0.06);
-  --theme-meta: #0f1117;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-}
-
 html[data-theme="light"] {
   --bg: #f0f2f7;
   --surface: #ffffff;
@@ -92,7 +48,7 @@ html[data-theme="light"] {
   --cluster-p: #059669;
   --cluster-o: #2563eb;
   --cluster-w: #ea580c;
-  --def-vi: #2a3048;
+  --def-vi: #5b4cdb;
   --scenario-bg: rgba(37, 99, 235, 0.08);
   --scenario-border: rgba(37, 99, 235, 0.22);
   --scenario-text: #1e3a5f;
@@ -105,6 +61,48 @@ html[data-theme="light"] {
   --pill-rem-text: #2563eb;
   --pill-total-bg: rgba(15,17,23,0.05);
   --theme-meta: #f0f2f7;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html[data-theme="dark"] {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0f0f5;
+  --text2: #9096b0;
+  --text3: #565c78;
+  --accent: #7b6ef6;
+  --accent-dim: rgba(123,110,246,0.15);
+  --accent-border: rgba(123,110,246,0.4);
+  --accent-text: #c4b5fd;
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --green-border: rgba(52,211,153,0.35);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --red-border: rgba(248,113,113,0.35);
+  --amber: #fbbf24;
+  --cluster-c: #a78bfa;
+  --cluster-p: #34d399;
+  --cluster-o: #60a5fa;
+  --cluster-w: #fb923c;
+  --def-vi: #c4b5fd;
+  --scenario-bg: rgba(96, 165, 250, 0.12);
+  --scenario-border: rgba(96, 165, 250, 0.32);
+  --scenario-text: #e8f0ff;
+  --scenario-label: #93c5fd;
+  --tip-bg: rgba(251, 191, 36, 0.12);
+  --tip-border: rgba(251, 191, 36, 0.35);
+  --tip-text: #fff6d6;
+  --tip-label: #fcd34d;
+  --pill-rem-bg: rgba(96,165,250,0.12);
+  --pill-rem-text: #60a5fa;
+  --pill-total-bg: rgba(255,255,255,0.06);
+  --theme-meta: #0f1117;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -1454,7 +1452,7 @@ function applyTheme(theme) {
   if (meta) {
     const bg = getComputedStyle(document.documentElement).getPropertyValue('--theme-meta').trim()
       || getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-    meta.setAttribute('content', bg || (t === 'light' ? '#f0f2f7' : '#0f1117'));
+    meta.setAttribute('content', bg || (t === 'dark' ? '#0f1117' : '#f0f2f7'));
   }
   const btn = document.getElementById('theme-btn');
   if (btn) {
