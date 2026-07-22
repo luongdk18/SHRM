@@ -18,8 +18,8 @@ The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https
 |--------|-------------|
 | **392 flashcards** | SHRM terms across 4 clusters and 22 domains |
 | **Bilingual definitions** | English definition + Vietnamese translation |
-| **Scenario** | Short workplace vignette for each term |
-| **Exam tips** | Exam recognition keywords and common confusions |
+| **Tình huống (Scenario)** | Short workplace vignette for each term |
+| **Mẹo thi (Exam tips)** | Exam recognition keywords and common confusions |
 | **Flashcards mode** | Recall term from definition → reveal → self-rate |
 | **Quiz mode** | Definition + 4 answer choices (A–D) |
 | **Filters** | All cards, by cluster, or by domain |
@@ -46,9 +46,9 @@ No install or build required.
 
 ### Flashcards mode
 
-1. Read the **English definition**, **Vietnamese** text, and **scenario**.
+1. Read the **English definition**, **Vietnamese** text, and **Tình huống (Scenario)**.
 2. Try to recall the term, then tap **Reveal term**.
-3. After reveal, read the **term**, domain tag, and **Exam tips**.
+3. After reveal, read the **term**, domain tag, and **Mẹo thi (Exam tips)**.
 4. Rate yourself:
    - **Still learning** — hide the answer, stay on the **same card**, scroll to the top so you can try again.
    - **Got it** — mark as done and move to the **next card**.

@@ -732,7 +732,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
           <div class="card-term" id="card-term"></div>
           <div class="card-domain-tag" id="card-tag"></div>
           <div class="card-extra card-tip" id="card-tip" style="display:none">
-            <div class="card-extra-label">Exam tips</div>
+            <div class="card-extra-label">Mẹo thi</div>
             <div id="card-tip-text"></div>
           </div>
         </div>
@@ -778,7 +778,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="help-icon" style="background:rgba(123,110,246,0.15);color:#c4b5fd">&#9654;</div>
         <div>
           <div class="help-title">Studying</div>
-          <div class="help-body">Each card shows the definition (EN + VI) and a <em>Tình huống</em> workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the <em>Exam tips</em> for exam keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.</div>
+          <div class="help-body">Each card shows the definition (EN + VI) and a <em>Tình huống</em> workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the <em>Mẹo thi</em> for exam keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.</div>
         </div>
       </div>
 
@@ -1087,7 +1087,7 @@ function filterLabel() {
   if (filter.type === 'all') return 'All ' + getPool().length + ' cards';
   if (filter.type === 'cluster') {
     const n = getPool().length;
-    return filter.cluster + ' (all' + (hideUsLaw && filter.cluster === 'Workplace' ? ', US law hidden' : '') + ') · ' + n;
+    return filter.cluster + ' (all' + (hideUsLaw && filter.cluster === 'Workplace' ? ', non-US' : '') + ') · ' + n;
   }
   return filter.domain;
 }
@@ -1100,7 +1100,7 @@ function filterDotColor() {
 
 function filterSubtitle() {
   if (filter.type === 'all') {
-    return (hideUsLaw ? 'All domains · US law hidden' : 'All domains') + ' — shuffled';
+    return (hideUsLaw ? 'All domains (non-US)' : 'All domains') + ' — shuffled';
   }
   if (filter.type === 'cluster') {
     const n = getPool().length;
@@ -1354,7 +1354,7 @@ function renderStudy() {
         <div class="card-term" id="card-term"></div>
         <div class="card-domain-tag" id="card-tag"></div>
         <div class="card-extra card-tip" id="card-tip" style="display:none">
-          <div class="card-extra-label">Exam tips</div>
+          <div class="card-extra-label">Mẹo thi</div>
           <div id="card-tip-text"></div>
         </div>
       </div>
@@ -1490,7 +1490,7 @@ function renderPicker() {
   const allSel = isSelected('all');
   html += `<div class="domain-item all-item ${allSel ? 'selected' : ''}" onclick="selectFilter('all','')">
     <div class="domain-dot" style="background:#565c78"></div>
-    <div class="domain-item-name" style="font-weight:500">All domains${hideUsLaw ? ' · US law hidden' : ''}</div>
+    <div class="domain-item-name" style="font-weight:500">All domains${hideUsLaw ? ' · non-US' : ''}</div>
     <div class="domain-count">${allCount}</div>
   </div>`;
 
