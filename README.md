@@ -18,8 +18,8 @@ The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https
 |--------|-------------|
 | **392 flashcards** | SHRM terms across 4 clusters and 22 domains |
 | **Bilingual definitions** | English definition + Vietnamese translation |
-| **Tình huống (scenario)** | Short workplace vignette for each term |
-| **Tip thi** | Exam recognition keywords and common confusions |
+| **Scenario** | Short workplace vignette for each term |
+| **Exam tips** | Exam recognition keywords and common confusions |
 | **Flashcards mode** | Recall term from definition → reveal → self-rate |
 | **Quiz mode** | Definition + 4 answer choices (A–D) |
 | **Filters** | All cards, by cluster, or by domain |
@@ -48,7 +48,7 @@ No install or build required.
 
 1. Read the **English definition**, **Vietnamese** text, and **scenario**.
 2. Try to recall the term, then tap **Reveal term**.
-3. After reveal, read the **term**, domain tag, and **Tip thi**.
+3. After reveal, read the **term**, domain tag, and **Exam tips**.
 4. Rate yourself:
    - **Still learning** — hide the answer, stay on the **same card**, scroll to the top so you can try again.
    - **Got it** — mark as done and move to the **next card**.
@@ -106,7 +106,7 @@ Everything runs locally in your browser. No analytics, no accounts, no server-si
 
 ### Credit / Nguồn gốc
 
-Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). Repo này phát triển thêm: dịch tiếng Việt, tình huống, tip thi, quiz, lưu tiến độ, theme, và các cải tiến UX khác.
+Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). Repo này phát triển thêm: dịch tiếng Việt, tình huống, mẹo thi, quiz, lưu tiến độ, theme, và các cải tiến UX khác.
 
 ### Tính năng
 
@@ -115,7 +115,7 @@ Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://githu
 | **392 flashcard** | Thuật ngữ SHRM theo 4 cluster và 22 domain |
 | **Song ngữ** | Định nghĩa tiếng Anh + bản dịch tiếng Việt |
 | **Tình huống** | Vignette thực tế HR gắn với từng term |
-| **Tip thi** | Từ khóa nhận diện + hay nhầm với term nào |
+| **Mẹo thi** | Từ khóa nhận diện + hay nhầm với term nào |
 | **Chế độ Flashcards** | Nhìn definition → đoán term → tự chấm |
 | **Chế độ Quiz** | Definition + 4 đáp án A–D |
 | **Bộ lọc** | Tất cả / theo cluster / theo domain |
@@ -142,7 +142,7 @@ Bản **flashcard ban đầu** lấy từ (copy) [cjfisher71/SHRM](https://githu
 
 1. Đọc **definition EN**, **bản Việt**, và **Tình huống**.
 2. Tự nhớ term, rồi bấm **Reveal term**.
-3. Xem **term**, domain, và **Tip thi**.
+3. Xem **term**, domain, và **Mẹo thi**.
 4. Tự đánh giá:
    - **Still learning** — ẩn đáp án, **ở lại card hiện tại**, cuộn lên đầu để ôn lại.
    - **Got it** — đánh dấu xong và **sang card tiếp theo**.
@@ -159,7 +159,7 @@ Các nút khác:
 1. Chọn tab **Quiz**.
 2. Đọc definition (EN + VI).
 3. Chọn term đúng trong **4 đáp án**.
-4. Xem đúng/sai + tip thi, rồi **Next question**.
+4. Xem đúng/sai + mẹo thi, rồi **Next question**.
 
 Lưu ý:
 
