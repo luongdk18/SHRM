@@ -663,6 +663,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
 
 
 
+
 /* ── NEW QUIZ STYLES ── */
 .quiz-header-row {
   display: flex;
@@ -670,17 +671,47 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
   justify-content: space-between;
   margin-bottom: 12px;
 }
+.quiz-filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.quiz-mode-chip {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.quiz-mode-chip.active {
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  border-color: var(--accent-border);
+  font-weight: 600;
+}
 .quiz-type-badge {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 4px;
   display: inline-block;
+}
+.quiz-type-badge.sjt {
   background: var(--accent-dim);
   color: var(--accent-text);
   border: 1px solid var(--accent-border);
+}
+.quiz-type-badge.knowledge {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid var(--green-border);
 }
 .quiz-vi-toggle-btn {
   font-size: 11px;
@@ -1365,8 +1396,17 @@ function toggleQuizVi() {
   renderQuiz();
 }
 
+function setQuizFilterType(type) {
+  quiz.filterType = type;
+  startQuiz();
+}
+
 function startQuiz() {
-  const pool = shuffle(QUIZ_DATA.slice());
+  let source = QUIZ_DATA;
+  if (quiz.filterType === 'sjt') {
+    source = QUIZ_DATA.filter(q => q.type === 'sjt');
+  }
+  const pool = shuffle(source.slice());
   quiz.pool = pool;
   quiz.queue = pool.slice();
   quiz.index = 0;
@@ -1382,7 +1422,6 @@ function nextQuizQuestion() {
   quiz.selected = -1;
   quiz.locked = false;
   
-  // Endless loop: if queue runs out, reshuffle entire pool
   if (quiz.queue.length === 0) {
     quiz.queue = shuffle(quiz.pool.slice());
   }
@@ -1405,10 +1444,12 @@ function answerQuiz(optionIndex) {
 
 function renderQuiz() {
   const accuracy = quiz.answered > 0 ? Math.round((quiz.correct / quiz.answered) * 100) : 0;
+  const sjtCount = QUIZ_DATA.filter(q => q.type === 'sjt').length;
+  const totalCount = QUIZ_DATA.length;
   
-  document.getElementById('study-sub').textContent = `SJT Practice · Endless Mode (${QUIZ_DATA.length} Scenarios)`;
+  document.getElementById('study-sub').textContent = `SHRM Exam Prep · Endless Mode (${quiz.pool.length} Qs)`;
   document.getElementById('filter-chip-dot').style.background = 'var(--accent)';
-  document.getElementById('filter-chip-label').textContent = 'SHRM Endless SJT Practice';
+  document.getElementById('filter-chip-label').textContent = quiz.filterType === 'sjt' ? 'SHRM SJT Scenarios Only' : 'SHRM Full Exam Bank';
 
   document.getElementById('p-rem').textContent = quiz.answered;
   document.getElementById('p-rem-label').textContent = 'answered';
@@ -1424,6 +1465,7 @@ function renderQuiz() {
   const controls = document.getElementById('study-controls');
 
   const q = quiz.current;
+  const isSjt = q.type === 'sjt';
   const labels = ['A', 'B', 'C', 'D'];
   
   let optionsHtml = '';
@@ -1454,7 +1496,7 @@ function renderQuiz() {
     </div>`;
   }
 
-  const scenarioHtml = (q.scenario || q.scenarioVi) ? `
+  const scenarioHtml = isSjt && (q.scenario || q.scenarioVi) ? `
     <div class="quiz-scenario-box">
       <div class="quiz-scenario-title">Tình huống / Scenario</div>
       ${q.scenario ? `<div class="quiz-scenario-en">${escapeHtml(q.scenario)}</div>` : ''}
@@ -1471,8 +1513,17 @@ function renderQuiz() {
         <button type="button" class="quiz-vi-toggle-btn ${quiz.showVi ? 'active' : ''}" onclick="toggleQuizVi()">
           🇻🇳 ${quiz.showVi ? 'Đang hiện VN' : 'Hiện VN'}
         </button>
-        <span class="quiz-type-badge sjt">SJT Tình Huống</span>
+        <span class="quiz-type-badge ${isSjt ? 'sjt' : 'knowledge'}">${isSjt ? 'SJT Tình Huống' : 'Lý Thuyết / Năng Lực'}</span>
       </div>
+    </div>
+
+    <div class="quiz-filter-row">
+      <button type="button" class="quiz-mode-chip ${quiz.filterType === 'all' ? 'active' : ''}" onclick="setQuizFilterType('all')">
+        📚 Tất cả (${totalCount} câu)
+      </button>
+      <button type="button" class="quiz-mode-chip ${quiz.filterType === 'sjt' ? 'active' : ''}" onclick="setQuizFilterType('sjt')">
+        🎯 Chỉ SJT Tình Huống (${sjtCount} câu)
+      </button>
     </div>
 
     ${scenarioHtml}
