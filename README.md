@@ -64,6 +64,7 @@ The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https
 │   ├── cards.json          # Same payload as cards.js (tooling / export)
 │   ├── quiz.js             # 307 quiz questions (QUIZ_DATA)
 │   └── quiz.json           # Same payload as quiz.js (tooling / export)
+├── skills/                 # Platform engineering & pedagogical skills directory
 ├── fix_quiz.js             # Maintenance script for quiz quality passes
 └── README.md               # Documentation
 ```
