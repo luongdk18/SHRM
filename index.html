@@ -523,6 +523,135 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
 .bo { background: rgba(96,165,250,0.12); border-color: rgba(96,165,250,0.3); }
 .bw { background: rgba(251,146,60,0.12); border-color: rgba(251,146,60,0.3); }
 
+/* ── CREDITS & ABOUT CARD ── */
+.credits-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.credits-header {
+  margin-bottom: 12px;
+}
+.credits-badge {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent-dim);
+  color: var(--accent-text);
+  margin-bottom: 6px;
+}
+.credits-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 3px;
+  font-weight: 400;
+}
+.credits-desc {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+.credits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.credit-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  align-items: flex-start;
+}
+.credit-item.highlight {
+  border-color: var(--accent-border);
+  background: var(--accent-dim);
+}
+.credit-item-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  color: var(--text);
+  margin-top: 1px;
+}
+.credit-item-body {
+  flex: 1;
+  min-width: 0;
+}
+.credit-item-role {
+  font-size: 10.5px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.credit-item-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  margin: 1px 0 2px;
+}
+.credit-item-name a {
+  color: var(--accent-text);
+  text-decoration: none;
+  font-weight: 500;
+}
+.credit-item-name a:hover {
+  text-decoration: underline;
+}
+.credit-item-note {
+  font-size: 11.5px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+.card-footer-credit {
+  margin-top: 22px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.5;
+}
+.card-footer-credit a {
+  color: var(--accent-text);
+  text-decoration: none;
+  font-weight: 400;
+}
+.card-footer-credit a:hover {
+  text-decoration: underline;
+}
+.done-credits {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+.done-credits a {
+  color: var(--accent-text);
+  text-decoration: none;
+}
+.done-credits a:hover {
+  text-decoration: underline;
+}
+
 /* ── MODE TABS ── */
 .mode-tabs {
   display: flex;
@@ -949,7 +1078,12 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
               <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
             </svg>
           </div>
-          <div class="reshuffle-btn" onclick="showHelp()" title="Help" style="font-size:15px;font-weight:500;color:var(--text2)">?</div>
+          <a class="reshuffle-btn" href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer" title="View on GitHub (luongdk18/SHRM)" aria-label="GitHub Repository" style="text-decoration:none;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
+          <div class="reshuffle-btn" onclick="showHelp()" title="About &amp; Help" style="font-size:15px;font-weight:500;color:var(--text2)">?</div>
         </div>
       </div>
     </div>
@@ -994,6 +1128,11 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
             <div id="card-tip-text"></div>
           </div>
         </div>
+        <div class="card-footer-credit">
+          Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
+          <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+          Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
+        </div>
       </div>
     </div>
 
@@ -1024,13 +1163,63 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
     <div class="header">
       <div class="header-row">
         <div>
-          <div class="header-title">How to use</div>
-          <div class="header-sub">Quick reference</div>
+          <div class="header-title">About &amp; How to use</div>
+          <div class="header-sub">Project credits &amp; quick reference</div>
         </div>
         <div class="back-btn" onclick="closeHelp()">&#x2715;</div>
       </div>
     </div>
     <div class="picker-scroll" style="padding:0 20px 20px">
+
+      <!-- CREDITS & PROJECT INFO CARD -->
+      <div class="credits-card">
+        <div class="credits-header">
+          <div class="credits-badge">Open Source Study Platform</div>
+          <div class="credits-title">SHRM Exam Prep &amp; Endless Quiz</div>
+          <div class="credits-desc">Bilingual (EN + VI) · 392 Flashcards · 307 Scenario &amp; Competency Questions</div>
+        </div>
+
+        <div class="credits-list">
+          <div class="credit-item highlight">
+            <div class="credit-item-icon">👨‍💻</div>
+            <div class="credit-item-body">
+              <div class="credit-item-role">Enhanced &amp; Maintained by</div>
+              <div class="credit-item-name">
+                <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan (luongdoan.top) &#x2197;</a>
+              </div>
+              <div class="credit-item-note">
+                Bản dịch song ngữ Anh - Việt, kịch bản tình huống thực tế, mẹo thi, ngân hàng 307 câu Endless Quiz (175 SJT + 132 Lý thuyết) với phương án nhiễu tinh tế, xáo phương án runtime và tối ưu giao diện.
+              </div>
+            </div>
+          </div>
+
+          <div class="credit-item">
+            <div class="credit-item-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </div>
+            <div class="credit-item-body">
+              <div class="credit-item-role">GitHub Repository</div>
+              <div class="credit-item-name">
+                <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">luongdk18/SHRM &#x2197;</a>
+              </div>
+              <div class="credit-item-note">Mã nguồn mở đầy đủ trên GitHub, sẵn sàng triển khai trên GitHub Pages.</div>
+            </div>
+          </div>
+
+          <div class="credit-item">
+            <div class="credit-item-icon">&#x1F331;</div>
+            <div class="credit-item-body">
+              <div class="credit-item-role">Original Foundation (Dự án gốc)</div>
+              <div class="credit-item-name">
+                <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM &#x2197;</a>
+              </div>
+              <div class="credit-item-note">Ứng dụng thẻ ghi nhớ ban đầu được kế thừa từ dự án mã nguồn mở của tác giả cjfisher71.</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="help-section">
         <div class="help-icon" style="background:rgba(123,110,246,0.15);color:#c4b5fd">&#9654;</div>
@@ -1555,6 +1744,11 @@ function renderQuiz() {
     ${qViHtml}
     <div class="quiz-options">${optionsHtml}</div>
     ${feedbackHtml}
+    <div class="card-footer-credit">
+      Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
+      <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+      Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
+    </div>
   </div>`;
 
   if (quiz.locked) {
@@ -1601,6 +1795,11 @@ function renderStudy() {
       <div class="done-icon">&#10003;</div>
       <div class="done-title">All done!</div>
       <div class="done-sub">You completed all ${done.length} cards in this set. Progress is saved — you can come back anytime.</div>
+      <div class="done-credits">
+        Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan (luongdoan.top)</a> · 
+        <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub: luongdk18/SHRM</a> · 
+        Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
+      </div>
     </div>`;
     controls.innerHTML = `<button class="ctrl-btn primary" onclick="studyAgain()">Study again</button>`;
     return;
@@ -1634,6 +1833,11 @@ function renderStudy() {
           <div class="card-extra-label">Mẹo thi</div>
           <div id="card-tip-text"></div>
         </div>
+      </div>
+      <div class="card-footer-credit">
+        Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
+        <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+        Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
       </div>
     </div>`;
   }

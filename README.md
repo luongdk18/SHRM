@@ -4,9 +4,11 @@ A lightweight, offline-friendly web app for studying **SHRM** (Society for Human
 
 Static site (`index.html` + `data/*.js`). Ready for **GitHub Pages** or any static host. No build step, no backend. Open `index.html` directly or deploy the whole folder (relative `data/` scripts load automatically).
 
-### Credits
+### Credits & Author
 
-The **initial flashcard app** was based on (copied from) [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). This project extends that foundation with Vietnamese translations, detailed workplace scenarios, exam tips, an **Endless Quiz Bank (307 SHRM-style questions)** with high-plausibility distractors and runtime option shuffling, progress persistence, responsive layout, and enhanced UX.
+- **Maintained & Enhanced by**: **Luong Doan** ([luongdoan.top](https://luongdoan.top))
+- **GitHub Repository**: [luongdk18/SHRM](https://github.com/luongdk18/SHRM)
+- **Original Project Foundation**: The **initial flashcard app** was based on [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). This project extends that foundation with full Vietnamese translations, detailed workplace scenarios, exam tips, an **Endless Quiz Bank (307 SHRM-style questions)** with high-plausibility distractors, runtime option shuffling, progress persistence, responsive layout, and enhanced UX.
 
 ---
 
@@ -74,6 +76,12 @@ Data is loaded via `<script src="data/cards.js">` and `<script src="data/quiz.js
 ---
 
 ## Tiếng Việt
+
+### Tác giả & Đóng góp (Credits)
+
+- **Tác giả phát triển & Cải tiến**: **Luong Doan** ([luongdoan.top](https://luongdoan.top))
+- **Kho mã nguồn GitHub**: [luongdk18/SHRM](https://github.com/luongdk18/SHRM)
+- **Dự án gốc**: Bộ flashcard ban đầu kế thừa từ [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). Phiên bản này mở rộng toàn diện với bản dịch song ngữ Anh - Việt, kịch bản tình huống thực tế, mẹo thi, ngân hàng Endless Quiz 307 câu hỏi SHRM BASK, phương án nhiễu tinh tế, xáo phương án runtime và giao diện tối ưu.
 
 ### Tính năng chính
 
