@@ -334,7 +334,7 @@ html, body {
 
 /* ── CONTROLS ── */
 .controls {
-  padding: 8px 12px calc(10px + var(--safe-bottom));
+  padding: 6px 12px 4px;
   display: flex;
   gap: 10px;
   flex-shrink: 0;
@@ -619,22 +619,29 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
   color: var(--text2);
   line-height: 1.4;
 }
-.card-footer-credit {
-  margin-top: 22px;
-  padding-top: 10px;
-  border-top: 1px dashed var(--border);
+.app-footer {
+  text-align: center;
   font-size: 11px;
   color: var(--text3);
-  text-align: center;
-  line-height: 1.5;
+  padding: 0 16px max(6px, var(--safe-bottom));
+  margin-top: -2px;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+  line-height: 1.4;
 }
-.card-footer-credit a {
-  color: var(--accent-text);
+.app-footer a {
+  color: var(--text2);
   text-decoration: none;
   font-weight: 400;
+  transition: color 0.15s;
 }
-.card-footer-credit a:hover {
+.app-footer a:hover {
+  color: var(--accent-text);
   text-decoration: underline;
+}
+.app-footer-sep {
+  margin: 0 5px;
+  opacity: 0.45;
 }
 .done-credits {
   margin-top: 14px;
@@ -988,7 +995,11 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
     padding: 28px 28px 24px;
   }
   .controls {
-    padding: 18px 32px calc(24px + var(--safe-bottom));
+    padding: 14px 32px 8px;
+  }
+  .app-footer {
+    padding: 0 32px max(14px, var(--safe-bottom));
+    font-size: 12px;
   }
   .ctrl-btn {
     padding: 16px 14px;
@@ -1128,15 +1139,17 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
             <div id="card-tip-text"></div>
           </div>
         </div>
-        <div class="card-footer-credit">
-          Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
-          <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-          Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
-        </div>
       </div>
     </div>
 
     <div class="controls" id="study-controls"></div>
+    <div class="app-footer">
+      <span>Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a></span>
+      <span class="app-footer-sep">·</span>
+      <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <span class="app-footer-sep">·</span>
+      <span>Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71</a></span>
+    </div>
   </div>
 
   <!-- PICKER SCREEN -->
@@ -1744,11 +1757,6 @@ function renderQuiz() {
     ${qViHtml}
     <div class="quiz-options">${optionsHtml}</div>
     ${feedbackHtml}
-    <div class="card-footer-credit">
-      Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
-      <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-      Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
-    </div>
   </div>`;
 
   if (quiz.locked) {
@@ -1833,11 +1841,6 @@ function renderStudy() {
           <div class="card-extra-label">Mẹo thi</div>
           <div id="card-tip-text"></div>
         </div>
-      </div>
-      <div class="card-footer-credit">
-        Enhanced by <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan</a> · 
-        <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-        Based on <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM</a>
       </div>
     </div>`;
   }
