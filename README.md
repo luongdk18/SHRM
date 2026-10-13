@@ -10,6 +10,9 @@ Static site (`index.html` + `data/*.js`). Ready for **GitHub Pages** or any stat
 - **GitHub Repository**: [luongdk18/SHRM](https://github.com/luongdk18/SHRM)
 - **Original Project Foundation**: The **initial flashcard app** was based on [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). This project extends that foundation with full Vietnamese translations, detailed workplace scenarios, exam tips, an **Endless Quiz Bank (307 SHRM-style questions)** with high-plausibility distractors, runtime option shuffling, progress persistence, responsive layout, and enhanced UX.
 
+> [!NOTE]
+> **Disclaimer & Trademark Notice**: SHRM® is a registered trademark of the Society for Human Resource Management. This application is an independent, open-source educational study tool created solely for personal learning and exam preparation. It is not affiliated with, sponsored by, endorsed by, or certified by the Society for Human Resource Management (SHRM).
+
 ---
 
 ## English
@@ -82,6 +85,9 @@ Data is loaded via `<script src="data/cards.js">` and `<script src="data/quiz.js
 - **Tác giả phát triển & Cải tiến**: **Luong Doan** ([luongdoan.top](https://luongdoan.top))
 - **Kho mã nguồn GitHub**: [luongdk18/SHRM](https://github.com/luongdk18/SHRM)
 - **Dự án gốc**: Bộ flashcard ban đầu kế thừa từ [cjfisher71/SHRM](https://github.com/cjfisher71/SHRM). Phiên bản này mở rộng toàn diện với bản dịch song ngữ Anh - Việt, kịch bản tình huống thực tế, mẹo thi, ngân hàng Endless Quiz 307 câu hỏi SHRM BASK, phương án nhiễu tinh tế, xáo phương án runtime và giao diện tối ưu.
+
+> [!NOTE]
+> **Tuyên bố miễn trừ trách nhiệm**: SHRM® là nhãn hiệu đã đăng ký của Society for Human Resource Management. Ứng dụng này là công cụ học tập độc lập, phi thương mại phục vụ mục đích tự học, ôn tập cá nhân và hoàn toàn không liên kết, không được tài trợ, bảo trợ hay chứng thực bởi tổ chức SHRM.
 
 ### Tính năng chính
 

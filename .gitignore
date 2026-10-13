@@ -1,0 +1,17 @@
+# Ignore raw PDF sources
+*.pdf
+*.PDF
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Temporary scratch files
+scratch/
