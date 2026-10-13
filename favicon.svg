@@ -19,6 +19,6 @@
   <path d="M 43 29.5 L 43 40" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
   <circle cx="43" cy="42" r="2" fill="#f59e0b"/>
 
-  <!-- Luminous Green Accent Dot -->
-  <circle cx="48" cy="18" r="3.5" fill="#10b981"/>
+  <!-- Warm Golden Amber Accent Dot -->
+  <circle cx="48" cy="18" r="3.5" fill="#f59e0b"/>
 </svg>
