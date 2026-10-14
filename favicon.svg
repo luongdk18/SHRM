@@ -4,18 +4,12 @@
       <stop offset="0%" stop-color="#4f46e5"/>
       <stop offset="100%" stop-color="#7c3aed"/>
     </linearGradient>
-    <filter id="shrmShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.12"/>
-    </filter>
   </defs>
-
-  <!-- Bright White Squircle Base -->
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#ffffff" filter="url(#shrmShadow)"/>
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="url(#shrmGrad)" stroke-width="2.5"/>
-
-  <!-- Graduation Cap (Mortarboard) - Centered, No Dot -->
-  <path d="M 32 21 L 48 28.5 L 32 36 L 16 28.5 Z" fill="url(#shrmGrad)"/>
-  <path d="M 23 33.5 L 23 42 C 23 47 41 47 41 42 L 41 33.5" fill="none" stroke="url(#shrmGrad)" stroke-width="2.8" stroke-linecap="round"/>
-  <path d="M 48 28.5 L 48 41" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
-  <circle cx="48" cy="43" r="2.2" fill="#f59e0b"/>
+  <g transform="translate(32, 33) scale(1.35) translate(-32, -33)">
+    <!-- Graduation Cap (Mortarboard) - Centered, No Dot -->
+    <path d="M 32 21 L 48 28.5 L 32 36 L 16 28.5 Z" fill="url(#shrmGrad)"/>
+    <path d="M 23 33.5 L 23 42 C 23 47 41 47 41 42 L 41 33.5" fill="none" stroke="url(#shrmGrad)" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M 48 28.5 L 48 41" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="48" cy="43" r="2.2" fill="#f59e0b"/>
+  </g>
 </svg>
