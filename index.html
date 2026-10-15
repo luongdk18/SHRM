@@ -1255,7 +1255,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="credits-header">
           <div class="credits-badge">Open Source Study Platform</div>
           <div class="credits-title">SHRM Exam Prep &amp; Endless Quiz</div>
-          <div class="credits-desc">Bilingual (EN + VI) · 392 Flashcards · 307 Scenario &amp; Competency Questions</div>
+          <div class="credits-desc" id="help-credits-sub">Bilingual (EN + VI) · 392 Flashcards · 307 Scenario &amp; Competency Questions</div>
         </div>
 
         <div class="credits-list">
@@ -1266,8 +1266,8 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
               <div class="credit-item-name">
                 <a href="https://luongdoan.top" target="_blank" rel="noopener noreferrer">Luong Doan (luongdoan.top) &#x2197;</a>
               </div>
-              <div class="credit-item-note">
-                Bản dịch song ngữ Anh - Việt, kịch bản tình huống thực tế, mẹo thi, ngân hàng 307 câu Endless Quiz (175 SJT + 132 Lý thuyết) với phương án nhiễu tinh tế, xáo phương án runtime và tối ưu giao diện.
+              <div class="credit-item-note" id="help-author-note">
+                Bilingual (EN + VI) edition featuring authentic workplace vignettes, exam tips, and 307 SHRM-style questions with runtime option shuffling.
               </div>
             </div>
           </div>
@@ -1283,25 +1283,25 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
               <div class="credit-item-name">
                 <a href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer">luongdk18/SHRM &#x2197;</a>
               </div>
-              <div class="credit-item-note">Mã nguồn mở đầy đủ trên GitHub, sẵn sàng triển khai trên GitHub Pages.</div>
+              <div class="credit-item-note" id="help-github-note">Open-source codebase on GitHub, ready for instant static deployment on GitHub Pages.</div>
             </div>
           </div>
 
           <div class="credit-item">
             <div class="credit-item-icon">&#x1F331;</div>
             <div class="credit-item-body">
-              <div class="credit-item-role">Original Foundation (Dự án gốc)</div>
+              <div class="credit-item-role" id="help-foundation-role">Original Foundation (Dự án gốc)</div>
               <div class="credit-item-name">
                 <a href="https://github.com/cjfisher71/SHRM" target="_blank" rel="noopener noreferrer">cjfisher71/SHRM &#x2197;</a>
               </div>
-              <div class="credit-item-note">Ứng dụng thẻ ghi nhớ ban đầu được kế thừa từ dự án mã nguồn mở của tác giả cjfisher71.</div>
+              <div class="credit-item-note" id="help-foundation-note">Initial flashcard engine inherited from the open-source project by cjfisher71.</div>
             </div>
           </div>
 
           <div class="credits-disclaimer">
             <div style="font-weight:500;color:var(--text);margin-bottom:3px;">Trademark &amp; Non-Affiliation Notice</div>
             SHRM® is a registered trademark of the Society for Human Resource Management. This open-source project is an independent educational tool created solely for personal study and exam preparation. It is not affiliated with, endorsed, sponsored, or certified by the Society for Human Resource Management.
-            <div style="margin-top:6px;opacity:0.9;">
+            <div id="help-disclaimer-vi" style="margin-top:6px;opacity:0.9;">
               <em>Tuyên bố miễn trừ:</em> SHRM® là nhãn hiệu đã đăng ký của Society for Human Resource Management. Ứng dụng này là công cụ học tập độc lập, phi thương mại phục vụ ôn tập cá nhân và không liên kết, không được tài trợ hay chứng thực bởi tổ chức SHRM.
             </div>
           </div>
@@ -1312,7 +1312,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="help-icon" style="background:rgba(123,110,246,0.15);color:#c4b5fd">&#9654;</div>
         <div>
           <div class="help-title">Studying</div>
-          <div class="help-body">Each card shows the definition (EN + VI) and a <em>Tình huống</em> workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the <em>Mẹo thi</em> for exam keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.</div>
+          <div class="help-body" id="help-studying-body">Each card shows the definition (EN + VI) and a workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, read the exam tip for keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.</div>
         </div>
       </div>
 
@@ -1390,14 +1390,14 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
 
     </div>
     <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
-      <button class="ctrl-btn primary" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
+      <button class="ctrl-btn primary" id="help-got-it-btn" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
     </div>
   </div>
 
 </div>
 
-<script src="data/cards.js"></script>
-<script src="data/quiz.js"></script>
+<script src="data/cards.js?v=20261015c"></script>
+<script src="data/quiz.js?v=20261015c"></script>
 <script>
 const STRUCTURE = {
   Competencies: ["Leadership & Navigation Competency","Ethical Practice Competency","Inclusive Mindset Competency","Relationship Management Competency","Communication Competency","Business Acumen Competency","Consultation Competency","Analytical Aptitude Competency"],
@@ -1499,8 +1499,8 @@ function syncHideUsLawBtn() {
   // active = US law content is hidden ("US off")
   if (sub) sub.textContent = hideUsLaw ? 'off' : 'on';
   btn.title = hideUsLaw
-    ? 'U.S. Employment Law is hidden (tap to show) — mặc định cho non-US'
-    : 'U.S. Employment Law is shown (tap to hide)';
+    ? (showVietnamese ? 'U.S. Employment Law is hidden (tap to show) · Mặc định ẩn cho non-US' : 'U.S. Employment Law is hidden (tap to show)')
+    : (showVietnamese ? 'U.S. Employment Law is shown (tap to hide) · Đang hiện luật Mỹ' : 'U.S. Employment Law is shown (tap to hide)');
 }
 
 function applyHideUsLawChange() {
@@ -1565,6 +1565,7 @@ function toggleVietnamese() {
   saveShowVietnamese();
   syncViBtn();
   renderMain();
+  renderHelp();
 }
 
 function filterKey(f = filter) {
@@ -1654,7 +1655,9 @@ function startDeck() {
 
 function resetProgress() {
   const label = filterLabel();
-  const msg = 'Reset progress for “' + label + '” and start over?\n\nXóa tiến độ bộ lọc hiện tại và học lại từ đầu?';
+  const msg = showVietnamese
+    ? 'Reset progress for “' + label + '” and start over?\n\n(Xóa tiến độ bộ lọc hiện tại và học lại từ đầu?)'
+    : 'Reset progress for “' + label + '” and start over?';
   if (!confirm(msg)) return;
   startDeck();
   renderStudy();
@@ -2009,8 +2012,12 @@ function renderStudy() {
   if (scenarioLabelEl) {
     scenarioLabelEl.textContent = showVietnamese ? 'Workplace Scenario / Tình huống' : 'Workplace Scenario';
   }
-  const enScen = card.scenario || '';
-  const viScen = card.scenarioVi || '';
+  // If card.scenarioVi exists, card.scenario is English and card.scenarioVi is Vietnamese.
+  // If card.scenarioVi is missing (old cached data), card.scenario is Vietnamese.
+  const hasDualScen = !!card.scenarioVi;
+  const enScen = hasDualScen ? (card.scenario || '') : '';
+  const viScen = hasDualScen ? (card.scenarioVi || '') : (card.scenario || '');
+
   if (enScen || (showVietnamese && viScen)) {
     if (scenarioEn) {
       scenarioEn.textContent = enScen;
@@ -2043,8 +2050,10 @@ function renderStudy() {
   if (tipLabelEl) {
     tipLabelEl.textContent = showVietnamese ? 'Exam Tip / Mẹo thi' : 'Exam Tip';
   }
-  const enTip = card.tip || '';
-  const viTip = card.tipVi || '';
+  const hasDualTip = !!card.tipVi;
+  const enTip = hasDualTip ? (card.tip || '') : '';
+  const viTip = hasDualTip ? (card.tipVi || '') : (card.tip || '');
+
   if (enTip || (showVietnamese && viTip)) {
     if (tipEn) {
       tipEn.textContent = enTip;
@@ -2218,7 +2227,61 @@ function selectFilter(type, key) {
   renderPicker();
 }
 
+function renderHelp() {
+  const subEl = document.getElementById('help-credits-sub');
+  if (subEl) {
+    subEl.textContent = showVietnamese
+      ? 'Bilingual (EN + VI) · 392 Flashcards · 307 Scenario & Competency Questions'
+      : 'English Edition · 392 Flashcards · 307 Scenario & Competency Questions';
+  }
+
+  const authorNote = document.getElementById('help-author-note');
+  if (authorNote) {
+    authorNote.innerHTML = showVietnamese
+      ? `Bilingual (EN + VI) edition featuring authentic workplace vignettes, exam tips, and 307 SHRM-style questions with runtime option shuffling.<div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border2);color:var(--def-vi)">Bản dịch song ngữ Anh - Việt, kịch bản tình huống thực tế, mẹo thi, ngân hàng 307 câu Endless Quiz (175 SJT + 132 Lý thuyết) với phương án nhiễu tinh tế, xáo phương án runtime và tối ưu giao diện.</div>`
+      : `Comprehensive study edition featuring authentic workplace vignettes, exam tips, an endless bank of 307 SHRM-style questions (175 SJTs + 132 Knowledge & Competency items) with high-plausibility distractors, runtime option shuffling, and responsive mobile-first UI.`;
+  }
+
+  const githubNote = document.getElementById('help-github-note');
+  if (githubNote) {
+    githubNote.innerHTML = showVietnamese
+      ? `Open-source codebase on GitHub, ready for instant static deployment on GitHub Pages.<div style="margin-top:4px;color:var(--def-vi)">Mã nguồn mở đầy đủ trên GitHub, sẵn sàng triển khai trên GitHub Pages.</div>`
+      : `Open-source codebase on GitHub, ready for instant static deployment on GitHub Pages.`;
+  }
+
+  const foundRole = document.getElementById('help-foundation-role');
+  if (foundRole) {
+    foundRole.textContent = showVietnamese ? 'Original Foundation (Dự án gốc)' : 'Original Foundation';
+  }
+
+  const foundNote = document.getElementById('help-foundation-note');
+  if (foundNote) {
+    foundNote.innerHTML = showVietnamese
+      ? `Initial flashcard engine inherited from the open-source project by cjfisher71.<div style="margin-top:4px;color:var(--def-vi)">Ứng dụng thẻ ghi nhớ ban đầu được kế thừa từ dự án mã nguồn mở của tác giả cjfisher71.</div>`
+      : `Initial flashcard engine inherited from the open-source project by cjfisher71.`;
+  }
+
+  const discVi = document.getElementById('help-disclaimer-vi');
+  if (discVi) {
+    discVi.style.display = showVietnamese ? '' : 'none';
+    discVi.innerHTML = `<em>Tuyên bố miễn trừ:</em> SHRM® là nhãn hiệu đã đăng ký của Society for Human Resource Management. Ứng dụng này là công cụ học tập độc lập, phi thương mại phục vụ ôn tập cá nhân và không liên kết, không được tài trợ hay chứng thực bởi tổ chức SHRM.`;
+  }
+
+  const studyBody = document.getElementById('help-studying-body');
+  if (studyBody) {
+    studyBody.innerHTML = showVietnamese
+      ? `Each card shows the definition (EN + VI) and a workplace scenario (<em>Tình huống</em>). Recall the term, then tap <em>Reveal term</em>. After reveal, read the exam tip (<em>Mẹo thi</em>) for keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.`
+      : `Each card shows the definition and an authentic workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, review the term and exam tips for key SHRM concepts. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.`;
+  }
+
+  const gotItBtn = document.getElementById('help-got-it-btn');
+  if (gotItBtn) {
+    gotItBtn.textContent = showVietnamese ? 'Got it · Đã hiểu' : 'Got it';
+  }
+}
+
 function showHelp() {
+  renderHelp();
   document.getElementById('screen-study').classList.remove('active');
   document.getElementById('screen-help').classList.add('active');
 }
@@ -2271,6 +2334,7 @@ function toggleTheme() {
   showVietnamese = loadShowVietnamese();
   quiz.showVi = showVietnamese;
   syncViBtn();
+  renderHelp();
   document.documentElement.setAttribute('data-mode', 'study');
 
   const hadStorage = loadFromStorage();
