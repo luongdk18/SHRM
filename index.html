@@ -714,7 +714,7 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
   gap: 6px;
   align-items: center;
 }
-.us-law-btn, .vn-lang-btn {
+.us-law-btn, .vi-lang-btn {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -723,11 +723,11 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
   padding: 0 6px;
   flex-direction: column;
 }
-.us-law-btn span, .vn-lang-btn span {
+.us-law-btn span, .vi-lang-btn span {
   display: block;
   text-align: center;
 }
-.us-law-btn .btn-sub, .vn-lang-btn .btn-sub,
+.us-law-btn .btn-sub, .vi-lang-btn .btn-sub,
 .us-law-btn .us-law-sub {
   font-size: 8px;
   font-weight: 500;
@@ -735,13 +735,22 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
   margin-top: 2px;
   opacity: 0.75;
 }
-.us-law-btn.active, .vn-lang-btn.active {
+.us-law-btn.active, .vi-lang-btn.active {
   background: var(--accent-dim);
   border-color: var(--accent-border);
   color: var(--accent-text);
 }
-.us-law-btn:not(.active), .vn-lang-btn:not(.active) {
+.us-law-btn:not(.active), .vi-lang-btn:not(.active) {
   opacity: 0.75;
+}
+.card-extra-vi {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--def-vi);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border2);
+  letter-spacing: 0.01em;
 }
 @media (max-width: 480px) {
   .header-actions {
@@ -751,7 +760,7 @@ html[data-theme="light"] .theme-btn .icon-moon { display: block; }
     width: 32px;
     height: 32px;
   }
-  .us-law-btn, .vn-lang-btn {
+  .us-law-btn, .vi-lang-btn {
     min-width: 32px;
     padding: 0 4px;
   }
@@ -1115,21 +1124,9 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
           <div class="header-sub" id="study-sub">Loading…</div>
         </div>
         <div class="header-actions">
-          <div class="reshuffle-btn vn-lang-btn active" id="toggle-vn-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt)" role="button" aria-pressed="true">
-            <span>VN</span>
-            <span class="btn-sub" id="toggle-vn-sub">on</span>
-          </div>
           <div class="reshuffle-btn us-law-btn active" id="hide-us-law-btn" onclick="toggleHideUsLaw()" title="Hide U.S. Employment Law (default on for non-US)" role="button" aria-pressed="true">
             <span>US</span>
             <span class="btn-sub" id="hide-us-law-sub">off</span>
-          </div>
-          <div class="reshuffle-btn theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark theme" aria-label="Toggle theme">
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-            </svg>
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/>
-            </svg>
           </div>
           <div class="reshuffle-btn study-only-btn" onclick="resetProgress()" title="Reset progress">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1142,11 +1139,23 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
               <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
             </svg>
           </div>
+          <div class="reshuffle-btn theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark theme" aria-label="Toggle theme">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/>
+            </svg>
+          </div>
           <a class="reshuffle-btn" href="https://github.com/luongdk18/SHRM" target="_blank" rel="noopener noreferrer" title="View on GitHub (luongdk18/SHRM)" aria-label="GitHub Repository" style="text-decoration:none;">
             <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
             </svg>
           </a>
+          <div class="reshuffle-btn vi-lang-btn active" id="toggle-vi-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)" role="button" aria-pressed="true">
+            <span>VI</span>
+            <span class="btn-sub" id="toggle-vi-sub">on</span>
+          </div>
           <div class="reshuffle-btn" onclick="showHelp()" title="About &amp; Help" style="font-size:15px;font-weight:500;color:var(--text2)">?</div>
         </div>
       </div>
@@ -1177,24 +1186,26 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
     <div class="card-wrap" id="card-wrap">
       <div class="card" id="study-card">
         <div class="study-card-header">
-          <div class="card-prompt">What is this term?</div>
-          <button type="button" class="quiz-vi-toggle-btn active" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt)">
-            🇻🇳 VN on
+          <div class="card-prompt" id="card-prompt">What is this term? / Thuật ngữ này là gì?</div>
+          <button type="button" class="quiz-vi-toggle-btn active" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
+            🇻🇳 VI on
           </button>
         </div>
         <div class="card-def" id="card-def"></div>
         <div class="card-def-vi" id="card-def-vi"></div>
         <div class="card-extra card-scenario" id="card-scenario" style="display:none">
-          <div class="card-extra-label" id="card-scenario-label">Tình huống</div>
-          <div id="card-scenario-text"></div>
+          <div class="card-extra-label" id="card-scenario-label">Workplace Scenario / Tình huống</div>
+          <div id="card-scenario-en"></div>
+          <div id="card-scenario-vi" class="card-extra-vi" style="display:none"></div>
         </div>
         <div id="answer-reveal" style="display:none">
           <div class="card-divider"></div>
           <div class="card-term" id="card-term"></div>
           <div class="card-domain-tag" id="card-tag"></div>
           <div class="card-extra card-tip" id="card-tip" style="display:none">
-            <div class="card-extra-label" id="card-tip-label">Mẹo thi</div>
-            <div id="card-tip-text"></div>
+            <div class="card-extra-label" id="card-tip-label">Exam Tip / Mẹo thi</div>
+            <div id="card-tip-en"></div>
+            <div id="card-tip-vi" class="card-extra-vi" style="display:none"></div>
           </div>
         </div>
       </div>
@@ -1373,7 +1384,7 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         <div class="help-icon" style="background:var(--accent-dim);color:var(--accent-text)">🇻🇳</div>
         <div>
           <div class="help-title">Vietnamese &amp; Global (English) Mode</div>
-          <div class="help-body">Toggle Vietnamese translations on/off with the <em>VN</em> header button or in-card toggle. When <em>VN on</em>, definitions, workplace scenarios, exam tips, quiz options, and explanations include full Vietnamese translations. When <em>EN only</em> (off), the app switches to a pure English interface and exam simulation for global learners. Your preference is saved automatically in this browser.</div>
+          <div class="help-body">Toggle Vietnamese translations on/off with the top-right <em>VI</em> header button or in-card toggle. When <em>VI on</em>, the prompt, definitions, workplace scenarios, exam tips, quiz options, and explanations display full bilingual (EN + VI) content. When <em>VI off</em> (EN only), all Vietnamese text is hidden for a 100% English SHRM exam simulation. Your choice is saved automatically.</div>
         </div>
       </div>
 
@@ -1532,23 +1543,27 @@ function saveShowVietnamese() {
   } catch (_) { /* ignore */ }
 }
 
-function syncVnBtn() {
-  const btn = document.getElementById('toggle-vn-btn');
-  const sub = document.getElementById('toggle-vn-sub');
+function syncViBtn() {
+  const btn = document.getElementById('toggle-vi-btn');
+  const sub = document.getElementById('toggle-vi-sub');
   if (!btn) return;
   btn.classList.toggle('active', showVietnamese);
   btn.setAttribute('aria-pressed', showVietnamese ? 'true' : 'false');
   if (sub) sub.textContent = showVietnamese ? 'on' : 'off';
   btn.title = showVietnamese
-    ? 'Vietnamese translations ON (tap to switch to English only) · Bật tiếng Việt'
-    : 'Vietnamese translations OFF (tap to show Vietnamese) · Tắt tiếng Việt (English only)';
+    ? 'Vietnamese translations ON (tap for English only) · Bật tiếng Việt (VI on)'
+    : 'Vietnamese translations OFF (tap for bilingual) · Tắt tiếng Việt (VI off / EN only)';
+}
+
+function syncVnBtn() {
+  syncViBtn();
 }
 
 function toggleVietnamese() {
   showVietnamese = !showVietnamese;
   quiz.showVi = showVietnamese;
   saveShowVietnamese();
-  syncVnBtn();
+  syncViBtn();
   renderMain();
 }
 
@@ -1833,7 +1848,7 @@ function renderQuiz() {
 
   const scenarioHtml = isSjt && (q.scenario || (showVietnamese && q.scenarioVi)) ? `
     <div class="quiz-scenario-box">
-      <div class="quiz-scenario-title">${showVietnamese ? 'Tình huống / Scenario' : 'Scenario'}</div>
+      <div class="quiz-scenario-title">${showVietnamese ? 'Workplace Scenario / Tình huống' : 'Workplace Scenario'}</div>
       ${q.scenario ? `<div class="quiz-scenario-en">${escapeHtml(q.scenario)}</div>` : ''}
       ${showVietnamese && q.scenarioVi ? `<div class="quiz-scenario-vi">${escapeHtml(q.scenarioVi)}</div>` : ''}
     </div>
@@ -1848,8 +1863,8 @@ function renderQuiz() {
     <div class="quiz-header-row">
       <div class="quiz-qnum">Question ${quiz.index}</div>
       <div style="display:flex;gap:6px;align-items:center;">
-        <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt)">
-          ${showVietnamese ? '🇻🇳 VN on' : '🌐 EN only'}
+        <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
+          ${showVietnamese ? '🇻🇳 VI on' : '🌐 EN only'}
         </button>
         <span class="quiz-type-badge ${isSjt ? 'sjt' : 'knowledge'}">${sjtBadgeLabel}</span>
       </div>
@@ -1939,24 +1954,26 @@ function renderStudy() {
   if (!document.getElementById('study-card')) {
     cardWrap.innerHTML = `<div class="card" id="study-card">
       <div class="study-card-header">
-        <div class="card-prompt">What is this term?</div>
-        <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt)">
-          ${showVietnamese ? '🇻🇳 VN on' : '🌐 EN only'}
+        <div class="card-prompt" id="card-prompt">${showVietnamese ? 'What is this term? / Thuật ngữ này là gì?' : 'What is this term?'}</div>
+        <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
+          ${showVietnamese ? '🇻🇳 VI on' : '🌐 EN only'}
         </button>
       </div>
       <div class="card-def" id="card-def"></div>
       <div class="card-def-vi" id="card-def-vi"></div>
       <div class="card-extra card-scenario" id="card-scenario" style="display:none">
-        <div class="card-extra-label" id="card-scenario-label">${showVietnamese ? 'Tình huống' : 'Workplace Scenario'}</div>
-        <div id="card-scenario-text"></div>
+        <div class="card-extra-label" id="card-scenario-label">${showVietnamese ? 'Workplace Scenario / Tình huống' : 'Workplace Scenario'}</div>
+        <div id="card-scenario-en"></div>
+        <div id="card-scenario-vi" class="card-extra-vi" style="display:none"></div>
       </div>
       <div id="answer-reveal" style="display:none">
         <div class="card-divider"></div>
         <div class="card-term" id="card-term"></div>
         <div class="card-domain-tag" id="card-tag"></div>
         <div class="card-extra card-tip" id="card-tip" style="display:none">
-          <div class="card-extra-label" id="card-tip-label">${showVietnamese ? 'Mẹo thi' : 'Exam Tip'}</div>
-          <div id="card-tip-text"></div>
+          <div class="card-extra-label" id="card-tip-label">${showVietnamese ? 'Exam Tip / Mẹo thi' : 'Exam Tip'}</div>
+          <div id="card-tip-en"></div>
+          <div id="card-tip-vi" class="card-extra-vi" style="display:none"></div>
         </div>
       </div>
     </div>`;
@@ -1966,7 +1983,12 @@ function renderStudy() {
   const studyViBtn = document.getElementById('study-vi-toggle-btn');
   if (studyViBtn) {
     studyViBtn.className = `quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}`;
-    studyViBtn.textContent = showVietnamese ? '🇻🇳 VN on' : '🌐 EN only';
+    studyViBtn.textContent = showVietnamese ? '🇻🇳 VI on' : '🌐 EN only';
+  }
+
+  const promptEl = document.getElementById('card-prompt');
+  if (promptEl) {
+    promptEl.textContent = showVietnamese ? 'What is this term? / Thuật ngữ này là gì?' : 'What is this term?';
   }
 
   document.getElementById('card-def').textContent = card.def;
@@ -1979,17 +2001,32 @@ function renderStudy() {
     defViEl.style.display = 'none';
   }
 
+  // Scenario (bilingual when VI on, English only when VI off)
   const scenarioEl = document.getElementById('card-scenario');
-  const scenarioText = document.getElementById('card-scenario-text');
+  const scenarioEn = document.getElementById('card-scenario-en');
+  const scenarioVi = document.getElementById('card-scenario-vi');
   const scenarioLabelEl = document.getElementById('card-scenario-label');
   if (scenarioLabelEl) {
-    scenarioLabelEl.textContent = showVietnamese ? 'Tình huống' : 'Workplace Scenario';
+    scenarioLabelEl.textContent = showVietnamese ? 'Workplace Scenario / Tình huống' : 'Workplace Scenario';
   }
-  if (card.scenario) {
-    scenarioText.textContent = card.scenario;
+  const enScen = card.scenario || '';
+  const viScen = card.scenarioVi || '';
+  if (enScen || (showVietnamese && viScen)) {
+    if (scenarioEn) {
+      scenarioEn.textContent = enScen;
+      scenarioEn.style.display = enScen ? '' : 'none';
+    }
+    if (scenarioVi) {
+      if (showVietnamese && viScen) {
+        scenarioVi.textContent = viScen;
+        scenarioVi.style.display = '';
+      } else {
+        scenarioVi.textContent = '';
+        scenarioVi.style.display = 'none';
+      }
+    }
     scenarioEl.style.display = '';
   } else {
-    scenarioText.textContent = '';
     scenarioEl.style.display = 'none';
   }
 
@@ -1998,17 +2035,32 @@ function renderStudy() {
   tag.className = 'card-domain-tag ' + tc;
   tag.textContent = card.domain;
 
+  // Exam Tip (bilingual when VI on, English only when VI off)
   const tipEl = document.getElementById('card-tip');
-  const tipText = document.getElementById('card-tip-text');
+  const tipEn = document.getElementById('card-tip-en');
+  const tipVi = document.getElementById('card-tip-vi');
   const tipLabelEl = document.getElementById('card-tip-label');
   if (tipLabelEl) {
-    tipLabelEl.textContent = showVietnamese ? 'Mẹo thi' : 'Exam Tip';
+    tipLabelEl.textContent = showVietnamese ? 'Exam Tip / Mẹo thi' : 'Exam Tip';
   }
-  if (card.tip) {
-    tipText.textContent = card.tip;
+  const enTip = card.tip || '';
+  const viTip = card.tipVi || '';
+  if (enTip || (showVietnamese && viTip)) {
+    if (tipEn) {
+      tipEn.textContent = enTip;
+      tipEn.style.display = enTip ? '' : 'none';
+    }
+    if (tipVi) {
+      if (showVietnamese && viTip) {
+        tipVi.textContent = viTip;
+        tipVi.style.display = '';
+      } else {
+        tipVi.textContent = '';
+        tipVi.style.display = 'none';
+      }
+    }
     tipEl.style.display = '';
   } else {
-    tipText.textContent = '';
     tipEl.style.display = 'none';
   }
 
@@ -2218,7 +2270,7 @@ function toggleTheme() {
   syncHideUsLawBtn();
   showVietnamese = loadShowVietnamese();
   quiz.showVi = showVietnamese;
-  syncVnBtn();
+  syncViBtn();
   document.documentElement.setAttribute('data-mode', 'study');
 
   const hadStorage = loadFromStorage();
