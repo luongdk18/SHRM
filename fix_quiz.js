@@ -845,10 +845,10 @@ console.log('Types:', types);
 console.log('Answer A-D:', ans, ans.map(n => ((100 * n) / data.length).toFixed(1) + '%'));
 
 // ── 7. Write QUIZ_DATA to data/quiz.js (+ JSON mirror) ───────────────────
-const newJson = JSON.stringify(data);
+const newJson = JSON.stringify(data, null, 2);
 fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 fs.writeFileSync(QUIZ_JS, 'const QUIZ_DATA = ' + newJson + ';\n', 'utf8');
-fs.writeFileSync(QUIZ_JSON, newJson, 'utf8');
+fs.writeFileSync(QUIZ_JSON, newJson + '\n', 'utf8');
 console.log('Wrote', QUIZ_JS, 'and', QUIZ_JSON);
 
 // Ensure option-shuffle helper exists in index.html (idempotent)
