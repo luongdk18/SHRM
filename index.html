@@ -924,6 +924,91 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
   color: var(--accent-text);
   border-color: var(--accent-border);
 }
+/* ── STAR / BOOKMARK BUTTONS ── */
+.star-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text3);
+  font-size: 15px;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.star-btn:hover, .star-btn:active {
+  background: var(--surface);
+  transform: scale(1.06);
+}
+.star-btn.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #d97706;
+}
+html[data-theme="dark"] .star-btn.active {
+  color: #fbbf24;
+}
+.quiz-star-btn {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.quiz-star-btn:active { transform: scale(0.97); }
+.quiz-star-btn.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #d97706;
+  font-weight: 600;
+}
+html[data-theme="dark"] .quiz-star-btn.active {
+  color: #fbbf24;
+}
+.quiz-cluster-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 7px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.quiz-cluster-badge.cluster-p {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+}
+.quiz-cluster-badge.cluster-o {
+  background: rgba(37,99,235,0.1);
+  color: #2563eb;
+  border: 1px solid rgba(37,99,235,0.25);
+}
+html[data-theme="dark"] .quiz-cluster-badge.cluster-o {
+  background: rgba(96,165,250,0.15);
+  color: #60a5fa;
+  border-color: rgba(96,165,250,0.3);
+}
+.quiz-cluster-badge.cluster-w {
+  background: rgba(234,88,12,0.1);
+  color: #ea580c;
+  border: 1px solid rgba(234,88,12,0.25);
+}
+html[data-theme="dark"] .quiz-cluster-badge.cluster-w {
+  background: rgba(251,146,60,0.15);
+  color: #fb923c;
+  border-color: rgba(251,146,60,0.3);
+}
 .quiz-scenario-box {
   background: var(--scenario-bg);
   border: 1px solid var(--scenario-border);
@@ -1008,8 +1093,174 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
   opacity: 0.95;
 }
 
+/* ── DOMAIN STATS CARD (Strengths & Weaknesses) ── */
+.quiz-stats-card {
+  margin: 0 16px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.quiz-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+.quiz-stats-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+.quiz-stats-chevron {
+  font-size: 10px;
+  color: var(--text3);
+  transition: transform 0.2s ease;
+}
+.quiz-stats-card.collapsed .quiz-stats-chevron {
+  transform: rotate(180deg);
+}
+.quiz-stats-body {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.quiz-stats-card.collapsed .quiz-stats-body {
+  display: none;
+}
+.domain-stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.domain-stat-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+.domain-stat-name {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.domain-stat-pct {
+  color: var(--text3);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: 10.5px;
+}
+.domain-stat-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface2);
+  overflow: hidden;
+  position: relative;
+}
+.domain-stat-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.stat-fill-p { background: var(--green); }
+.stat-fill-o { background: #2563eb; }
+.stat-fill-w { background: #ea580c; }
+html[data-theme="dark"] .stat-fill-o { background: #60a5fa; }
+html[data-theme="dark"] .stat-fill-w { background: #fb923c; }
+
+.quiz-stats-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+.stat-reset-btn {
+  background: none;
+  border: none;
+  font-size: 10px;
+  color: var(--text3);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 2px 4px;
+}
+.stat-reset-btn:hover { color: var(--red); }
+
+/* Review tag in feedback box */
+.quiz-expl-review-tag {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(245, 158, 11, 0.4);
+  color: #d97706;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+html[data-theme="dark"] .quiz-expl-review-tag {
+  color: #fbbf24;
+}
+
+.quiz-unstar-inline-btn {
+  margin-top: 8px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--green-border);
+  background: var(--surface);
+  color: var(--green);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+.quiz-unstar-inline-btn:hover {
+  background: var(--green-dim);
+}
+
+.empty-review-box {
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--text2);
+}
+.empty-review-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: #f59e0b;
+}
+.empty-review-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.empty-review-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text3);
+  max-width: 380px;
+  margin: 0 auto 18px;
+}
+
 /* ── DESKTOP RESPONSIVE LAYOUT (Wider layout for Desktop) ── */
 @media (min-width: 768px) {
+  .quiz-stats-card {
+    margin: 0 32px 14px;
+    padding: 12px 20px;
+  }
+  .domain-stat-meta {
+    font-size: 12px;
+  }
   #app {
     max-width: 900px;
   }
@@ -1182,14 +1433,62 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
       <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
 
+    <!-- DOMAIN STRENGTHS & WEAKNESSES (Quiz Mode) -->
+    <div class="quiz-stats-card" id="quiz-stats-card" style="display:none">
+      <div class="quiz-stats-header" onclick="toggleStatsCollapsed()" role="button" tabindex="0" aria-expanded="true">
+        <div class="quiz-stats-title">
+          <span>📊</span>
+          <span id="quiz-stats-title-text">Domain Strengths &amp; Weaknesses</span>
+        </div>
+        <div class="quiz-stats-chevron" id="quiz-stats-chevron">&#9650;</div>
+      </div>
+      <div class="quiz-stats-body" id="quiz-stats-body">
+        <div class="domain-stat-row">
+          <div class="domain-stat-meta">
+            <span class="domain-stat-name cp"><span class="pill-dot" style="background:var(--cluster-p)"></span> People</span>
+            <span class="domain-stat-pct" id="stat-val-people">—% (0/0)</span>
+          </div>
+          <div class="domain-stat-track">
+            <div class="domain-stat-fill stat-fill-p" id="stat-bar-people" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="domain-stat-row">
+          <div class="domain-stat-meta">
+            <span class="domain-stat-name co"><span class="pill-dot" style="background:var(--cluster-o)"></span> Organization</span>
+            <span class="domain-stat-pct" id="stat-val-org">—% (0/0)</span>
+          </div>
+          <div class="domain-stat-track">
+            <div class="domain-stat-fill stat-fill-o" id="stat-bar-org" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="domain-stat-row">
+          <div class="domain-stat-meta">
+            <span class="domain-stat-name cw"><span class="pill-dot" style="background:var(--cluster-w)"></span> Workplace</span>
+            <span class="domain-stat-pct" id="stat-val-workplace">—% (0/0)</span>
+          </div>
+          <div class="domain-stat-track">
+            <div class="domain-stat-fill stat-fill-w" id="stat-bar-workplace" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="quiz-stats-footer">
+          <button type="button" class="stat-reset-btn" id="stat-reset-btn" onclick="resetQuizStats()">↺ Reset stats</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Card area (Flashcards or Quiz) -->
     <div class="card-wrap" id="card-wrap">
       <div class="card" id="study-card">
         <div class="study-card-header">
           <div class="card-prompt" id="card-prompt">What is this term? / Thuật ngữ này là gì?</div>
-          <button type="button" class="quiz-vi-toggle-btn active" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
-            🇻🇳 VI on
-          </button>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button type="button" class="star-btn" id="study-star-btn" onclick="toggleCardStar()" title="Bookmark difficult card">
+              ☆
+            </button>
+            <button type="button" class="quiz-vi-toggle-btn active" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
+              🇻🇳 VI on
+            </button>
+          </div>
         </div>
         <div class="card-def" id="card-def"></div>
         <div class="card-def-vi" id="card-def-vi"></div>
@@ -1388,6 +1687,22 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
         </div>
       </div>
 
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(245,158,11,0.15);color:#d97706">★</div>
+        <div>
+          <div class="help-title" id="help-bookmark-title">Bookmark &amp; Review Later (Đánh dấu câu khó)</div>
+          <div class="help-body" id="help-bookmark-body">Wrong answers in Quiz mode are automatically added to the <em>⭐ Review Needed</em> list. You can also tap the star button (★) on any Flashcard or Quiz question at any time to bookmark it. Filter specifically for difficult items in the study picker or quiz filter chips. All bookmarks persist in your browser (LocalStorage).</div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-icon" style="background:rgba(37,99,235,0.12);color:#2563eb">📊</div>
+        <div>
+          <div class="help-title" id="help-stats-title">Domain Strengths &amp; Weaknesses (Thống kê chuyên môn)</div>
+          <div class="help-body" id="help-stats-body">Real-time percentage progress bars track your performance across the 3 core SHRM BASK knowledge domains: <em>People</em>, <em>Organization</em>, and <em>Workplace</em>. Quickly identify your strongest competencies and target weaker areas for revision.</div>
+        </div>
+      </div>
+
     </div>
     <div style="padding:12px 20px calc(12px + var(--safe-bottom));flex-shrink:0">
       <button class="ctrl-btn primary" id="help-got-it-btn" style="width:100%;padding:16px" onclick="closeHelp()">Got it</button>
@@ -1396,8 +1711,8 @@ html[data-mode="quiz"] .study-only-btn { display: none; }
 
 </div>
 
-<script src="data/cards.js?v=20261015c"></script>
-<script src="data/quiz.js?v=20261015c"></script>
+<script src="data/cards.js?v=20261015d"></script>
+<script src="data/quiz.js?v=20261015d"></script>
 <script>
 const STRUCTURE = {
   Competencies: ["Leadership & Navigation Competency","Ethical Practice Competency","Inclusive Mindset Competency","Relationship Management Competency","Communication Competency","Business Acumen Competency","Consultation Competency","Analytical Aptitude Competency"],
@@ -1434,10 +1749,231 @@ let showVietnamese = true;
 /** @type {'study' | 'quiz'} */
 let appMode = 'study';
 
+/** Starred / Difficult flashcards stored in localStorage. */
+const STARRED_CARDS_KEY = 'shrm-flashcards-starred-v1';
+let starredCards = new Set();
+
+function loadStarredCards() {
+  try {
+    const raw = localStorage.getItem(STARRED_CARDS_KEY);
+    if (!raw) return new Set();
+    const arr = JSON.parse(raw);
+    return new Set(Array.isArray(arr) ? arr : []);
+  } catch (_) {
+    return new Set();
+  }
+}
+
+function saveStarredCards() {
+  try {
+    localStorage.setItem(STARRED_CARDS_KEY, JSON.stringify([...starredCards]));
+  } catch (_) {}
+}
+
+function isCardStarred(c) {
+  if (!c) return false;
+  return starredCards.has(cardId(c));
+}
+
+function toggleCardStar() {
+  if (deck.length === 0) return;
+  const c = deck[0];
+  const id = cardId(c);
+  if (starredCards.has(id)) {
+    starredCards.delete(id);
+  } else {
+    starredCards.add(id);
+  }
+  saveStarredCards();
+  renderStudy();
+}
+
+/** Quiz review questions (wrong answers + manual stars) stored in localStorage. */
+const QUIZ_REVIEW_KEY = 'shrm-quiz-review-v1';
+let quizReview = {};
+
+function loadQuizReview() {
+  try {
+    const raw = localStorage.getItem(QUIZ_REVIEW_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return (parsed && typeof parsed === 'object') ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function saveQuizReview() {
+  try {
+    localStorage.setItem(QUIZ_REVIEW_KEY, JSON.stringify(quizReview));
+  } catch (_) {}
+}
+
+function isQuizReviewed(id) {
+  return !!(id && quizReview[id]);
+}
+
+function addQuizReview(id, isWrong) {
+  if (!id) return;
+  const existing = quizReview[id] || { id, wrongCount: 0, manual: false };
+  if (isWrong) {
+    existing.wrongCount = (existing.wrongCount || 0) + 1;
+    existing.lastWrongAt = Date.now();
+  } else {
+    existing.manual = true;
+  }
+  quizReview[id] = existing;
+  saveQuizReview();
+}
+
+function removeQuizReview(id) {
+  if (!id) return;
+  delete quizReview[id];
+  saveQuizReview();
+}
+
+function toggleQuizReview(id) {
+  if (!id) return;
+  if (isQuizReviewed(id)) {
+    removeQuizReview(id);
+  } else {
+    addQuizReview(id, false);
+  }
+  renderQuiz();
+}
+
+function removeQuizReviewAndRerender(id) {
+  removeQuizReview(id);
+  renderQuiz();
+}
+
+function getQuizReviewCount() {
+  return Object.keys(quizReview).length;
+}
+
+/** Quiz performance / accuracy stats by knowledge domain. */
+const QUIZ_STATS_KEY = 'shrm-quiz-domain-stats-v1';
+let quizStats = {
+  People: { correct: 0, total: 0 },
+  Organization: { correct: 0, total: 0 },
+  Workplace: { correct: 0, total: 0 }
+};
+
+function loadQuizStats() {
+  try {
+    const raw = localStorage.getItem(QUIZ_STATS_KEY);
+    if (!raw) return { People: { correct: 0, total: 0 }, Organization: { correct: 0, total: 0 }, Workplace: { correct: 0, total: 0 } };
+    const p = JSON.parse(raw);
+    return {
+      People: p.People || { correct: 0, total: 0 },
+      Organization: p.Organization || { correct: 0, total: 0 },
+      Workplace: p.Workplace || { correct: 0, total: 0 }
+    };
+  } catch (_) {
+    return { People: { correct: 0, total: 0 }, Organization: { correct: 0, total: 0 }, Workplace: { correct: 0, total: 0 } };
+  }
+}
+
+function saveQuizStats() {
+  try {
+    localStorage.setItem(QUIZ_STATS_KEY, JSON.stringify(quizStats));
+  } catch (_) {}
+}
+
+function recordQuizAttempt(cluster, isCorrect) {
+  const cl = (cluster && quizStats[cluster]) ? cluster : 'Organization';
+  quizStats[cl].total += 1;
+  if (isCorrect) quizStats[cl].correct += 1;
+  saveQuizStats();
+}
+
+function resetQuizStats() {
+  const msg = showVietnamese
+    ? 'Đặt lại toàn bộ thống kê tỉ lệ đúng theo nhóm chuyên môn (People, Organization, Workplace)?'
+    : 'Reset all domain accuracy statistics (People, Organization, Workplace)?';
+  if (!confirm(msg)) return;
+  quizStats = {
+    People: { correct: 0, total: 0 },
+    Organization: { correct: 0, total: 0 },
+    Workplace: { correct: 0, total: 0 }
+  };
+  saveQuizStats();
+  renderQuizStats();
+}
+
+const STATS_COLLAPSED_KEY = 'shrm-quiz-stats-collapsed';
+let statsCollapsed = false;
+
+function loadStatsCollapsed() {
+  try {
+    return localStorage.getItem(STATS_COLLAPSED_KEY) === '1';
+  } catch (_) {
+    return false;
+  }
+}
+
+function toggleStatsCollapsed() {
+  statsCollapsed = !statsCollapsed;
+  try { localStorage.setItem(STATS_COLLAPSED_KEY, statsCollapsed ? '1' : '0'); } catch (_) {}
+  syncStatsCollapsed();
+}
+
+function syncStatsCollapsed() {
+  const card = document.getElementById('quiz-stats-card');
+  if (!card) return;
+  card.classList.toggle('collapsed', statsCollapsed);
+  const chevron = document.getElementById('quiz-stats-chevron');
+  if (chevron) {
+    chevron.innerHTML = statsCollapsed ? '&#9660;' : '&#9650;';
+  }
+}
+
+function renderQuizStats() {
+  const card = document.getElementById('quiz-stats-card');
+  if (!card) return;
+  if (appMode !== 'quiz') {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'block';
+
+  const titleEl = document.getElementById('quiz-stats-title-text');
+  if (titleEl) {
+    titleEl.textContent = showVietnamese
+      ? 'Thống kê điểm mạnh / yếu (Nhóm chuyên môn)'
+      : 'Domain Strengths & Weaknesses (Knowledge Clusters)';
+  }
+
+  const map = {
+    People: 'people',
+    Organization: 'org',
+    Workplace: 'workplace'
+  };
+
+  for (const [domain, idKey] of Object.entries(map)) {
+    const stat = quizStats[domain] || { correct: 0, total: 0 };
+    const pct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : null;
+    const valEl = document.getElementById('stat-val-' + idKey);
+    const barEl = document.getElementById('stat-bar-' + idKey);
+    if (valEl) {
+      valEl.textContent = pct !== null ? `${pct}% (${stat.correct}/${stat.total})` : `—% (${stat.correct}/${stat.total})`;
+    }
+    if (barEl) {
+      barEl.style.width = (pct !== null ? pct : 0) + '%';
+    }
+  }
+
+  const resetBtn = document.getElementById('stat-reset-btn');
+  if (resetBtn) {
+    resetBtn.textContent = showVietnamese ? '↺ Đặt lại thống kê' : '↺ Reset stats';
+  }
+}
+
 /** Quiz session state */
 let quiz = {
   queue: [],
   pool: [],
+  filterType: 'all',
   index: 0,
   total: 134,
   correct: 0,
@@ -1468,7 +2004,8 @@ function applyUsLawFilter(cards) {
 
 function getPool() {
   let pool;
-  if (filter.type === 'all') pool = ALL_CARDS;
+  if (filter.type === 'starred') pool = ALL_CARDS.filter(c => isCardStarred(c));
+  else if (filter.type === 'all') pool = ALL_CARDS;
   else if (filter.type === 'cluster') pool = ALL_CARDS.filter(c => c.cluster === filter.cluster);
   else pool = ALL_CARDS.filter(c => c.domain === filter.domain);
   return applyUsLawFilter(pool);
@@ -1565,6 +2102,7 @@ function toggleVietnamese() {
   saveShowVietnamese();
   syncViBtn();
   renderMain();
+  renderQuizStats();
   renderHelp();
 }
 
@@ -1675,6 +2213,10 @@ function tagClass(cluster) {
 }
 
 function filterLabel() {
+  if (filter.type === 'starred') {
+    const n = getPool().length;
+    return (showVietnamese ? '⭐ Cần ôn lại (Thẻ khó)' : '⭐ Review Needed (Starred)') + ' · ' + n;
+  }
   if (filter.type === 'all') return 'All ' + getPool().length + ' cards';
   if (filter.type === 'cluster') {
     const n = getPool().length;
@@ -1684,12 +2226,17 @@ function filterLabel() {
 }
 
 function filterDotColor() {
+  if (filter.type === 'starred') return '#f59e0b';
   if (filter.type === 'all') return '#565c78';
   const cl = filter.type === 'cluster' ? filter.cluster : clusterOf(filter.domain);
   return CLUSTER_DOT[cl] || '#565c78';
 }
 
 function filterSubtitle() {
+  if (filter.type === 'starred') {
+    const n = getPool().length;
+    return (showVietnamese ? 'Bộ thẻ cần ôn lại · ' : 'Starred review cards · ') + n + ' cards';
+  }
   if (filter.type === 'all') {
     return (hideUsLaw ? 'All domains (non-US)' : 'All domains') + ' — shuffled';
   }
@@ -1712,8 +2259,16 @@ function setAppMode(mode) {
     tabStudy.setAttribute('aria-selected', appMode === 'study' ? 'true' : 'false');
     tabQuiz.setAttribute('aria-selected', appMode === 'quiz' ? 'true' : 'false');
   }
-  if (appMode === 'quiz') startQuiz();
-  else renderStudy();
+  const statsCard = document.getElementById('quiz-stats-card');
+  if (statsCard) {
+    statsCard.style.display = appMode === 'quiz' ? 'block' : 'none';
+  }
+  if (appMode === 'quiz') {
+    renderQuizStats();
+    startQuiz();
+  } else {
+    renderStudy();
+  }
 }
 
 function renderMain() {
@@ -1735,6 +2290,8 @@ function startQuiz() {
   let source = QUIZ_DATA;
   if (quiz.filterType === 'sjt') {
     source = QUIZ_DATA.filter(q => q.type === 'sjt');
+  } else if (quiz.filterType === 'review') {
+    source = QUIZ_DATA.filter(q => isQuizReviewed(q.id));
   }
   const pool = shuffle(source.slice());
   quiz.pool = pool;
@@ -1752,12 +2309,27 @@ function nextQuizQuestion() {
   quiz.selected = -1;
   quiz.locked = false;
   
+  if (quiz.filterType === 'review' && quiz.pool.length === 0) {
+    quiz.current = null;
+    renderQuiz();
+    return;
+  }
+  
   if (quiz.queue.length === 0) {
+    if (quiz.filterType === 'review') {
+      const refreshed = QUIZ_DATA.filter(q => isQuizReviewed(q.id));
+      if (refreshed.length === 0) {
+        quiz.pool = [];
+        quiz.current = null;
+        renderQuiz();
+        return;
+      }
+      quiz.pool = shuffle(refreshed);
+    }
     quiz.queue = shuffle(quiz.pool.slice());
   }
   
   const raw = quiz.queue.shift();
-  // Shuffle option order each time so answer position cannot be memorized/guessed
   quiz.current = shuffleQuizOptions(raw);
   quiz.index += 1;
   renderQuiz();
@@ -1789,8 +2361,20 @@ function answerQuiz(optionIndex) {
   quiz.locked = true;
   quiz.selected = optionIndex;
   quiz.answered += 1;
-  if (quiz.selected === quiz.current.answer) quiz.correct += 1;
+  const q = quiz.current;
+  const isCorrect = (quiz.selected === q.answer);
+  if (isCorrect) {
+    quiz.correct += 1;
+  } else {
+    // Automatically save wrong question into review list
+    addQuizReview(q.id, true);
+  }
+  
+  // Record attempt in domain stats
+  recordQuizAttempt(q.cluster || 'Organization', isCorrect);
+
   renderQuiz();
+  renderQuizStats();
   scrollCardToBottom();
 }
 
@@ -1798,10 +2382,29 @@ function renderQuiz() {
   const accuracy = quiz.answered > 0 ? Math.round((quiz.correct / quiz.answered) * 100) : 0;
   const sjtCount = QUIZ_DATA.filter(q => q.type === 'sjt').length;
   const totalCount = QUIZ_DATA.length;
+  const revCount = getQuizReviewCount();
   
-  document.getElementById('study-sub').textContent = `SHRM Exam Prep · Endless Mode (${quiz.pool.length} Qs)`;
-  document.getElementById('filter-chip-dot').style.background = 'var(--accent)';
-  document.getElementById('filter-chip-label').textContent = quiz.filterType === 'sjt' ? 'SHRM SJT Scenarios Only' : 'SHRM Full Exam Bank';
+  const allFilterLabel = showVietnamese ? `📚 Tất cả (${totalCount} câu)` : `📚 All Questions (${totalCount} Qs)`;
+  const sjtFilterLabel = showVietnamese ? `🎯 Chỉ SJT Tình Huống (${sjtCount} câu)` : `🎯 SJT Scenarios Only (${sjtCount} Qs)`;
+  const reviewFilterLabel = showVietnamese ? `⭐ Cần ôn lại (${revCount} câu)` : `⭐ Review Needed (${revCount} Qs)`;
+
+  if (quiz.filterType === 'review') {
+    document.getElementById('study-sub').textContent = showVietnamese
+      ? `SHRM Luyện tập · Mục Cần ôn lại (${quiz.pool.length} câu)`
+      : `SHRM Review · Starred & Incorrect (${quiz.pool.length} Qs)`;
+    document.getElementById('filter-chip-label').textContent = showVietnamese
+      ? '⭐ Cần ôn lại (Câu sai & câu khó)'
+      : '⭐ Review Needed (Wrong & Starred)';
+    document.getElementById('filter-chip-dot').style.background = '#f59e0b';
+  } else if (quiz.filterType === 'sjt') {
+    document.getElementById('study-sub').textContent = `SHRM Exam Prep · Endless Mode (${quiz.pool.length} Qs)`;
+    document.getElementById('filter-chip-label').textContent = showVietnamese ? '🎯 Chỉ SJT Tình Huống' : '🎯 SHRM SJT Scenarios Only';
+    document.getElementById('filter-chip-dot').style.background = 'var(--accent)';
+  } else {
+    document.getElementById('study-sub').textContent = `SHRM Exam Prep · Endless Mode (${quiz.pool.length} Qs)`;
+    document.getElementById('filter-chip-label').textContent = showVietnamese ? '📚 Bộ đề thi SHRM đầy đủ' : '📚 SHRM Full Exam Bank';
+    document.getElementById('filter-chip-dot').style.background = 'var(--accent)';
+  }
 
   document.getElementById('p-rem').textContent = quiz.answered;
   document.getElementById('p-rem-label').textContent = 'answered';
@@ -1816,9 +2419,48 @@ function renderQuiz() {
   const cardWrap = document.getElementById('card-wrap');
   const controls = document.getElementById('study-controls');
 
+  // Handle empty review queue
+  if (quiz.filterType === 'review' && (!quiz.current || quiz.pool.length === 0)) {
+    cardWrap.innerHTML = `<div class="card" id="quiz-card">
+      <div class="quiz-filter-row">
+        <button type="button" class="quiz-mode-chip ${quiz.filterType === 'all' ? 'active' : ''}" onclick="setQuizFilterType('all')">
+          ${allFilterLabel}
+        </button>
+        <button type="button" class="quiz-mode-chip ${quiz.filterType === 'sjt' ? 'active' : ''}" onclick="setQuizFilterType('sjt')">
+          ${sjtFilterLabel}
+        </button>
+        <button type="button" class="quiz-mode-chip ${quiz.filterType === 'review' ? 'active' : ''}" onclick="setQuizFilterType('review')">
+          ${reviewFilterLabel}
+        </button>
+      </div>
+      <div class="empty-review-box">
+        <div class="empty-review-icon">⭐</div>
+        <div class="empty-review-title">${showVietnamese ? 'Chưa có câu hỏi nào trong mục Cần ôn lại' : 'No Questions in Review List'}</div>
+        <div class="empty-review-desc">
+          ${showVietnamese
+            ? 'Danh sách này đang trống. Khi bạn trả lời sai một câu bất kỳ hoặc bấm ⭐ Lưu câu khó, câu hỏi sẽ tự động xuất hiện ở đây để bạn luyện tập lại!'
+            : 'Your review list is empty. Any question you answer incorrectly or mark with ⭐ Star will automatically be saved here for focused practice!'}
+        </div>
+        <button type="button" class="ctrl-btn primary" style="width:100%" onclick="setQuizFilterType('all')">
+          ${showVietnamese ? 'Luyện tập toàn bộ câu hỏi (307 câu)' : 'Practice All Questions (307 Qs)'}
+        </button>
+      </div>
+    </div>`;
+    controls.innerHTML = '';
+    return;
+  }
+
   const q = quiz.current;
+  if (!q) return;
+
   const isSjt = q.type === 'sjt';
   const labels = ['A', 'B', 'C', 'D'];
+  const isReviewed = isQuizReviewed(q.id);
+  const clusterName = q.cluster || 'Organization';
+  const clusterClass = 'cluster-' + clusterName.toLowerCase()[0];
+  const starTitle = isReviewed
+    ? (showVietnamese ? 'Bỏ khỏi mục cần ôn lại' : 'Remove from review')
+    : (showVietnamese ? 'Đánh dấu câu khó / Cần ôn lại' : 'Bookmark as difficult');
   
   let optionsHtml = '';
   q.options.forEach((optText, i) => {
@@ -1840,12 +2482,23 @@ function renderQuiz() {
   if (quiz.locked) {
     const isCorrect = quiz.selected === q.answer;
     const explViHtml = (showVietnamese && q.explanationVi) ? `<div class="quiz-expl-vi"><strong>Giải thích (VI):</strong> ${escapeHtml(q.explanationVi)}</div>` : '';
+    let reviewNoticeHtml = '';
+    if (!isCorrect) {
+      reviewNoticeHtml = `<div class="quiz-expl-review-tag">⭐ ${showVietnamese ? 'Đã tự động lưu vào mục "Cần ôn lại"' : 'Saved to "Review Needed"'}</div>`;
+    } else if (quiz.filterType === 'review') {
+      reviewNoticeHtml = `<div style="margin-top:10px;padding-top:8px;border-top:1px dashed rgba(5,150,105,0.3)">
+        <button type="button" class="quiz-unstar-inline-btn" onclick="removeQuizReviewAndRerender('${q.id}')">
+          ✓ ${showVietnamese ? 'Đã nắm vững — Bỏ khỏi mục cần ôn' : 'Mastered — Remove from review list'}
+        </button>
+      </div>`;
+    }
     feedbackHtml = `<div class="quiz-expl-box ${isCorrect ? 'ok' : 'bad'}">
       <div class="quiz-expl-header">
         ${isCorrect ? '&#10004; Correct!' : '&#10008; Incorrect'} — Answer: Option ${labels[q.answer]}
       </div>
       <div>${escapeHtml(q.explanation || '')}</div>
       ${explViHtml}
+      ${reviewNoticeHtml}
     </div>`;
   }
 
@@ -1859,17 +2512,20 @@ function renderQuiz() {
 
   const qViHtml = showVietnamese && q.questionVi ? `<div class="quiz-q-title-vi">${escapeHtml(q.questionVi)}</div>` : '';
   const sjtBadgeLabel = showVietnamese ? (isSjt ? 'SJT Tình Huống' : 'Lý Thuyết / Năng Lực') : (isSjt ? 'SJT Scenario' : 'Knowledge & Competency');
-  const allFilterLabel = showVietnamese ? `📚 Tất cả (${totalCount} câu)` : `📚 All Questions (${totalCount} Qs)`;
-  const sjtFilterLabel = showVietnamese ? `🎯 Chỉ SJT Tình Huống (${sjtCount} câu)` : `🎯 SJT Scenarios Only (${sjtCount} Qs)`;
 
   cardWrap.innerHTML = `<div class="card" id="quiz-card">
     <div class="quiz-header-row">
       <div class="quiz-qnum">Question ${quiz.index}</div>
-      <div style="display:flex;gap:6px;align-items:center;">
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+        <button type="button" class="quiz-star-btn ${isReviewed ? 'active' : ''}" onclick="toggleQuizReview('${q.id}')" title="${starTitle}">
+          <span>${isReviewed ? '★' : '☆'}</span>
+          <span>${isReviewed ? (showVietnamese ? 'Cần ôn' : 'Starred') : (showVietnamese ? 'Lưu' : 'Star')}</span>
+        </button>
         <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
           ${showVietnamese ? '🇻🇳 VI on' : '🌐 EN only'}
         </button>
         <span class="quiz-type-badge ${isSjt ? 'sjt' : 'knowledge'}">${sjtBadgeLabel}</span>
+        <span class="quiz-cluster-badge ${clusterClass}">${clusterName}</span>
       </div>
     </div>
 
@@ -1879,6 +2535,9 @@ function renderQuiz() {
       </button>
       <button type="button" class="quiz-mode-chip ${quiz.filterType === 'sjt' ? 'active' : ''}" onclick="setQuizFilterType('sjt')">
         ${sjtFilterLabel}
+      </button>
+      <button type="button" class="quiz-mode-chip ${quiz.filterType === 'review' ? 'active' : ''}" onclick="setQuizFilterType('review')">
+        ${reviewFilterLabel}
       </button>
     </div>
 
@@ -1944,7 +2603,18 @@ function renderStudy() {
   }
 
   if (deck.length === 0) {
-    cardWrap.innerHTML = `<div class="done-card"><div class="done-sub">No cards in this selection.</div></div>`;
+    if (filter.type === 'starred') {
+      cardWrap.innerHTML = `<div class="done-card">
+        <div class="done-icon" style="color:#f59e0b">★</div>
+        <div class="done-title">${showVietnamese ? 'Mục Cần ôn lại đang trống' : 'No Starred Cards'}</div>
+        <div class="done-sub">${showVietnamese ? 'Bạn chưa đánh dấu thẻ nào cần ôn lại. Hãy bấm ngôi sao ⭐ trên bất kỳ thẻ nào trong quá trình học để đưa vào danh sách này!' : 'You have not bookmarked any cards yet. Tap the star ⭐ on any card while studying to save it to your review list!'}</div>
+        <div class="done-credits">
+          <button class="ctrl-btn primary" onclick="selectFilter('all','')" style="width:100%;margin-top:12px;">${showVietnamese ? 'Học tất cả thẻ' : 'Study All Cards'}</button>
+        </div>
+      </div>`;
+    } else {
+      cardWrap.innerHTML = `<div class="done-card"><div class="done-sub">No cards in this selection.</div></div>`;
+    }
     controls.innerHTML = '';
     return;
   }
@@ -1958,9 +2628,14 @@ function renderStudy() {
     cardWrap.innerHTML = `<div class="card" id="study-card">
       <div class="study-card-header">
         <div class="card-prompt" id="card-prompt">${showVietnamese ? 'What is this term? / Thuật ngữ này là gì?' : 'What is this term?'}</div>
-        <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
-          ${showVietnamese ? '🇻🇳 VI on' : '🌐 EN only'}
-        </button>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button type="button" class="star-btn ${isCardStarred(card) ? 'active' : ''}" id="study-star-btn" onclick="toggleCardStar()" title="${isCardStarred(card) ? (showVietnamese ? 'Bỏ đánh dấu cần ôn lại' : 'Remove star') : (showVietnamese ? 'Đánh dấu thẻ khó / Cần ôn lại' : 'Bookmark as difficult')}">
+            ${isCardStarred(card) ? '★' : '☆'}
+          </button>
+          <button type="button" class="quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}" id="study-vi-toggle-btn" onclick="toggleVietnamese()" title="Toggle Vietnamese translations (Bật/tắt Tiếng Việt: VI on / off)">
+            ${showVietnamese ? '🇻🇳 VI on' : '🌐 EN only'}
+          </button>
+        </div>
       </div>
       <div class="card-def" id="card-def"></div>
       <div class="card-def-vi" id="card-def-vi"></div>
@@ -1987,6 +2662,16 @@ function renderStudy() {
   if (studyViBtn) {
     studyViBtn.className = `quiz-vi-toggle-btn ${showVietnamese ? 'active' : ''}`;
     studyViBtn.textContent = showVietnamese ? '🇻🇳 VI on' : '🌐 EN only';
+  }
+
+  const studyStarBtn = document.getElementById('study-star-btn');
+  if (studyStarBtn) {
+    const isStarred = isCardStarred(card);
+    studyStarBtn.className = `star-btn ${isStarred ? 'active' : ''}`;
+    studyStarBtn.innerHTML = isStarred ? '★' : '☆';
+    studyStarBtn.title = isStarred
+      ? (showVietnamese ? 'Bỏ đánh dấu cần ôn lại' : 'Remove star')
+      : (showVietnamese ? 'Đánh dấu thẻ khó / Cần ôn lại' : 'Bookmark as difficult');
   }
 
   const promptEl = document.getElementById('card-prompt');
@@ -2123,6 +2808,13 @@ function doCorrect() {
   scrollCardToTop();
 }
 function doWrong() {
+  if (deck.length > 0) {
+    const card = deck[0];
+    if (!isCardStarred(card)) {
+      starredCards.add(cardId(card));
+      saveStarredCards();
+    }
+  }
   // Stay on the same card: hide the answer and re-read from the top
   flipped = false;
   renderStudy();
@@ -2149,6 +2841,7 @@ function showPicker() {
 }
 
 function isSelected(type, key) {
+  if (type === 'starred') return filter.type === 'starred';
   if (type === 'all') return filter.type === 'all';
   if (type === 'cluster') return filter.type === 'cluster' && filter.cluster === key;
   return filter.type === 'domain' && filter.domain === key;
@@ -2162,6 +2855,15 @@ function renderPicker() {
   const scroll = document.getElementById('picker-scroll');
   const allCount = applyUsLawFilter(ALL_CARDS).length;
   let html = '';
+
+  // Starred / Review Needed option
+  const starCount = countInPool(c => isCardStarred(c));
+  const starSel = isSelected('starred');
+  html += `<div class="domain-item star-item ${starSel ? 'selected' : ''}" onclick="selectFilter('starred','')" style="margin-bottom:8px;border-color:rgba(245,158,11,0.35);background:${starSel ? 'rgba(245,158,11,0.15)' : 'var(--surface)'}">
+    <div class="domain-dot" style="background:#f59e0b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px">★</div>
+    <div class="domain-item-name" style="font-weight:600;color:var(--amber)">${showVietnamese ? '⭐ Cần ôn lại (Thẻ khó)' : '⭐ Review Needed (Starred)'}</div>
+    <div class="domain-count" style="font-weight:600;color:var(--amber)">${starCount}</div>
+  </div>`;
 
   // All option
   const allSel = isSelected('all');
@@ -2212,7 +2914,8 @@ function renderPicker() {
 function selectFilter(type, key) {
   // Persist current filter session before switching
   saveProgress();
-  if (type === 'all') filter = { type: 'all' };
+  if (type === 'starred') filter = { type: 'starred' };
+  else if (type === 'all') filter = { type: 'all' };
   else if (type === 'cluster') filter = { type: 'cluster', cluster: key };
   else {
     if (hideUsLaw && key === US_LAW_DOMAIN) {
@@ -2272,6 +2975,32 @@ function renderHelp() {
     studyBody.innerHTML = showVietnamese
       ? `Each card shows the definition (EN + VI) and a workplace scenario (<em>Tình huống</em>). Recall the term, then tap <em>Reveal term</em>. After reveal, read the exam tip (<em>Mẹo thi</em>) for keywords. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.`
       : `Each card shows the definition and an authentic workplace scenario. Recall the term, then tap <em>Reveal term</em>. After reveal, review the term and exam tips for key SHRM concepts. Tap <span class="tag-wrong">Still learning</span> to hide the answer and re-study the same card, or <span class="tag-right">Got it</span> to move on.`;
+  }
+
+  const bmTitle = document.getElementById('help-bookmark-title');
+  if (bmTitle) {
+    bmTitle.textContent = showVietnamese
+      ? 'Bookmark & Ôn lại (Đánh dấu câu khó)'
+      : 'Bookmark & Review Later';
+  }
+  const bmBody = document.getElementById('help-bookmark-body');
+  if (bmBody) {
+    bmBody.innerHTML = showVietnamese
+      ? `Các câu trả lời sai trong Endless Quiz sẽ tự động được lưu vào danh sách <em>⭐ Cần ôn lại</em>. Bạn cũng có thể bấm biểu tượng ngôi sao (★) trên bất kỳ Thẻ Flashcard hoặc Câu hỏi trắc nghiệm nào để đánh dấu. Lọc riêng các câu khó trong bảng chọn hoặc thẻ Quiz. Dữ liệu lưu hoàn toàn trên trình duyệt (LocalStorage).`
+      : `Wrong answers in Quiz mode are automatically added to the <em>⭐ Review Needed</em> list. You can also tap the star button (★) on any Flashcard or Quiz question at any time to bookmark it. Filter specifically for difficult items in the study picker or quiz filter chips. All bookmarks persist in your browser (LocalStorage).`;
+  }
+
+  const statsTitle = document.getElementById('help-stats-title');
+  if (statsTitle) {
+    statsTitle.textContent = showVietnamese
+      ? 'Thống kê điểm mạnh/yếu (3 Nhóm chuyên môn)'
+      : 'Domain Strengths & Weaknesses (3 BASK Domains)';
+  }
+  const statsBody = document.getElementById('help-stats-body');
+  if (statsBody) {
+    statsBody.innerHTML = showVietnamese
+      ? `Thanh biểu đồ phần trăm theo dõi tỉ lệ trả lời đúng theo thời gian thực trên 3 nhóm kiến thức cốt lõi SHRM: <em>People</em> (Con người), <em>Organization</em> (Tổ chức), và <em>Workplace</em> (Nơi làm việc). Giúp bạn nhanh chóng nhận diện nhóm kiến thức vững và nhóm cần ôn luyện thêm.`
+      : `Real-time percentage progress bars track your performance across the 3 core SHRM BASK knowledge domains: <em>People</em>, <em>Organization</em>, and <em>Workplace</em>. Quickly identify your strongest competencies and target weaker areas for revision.`;
   }
 
   const gotItBtn = document.getElementById('help-got-it-btn');
@@ -2334,6 +3063,14 @@ function toggleTheme() {
   showVietnamese = loadShowVietnamese();
   quiz.showVi = showVietnamese;
   syncViBtn();
+
+  starredCards = loadStarredCards();
+  quizReview = loadQuizReview();
+  quizStats = loadQuizStats();
+  statsCollapsed = loadStatsCollapsed();
+  syncStatsCollapsed();
+  renderQuizStats();
+
   renderHelp();
   document.documentElement.setAttribute('data-mode', 'study');
 
