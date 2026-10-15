@@ -29,8 +29,7 @@ Static site (`index.html` + `data/*.js`). Ready for **GitHub Pages** or any stat
 | **Dynamic Question Badges** | Auto-distinguishes `SJT Tình Huống` (purple badge) vs `Lý Thuyết / Năng Lực` (green badge) |
 | **Quiz Filter Toggles** | Seamlessly switch between `📚 All Questions (307 Qs)` and `🎯 SJT Scenarios Only (175 Qs)` |
 | **Real-time Accuracy & Score** | Continuous practice loop tracking `Score (Correct / Answered)` and `Accuracy %` |
-| **Bilingual Explanations** | Detailed SHRM BASK rationale in both English & Vietnamese for every quiz option |
-| **Bilingual Toggle (🇻🇳)** | Default Vietnamese display for scenarios, questions, choices, and rationales, with quick toggle |
+| **Dual Audience & Bilingual Toggle (VN / EN)** | Seamless switch between bilingual mode (EN + VI) and pure English mode for global learners. Available via the header **VN** button and in-card toggle; completely hides Vietnamese and adapts badges/labels when OFF; persists in `localStorage`. |
 | **Responsive UI (Desktop & Mobile)** | Ultra-compact top menu on mobile to maximize scenario reading area; expands up to 1000px layout on desktop |
 | **Unbolded Question Styling** | Clean, natural typography (`font-weight: 400`) for effortless long-session reading |
 | **Filters & US Law Toggle** | Study by cluster or domain; compact **US** toggle (default hidden for non-US learners) |
@@ -101,8 +100,7 @@ Data is loaded via `<script src="data/cards.js">` and `<script src="data/quiz.js
 | **Tự động Gắn Nhãn Phân loại** | Tự động hiển thị nhãn tím `SJT Tình Huống` hoặc nhãn xanh `Lý Thuyết / Năng Lực` |
 | **Bộ lọc Chế độ Thi linh hoạt** | Chuyển đổi nhanh giữa `📚 Tất cả (307 câu)` và `🎯 Chỉ SJT Tình Huống (175 câu)` |
 | **Theo dõi Điểm số & Độ chính xác** | Đếm số câu đúng / đã làm và tỉ lệ chính xác `%` liên tục trong Endless Mode |
-| **Giải thích Căn cứ SHRM BASK** | Phân tích chi tiết lý do đáp án đúng/sai bằng cả Tiếng Anh và Tiếng Việt |
-| **Mặc định hiển thị Tiếng Việt** | Mặc định hiện bản dịch Tiếng Việt cho Tình huống, Câu hỏi, Lựa chọn và Giải thích; có nút bật/tắt |
+| **Hỗ trợ 2 nhóm người dùng (VN / Toàn cầu)** | Nút bật/tắt Tiếng Việt linh hoạt: người dùng Việt Nam có thể bật để học song ngữ (định nghĩa, tình huống, mẹo thi, câu hỏi, giải thích), người dùng quốc tế/global có thể tắt để trải nghiệm 100% Tiếng Anh chuẩn format thi SHRM thực tế. Có ở cả thanh header và trong thẻ học; tự động lưu tùy chọn. |
 | **Giao diện Tối ưu Mobile & Desktop** | Menu cực kỳ gọn gàng trên điện thoại (tăng 60% diện tích đọc kịch bản); tự mở rộng 900px - 1000px trên máy tính |
 | **Kiểu chữ Tiêu đề Dễ đọc** | Chữ câu hỏi nét thường nhẹ nhàng (`font-weight: 400`) giúp đọc kịch bản dài không mỏi mắt |
 | **Ẩn/Hiện Luật Lao động Mỹ (US Law)** | Nút bật/tắt nhanh luật Mỹ (mặc định ẩn phù hợp cho học viên quốc tế) |
