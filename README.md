@@ -62,14 +62,15 @@ Static site (`index.html` + `data/*.js`). Ready for **GitHub Pages** or any stat
 
 ```
 .
-├── index.html              # App UI + logic + styles (~60 KB)
+├── index.html              # App UI + logic + styles
+├── favicon.svg             # Application brand icon
 ├── data/
 │   ├── cards.js            # 392 flashcards (ALL_CARDS)
 │   ├── cards.json          # Same payload as cards.js (tooling / export)
 │   ├── quiz.js             # 307 quiz questions (QUIZ_DATA)
 │   └── quiz.json           # Same payload as quiz.js (tooling / export)
-├── skills/                 # Platform engineering & pedagogical skills directory
-├── fix_quiz.js             # Maintenance script for quiz quality passes
+├── scripts/
+│   └── fix_quiz.js         # Maintenance & quality pass script
 └── README.md               # Documentation
 ```
 

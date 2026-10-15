@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = __dirname;
+const ROOT = path.resolve(__dirname, '..');
 const INDEX = path.join(ROOT, 'index.html');
 const QUIZ_JS = path.join(ROOT, 'data', 'quiz.js');
 const QUIZ_JSON = path.join(ROOT, 'data', 'quiz.json');
@@ -826,13 +826,15 @@ const newQuestions = [
 
 // Ensure new IDs unique
 const existingIds = new Set(data.map(q => q.id));
+let addedCount = 0;
 newQuestions.forEach(q => {
-  if (existingIds.has(q.id)) throw new Error('Duplicate id ' + q.id);
+  if (existingIds.has(q.id)) return;
   cleanQuestion(q);
   data.push(q);
   existingIds.add(q.id);
+  addedCount++;
 });
-console.log('Added', newQuestions.length, 'new questions; total', data.length);
+console.log('Added', addedCount, 'new questions; total', data.length);
 
 // ── 6. Stats ─────────────────────────────────────────────────────────────
 const types = {};
