@@ -19,5 +19,5 @@ desktop.ini
 scratch/
 *.log
 
-# Legacy root skills/ and internal docs (keep .agents/skills/ tracked)
+# Legacy root skills/ and internal docs (keep .agent/ tracked)
 /skills/

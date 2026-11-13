@@ -1,7 +1,7 @@
 """Audit SHRM quiz option distributions and length parity.
 
 Usage (from repository root):
-    python .agents/skills/shrm-data-pipeline/scripts/audit-distractors.py
+    python .agent/scripts/audit-distractors.py
 """
 import json
 import sys
@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-ROOT = Path(__file__).resolve().parents[4]
+ROOT = Path(__file__).resolve().parents[2]
 QUIZ_JSON = ROOT / "data" / "quiz.json"
 
 with QUIZ_JSON.open("r", encoding="utf-8") as f:

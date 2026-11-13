@@ -45,12 +45,12 @@ It loads `data/quiz.js`, runs normalization/balance checks, and writes formatted
 Checks `data/cards.json` and `data/quiz.json` for schema validity, 4 distinct options per item, valid `0..3` answer indices, cluster assignments, and complete Vietnamese translations:
 
 ```bash
-node .agents/skills/shrm-data-pipeline/scripts/validate-quiz.js
+node .agent/scripts/validate-quiz.js
 ```
 
 ### Audit Distractor Parity & Answer Balance
 Inspects option length ratios (`min / max < 0.4` giveaways) and answer-key distribution across A, B, C, D:
 
 ```bash
-python .agents/skills/shrm-data-pipeline/scripts/audit-distractors.py
+python .agent/scripts/audit-distractors.py
 ```

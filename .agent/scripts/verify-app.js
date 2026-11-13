@@ -4,13 +4,13 @@
  * inside a mocked browser VM sandbox to verify state, persistence, and rendering.
  *
  * Usage (from repository root):
- *   node .agents/skills/shrm-coding-standards/scripts/verify-app.js
+ *   node .agent/scripts/verify-app.js
  */
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const projectDir = path.resolve(__dirname, '../../../..');
+const projectDir = path.resolve(__dirname, '../..');
 const htmlContent = fs.readFileSync(path.join(projectDir, 'index.html'), 'utf8');
 
 // 1. Extract inline scripts

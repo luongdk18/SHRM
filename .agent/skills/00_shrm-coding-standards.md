@@ -31,8 +31,9 @@ The **SHRM Study Platform** is a zero-dependency, client-side single-page applic
 │   └── quiz.json               # 2-space pretty-printed JSON mirror of quiz items
 ├── scripts/
 │   └── fix_quiz.js             # Maintenance and quality-pass script for quiz banks
-└── .agents/
-    └── skills/                 # Self-contained agent skills and verification scripts
+└── .agent/
+    ├── scripts/                # QA verification scripts and references
+    └── skills/                 # Self-contained agent skills
 ```
 
 ---
@@ -115,5 +116,5 @@ When `quiz.queue` empties, it reshuffles `quiz.pool` automatically. Answering a 
 - Before committing changes to `index.html`, run the headless verification script from `<PROJECT_ROOT>`:
 
 ```bash
-node .agents/skills/shrm-coding-standards/scripts/verify-app.js
+node .agent/scripts/verify-app.js
 ```

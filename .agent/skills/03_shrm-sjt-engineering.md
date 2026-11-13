@@ -48,4 +48,4 @@ Avoid making the correct answer noticeably longer or more detailed than distract
 ---
 
 ## 5. Bilingual Terminology Reference
-When authoring or updating bilingual fields (`scenarioVi`, `questionVi`, `optionsVi`, `explanationVi`), verify exact SHRM HR terminology against `.agents/skills/shrm-sjt-engineering/references/bilingual-glossary.md` to avoid literal mistranslations.
+When authoring or updating bilingual fields (`scenarioVi`, `questionVi`, `optionsVi`, `explanationVi`), verify exact SHRM HR terminology against `.agent/scripts/bilingual-glossary.md` to avoid literal mistranslations.

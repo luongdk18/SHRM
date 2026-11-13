@@ -2,12 +2,12 @@
  * Validates data/cards.json, data/quiz.json, and JS mirror parity.
  *
  * Usage (from repository root):
- *   node .agents/skills/shrm-data-pipeline/scripts/validate-quiz.js
+ *   node .agent/scripts/validate-quiz.js
  */
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '../../../..');
+const ROOT = path.resolve(__dirname, '../..');
 const QUIZ_JSON = path.join(ROOT, 'data', 'quiz.json');
 const QUIZ_JS = path.join(ROOT, 'data', 'quiz.js');
 const CARDS_JSON = path.join(ROOT, 'data', 'cards.json');
