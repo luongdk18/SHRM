@@ -8,13 +8,16 @@ Thumbs.db
 desktop.ini
 
 # Environment and editor
+.env
+.env.local
 .vscode/
 .idea/
 *.swp
 *~
 
-# Temporary scratch files
+# Temporary scratch files and logs
 scratch/
+*.log
 
 # Legacy root skills/ and internal docs (keep .agents/skills/ tracked)
 /skills/
