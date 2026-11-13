@@ -16,5 +16,5 @@ desktop.ini
 # Temporary scratch files
 scratch/
 
-# Skills and internal docs
-skills/
+# Legacy root skills/ and internal docs (keep .agents/skills/ tracked)
+/skills/
